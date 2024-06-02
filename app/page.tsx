@@ -1,8 +1,10 @@
-import { redditMono } from "./ui/fonts";
+import { redditMono } from "@/app/ui/fonts";
+import Navbar from "./ui/navbar";
 
 
 export default function Page() {
   return (
-    <div className="">Home Page</div>
+    <main className="w-screen h-screen overflow-hidden">
+    </main>
   );
 }
