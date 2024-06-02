@@ -6,6 +6,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@next/font": "^14.2.3",
+    "i": "^0.3.7",
     "mongodb": "^6.5.0",
     "next": "latest",
     "react": "^18.2.0",
