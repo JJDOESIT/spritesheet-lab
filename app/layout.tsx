@@ -1,5 +1,6 @@
 import "@/app/ui/global.css";
 import { redditMono } from "@/app/ui/fonts";
+import Navbar from "./ui/navbar";
 
 export default function RootLayout({
   children,
@@ -7,8 +8,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${redditMono.className} antialiased`}>{children}</body>
+    <html lang="en">
+      <body className={`${redditMono.className} antialiased`}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }
