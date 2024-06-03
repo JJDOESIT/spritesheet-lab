@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./create-account.module.css";
+import bgStyles from "../home.module.css";
 import { useState } from "react";
 
 export default function CreateAccount() {
@@ -13,9 +14,6 @@ export default function CreateAccount() {
         method: "POST",
         body: JSON.stringify(info),
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -26,17 +24,19 @@ export default function CreateAccount() {
   return (
     <>
       <div
-        className={`flex w-full justify-center items-center ${styles.container}`}
+        className={`flex w-full justify-center items-center ${styles.container} ${bgStyles.homeBG}`}
       >
-        <form className="flex flex-col w-fit h-fit border-2 p-5 rounded-md">
+        <form
+          className={`flex flex-col w-fit h-fit border-4 p-10 rounded-xl border-black bg-white ${styles.form}`}
+        >
           <div className="flex justify-center">
-            <p>Create Account</p>
+            <p className="text-2xl font-semibold">Create Account</p>
           </div>
           <input
             id="username"
             placeholder="Username"
             type="text"
-            className="border-2 rounded-3xl p-1 mt-2"
+            className="border-2 rounded-3xl p-1 mt-5 border-slate-300"
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -45,7 +45,7 @@ export default function CreateAccount() {
             id="password"
             type="password"
             placeholder="Password"
-            className="border-2 rounded-3xl p-1 mt-2"
+            className="border-2 rounded-3xl p-1 mt-2 border-slate-300"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -53,7 +53,7 @@ export default function CreateAccount() {
           <input
             type="button"
             value="Submit"
-            className="border-2 mt-2"
+            className={`border-2 mt-5 border-slate-300 ${styles.submit}`}
             onClick={() =>
               handleSubmit({ username: username, password: password })
             }
