@@ -1,4 +1,5 @@
 import '@/app/ui/global.css'
+import 'animate.css/animate.min.css';
 import { redditMono } from '@/app/ui/fonts';
 import Navbar from './ui/navbar';
 
