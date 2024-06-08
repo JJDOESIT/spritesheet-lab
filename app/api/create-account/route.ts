@@ -40,6 +40,7 @@ export async function POST(request: Request) {
         // Success -> return 200
         status = 200;
       } catch (e) {
+        //
         status = 500;
       }
     } else {

@@ -1,9 +1,10 @@
-import "@/app/ui/global.css";
+import "@/app/global.css";
 import "animate.css/animate.min.css";
-import { redditMono } from "@/app/ui/fonts";
-import Navbar from "./ui/navbar";
-import SideNav from "./ui/sidenav";
+import { redditMono } from "@/app/components/fonts/fonts";
+import Navbar from "./components/navbar/navbar";
+import SideNav from "./components/sidenav/sidenav";
 import styles from "@/app/layout.module.css";
+import bgStyles from "@/app/home/home.module.css";
 
 export default function RootLayout({
   children,
@@ -15,7 +16,7 @@ export default function RootLayout({
       <body className={`${redditMono.className} antialiased`}>
         <Navbar />
         <div
-          className={`${styles.heightWithoutTopNav} flex flex-row w-screen relative`}
+          className={`${styles.heightWithoutTopNav} flex flex-row w-screen relative ${bgStyles.homeBG}`}
         >
           {children}
           <SideNav />

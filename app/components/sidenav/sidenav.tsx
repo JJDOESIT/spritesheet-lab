@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "@/app/ui/sidenav.module.css";
+import styles from "../sidenav/sidenav.module.css";
 import { useRef } from "react";
 
 export default function SideNav() {

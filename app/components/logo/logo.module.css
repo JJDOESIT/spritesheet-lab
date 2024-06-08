@@ -10,7 +10,7 @@
 .logoSplash
 {
   color: white;
-  background: url('../../public/green_waves.gif') no-repeat;
+  background: url('../../../public/green_waves.gif') no-repeat;
   background-size: 100% 100%;
   -webkit-background-clip: text;
   background-clip: text;

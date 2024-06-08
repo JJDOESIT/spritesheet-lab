@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./create-account.module.css";
-import bgStyles from "../home.module.css";
 import Alert from "../components/alert/alert";
 import { useState } from "react";
 
@@ -55,7 +54,7 @@ export default function CreateAccount() {
   return (
     <>
       <div
-        className={`flex w-full justify-center items-center h-full ${styles.container} ${bgStyles.homeBG}`}
+        className={`flex w-full justify-center items-center h-full animate__animated animate__fadeIn ${styles.container}`}
       >
         <form
           className={`flex flex-col w-fit h-fit border-4 p-10 rounded-xl border-black bg-white ${styles.form}`}
