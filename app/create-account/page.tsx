@@ -34,7 +34,7 @@ export default function CreateAccount() {
       } else if (data.status === 420) {
         setAlertData({
           hidden: false,
-          message: "Password: 8",
+          message: "Password: Must Be 8 Characters",
           borderColor: "1px solid #f5c6cb",
           backgroundColor: "#f8d7da",
           fontColor: "#721c24",
@@ -55,7 +55,7 @@ export default function CreateAccount() {
   return (
     <>
       <div
-        className={`flex w-full justify-center items-center ${styles.container} ${bgStyles.homeBG}`}
+        className={`flex w-full justify-center items-center h-full ${styles.container} ${bgStyles.homeBG}`}
       >
         <form
           className={`flex flex-col w-fit h-fit border-4 p-10 rounded-xl border-black bg-white ${styles.form}`}
