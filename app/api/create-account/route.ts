@@ -5,6 +5,20 @@ export async function POST(request: Request) {
   var data = await request.json();
   var status;
 
+  const usernameLengthRequirement = 8;
+  const passwordLengthRequirement = 8;
+
+  // Username too short -> return 410
+  if (data.username.length < usernameLengthRequirement) {
+    status = 410;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Password too short -> return 420
+  else if (data.password.length < passwordLengthRequirement) {
+    status = 420;
+    return new Response(JSON.stringify({ status: status }));
+  }
+
   try {
     // Connect to the database 'db'
     const client = await clientPromise;
@@ -23,14 +37,17 @@ export async function POST(request: Request) {
           username: data.username,
           password: hash,
         });
+        // Success -> return 200
         status = 200;
       } catch (e) {
         status = 500;
       }
     } else {
+      // Username is taken -> return 400
       status = 400;
     }
   } catch (e) {
+    // Can't connect to database -> return 500
     status = 500;
   }
 
