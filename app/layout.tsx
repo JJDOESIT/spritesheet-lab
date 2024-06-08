@@ -12,9 +12,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${redditMono.className} antialiased flex flex-col h-screen`}>
-        <div className='flex-none'><Navbar /></div>
-        <div className={`flex-grow flex flex-row w-screen`}>
+      <body className={`${redditMono.className} antialiased`}>
+        <Navbar />
+        <div className={`${styles.heightWithoutTopNav} flex flex-row w-screen`}>
           <div className='flex-grow'>{children}</div>
           <SideNav />
         </div>
