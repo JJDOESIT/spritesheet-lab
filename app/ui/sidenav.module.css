@@ -1,0 +1,18 @@
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.sideNavOffScreen {
+    animation: slideInFromRight 0.5s forwards;
+}
+
+.sideNavOnScreen {
+    animation: slideInFromRight 0.5s forwards;
+    animation-direction: reverse;
+  }
