@@ -1,0 +1,18 @@
+.alertContainer > *{
+    display:inline-flex;
+}
+
+.alertButtonContainer:hover{
+    background-color: lightgray;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.alertButtonContainer > input{
+    background: none;
+    border: none;
+}
+
+.alertMessageContainer > p{
+    padding-left: 10px;
+}
