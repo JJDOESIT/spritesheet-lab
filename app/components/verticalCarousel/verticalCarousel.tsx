@@ -13,7 +13,7 @@ export default function VerticalCarousel({
   const [currentLabel, setCurrentLabel] = useState(1);
   const [nextLabelRef, setNextLabelRef] = useState(1);
 
-  const labelRefs = [useRef(null), useRef(null)];
+  const labelRefs = [useRef<HTMLHeadingElement>(null!), useRef<HTMLHeadingElement>(null!)];
 
   useEffect(() => {
     const intervalId = setInterval(() => {

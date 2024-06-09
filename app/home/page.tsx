@@ -35,12 +35,12 @@ export default function Page() {
           </div>
           <Link
             href={"/create-account"}
-            className={`${styles.startButton} inline-block m-6`}
+            className={`neonBlackButton inline-block m-6`}
           >
             Start creating
             <ArrowRightIcon className="h-[20px] w-[30px] inline" />
           </Link>
-          <Link href={"/"} className={`${styles.startButton} inline-block m-6`}>
+          <Link href={"/"} className={`neonBlackButton inline-block m-6`}>
             Browse the gallery
             <ArrowDownIcon className="h-[20px] w-[30px] inline" />
           </Link>
