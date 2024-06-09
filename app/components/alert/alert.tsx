@@ -7,6 +7,7 @@ interface AlertProps {
   fontColor: string;
   message: string;
   toggleHidden: Function;
+  maxWidth: number;
 }
 
 export default function Alert(props: AlertProps) {
@@ -17,10 +18,13 @@ export default function Alert(props: AlertProps) {
       style={{
         backgroundColor: props.backgroundColor,
         border: props.borderColor,
+        maxWidth: props.maxWidth,
       }}
     >
       <div className={`w-4/5 ${styles.alertMessageContainer}`}>
-        <p style={{ color: props.fontColor }}>{props.message}</p>
+        <p style={{ color: props.fontColor }} className="text-sm">
+          {props.message}
+        </p>
       </div>
       <div
         className={`rounded-lg justify-center w-1/5 h-full  absolute ${styles.alertButtonContainer}`}
