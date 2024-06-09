@@ -27,4 +27,5 @@ html, body {
     background-color: black;
     color: greenyellow;
     border: 2px solid greenyellow;
+    cursor: pointer;
 }

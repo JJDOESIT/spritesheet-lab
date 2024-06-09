@@ -3,7 +3,7 @@
 import styles from "./create-account.module.css";
 import Alert from "../components/alert/alert";
 import createAlert from "../functions/createAlert";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
@@ -16,6 +16,8 @@ export default function CreateAccount() {
     fontColor: "",
     maxWidth: 0,
   });
+  const usernameField = useRef<HTMLInputElement>(null!);
+  const passwordField = useRef<HTMLInputElement>(null!);
 
   async function handleSubmit(info: { [key: string]: string }) {
     try {
@@ -98,7 +100,9 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
-      } else if (data.status === 200) {
+      }
+      // If the account creation process succeeded
+      else if (data.status === 200) {
         setAlertData(
           createAlert({
             type: "success",
@@ -107,6 +111,9 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
+        // Clear username and password fields
+        usernameField.current.value = "";
+        passwordField.current.value = "";
       }
     } catch (error) {
       setAlertData(
@@ -123,7 +130,7 @@ export default function CreateAccount() {
   return (
     <>
       <div
-        className={`flex w-full justify-center items-center h-full animate__animated animate__fadeIn ${styles.container}`}
+        className={`flex w-full justify-center items-center h-full animate__animated animate__fadeIn`}
       >
         <form
           className={`flex flex-col w-fit h-fit border-4 p-10 rounded-xl border-black bg-white ${styles.form}`}
@@ -140,6 +147,7 @@ export default function CreateAccount() {
             onChange={(e) => {
               setUsername(e.target.value);
             }}
+            ref={usernameField}
           ></input>
           <input
             id="password"
@@ -150,6 +158,7 @@ export default function CreateAccount() {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            ref={passwordField}
           ></input>
           <Alert
             hidden={alertData["hidden"]}
@@ -167,7 +176,7 @@ export default function CreateAccount() {
           <input
             type="button"
             value="Submit"
-            className={`border-2 mt-5 border-slate-300 ${styles.submit}`}
+            className={`border-2 mt-5 border-slate-300 neonBlackButton`}
             onClick={() =>
               handleSubmit({ username: username, password: password })
             }

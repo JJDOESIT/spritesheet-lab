@@ -3,7 +3,7 @@ import encrypt from "@/app/functions/encrypt";
 
 export async function POST(request: Request) {
   var data = await request.json();
-  var status;
+  var status = 500;
 
   // Convert the username to lowercase
   data.username = data.username.toLowerCase();
