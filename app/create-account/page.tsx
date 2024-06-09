@@ -2,6 +2,7 @@
 
 import styles from "./create-account.module.css";
 import Alert from "../components/alert/alert";
+import createAlert from "../functions/createAlert";
 import { useState } from "react";
 
 export default function CreateAccount() {
@@ -13,6 +14,7 @@ export default function CreateAccount() {
     borderColor: "",
     backgroundColor: "",
     fontColor: "",
+    maxWidth: 0,
   });
 
   async function handleSubmit(info: { [key: string]: string }) {
@@ -22,32 +24,99 @@ export default function CreateAccount() {
         body: JSON.stringify(info),
       });
       const data = await response.json();
-      if (data.status === 410) {
-        setAlertData({
-          hidden: false,
-          message: "Username: Must Be 8 Characters",
-          borderColor: "1px solid #f5c6cb",
-          backgroundColor: "#f8d7da",
-          fontColor: "#721c24",
-        });
+      if (data.status === 400) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Username taken",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status === 410) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Username must be 8 characters",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
       } else if (data.status === 420) {
-        setAlertData({
-          hidden: false,
-          message: "Password: Must Be 8 Characters",
-          borderColor: "1px solid #f5c6cb",
-          backgroundColor: "#f8d7da",
-          fontColor: "#721c24",
-        });
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Password must be 8 characters",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status == 430) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message:
+              "Username must only contain letters, numbers, periods, or commas",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status == 440) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message:
+              "Password must only contain letters, numbers, or special characters",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status == 450) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Username must contain at least one letter",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status == 460) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Password must contain at least one letter and one number",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status === 500) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Internal Server Error",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status === 200) {
+        setAlertData(
+          createAlert({
+            type: "success",
+            message: "Account created",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
       }
     } catch (error) {
-      console.error("Error:", error);
-      setAlertData({
-        hidden: false,
-        message: "Internal Server Error ...",
-        borderColor: "1px solid #f5c6cb",
-        backgroundColor: "#f8d7da",
-        fontColor: "#721c24",
-      });
+      setAlertData(
+        createAlert({
+          type: "error",
+          message: "Internal Server Error",
+          hidden: false,
+          maxWidth: 225,
+        })
+      );
     }
   }
 
@@ -67,6 +136,7 @@ export default function CreateAccount() {
             placeholder="Username"
             type="text"
             className="p-1 mt-5 border-2 rounded-3xl border-slate-300"
+            maxLength={15}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -76,6 +146,7 @@ export default function CreateAccount() {
             type="password"
             placeholder="Password"
             className="p-1 mt-2 border-2 rounded-3xl border-slate-300 mb-[15px]"
+            maxLength={128}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -86,6 +157,7 @@ export default function CreateAccount() {
             borderColor={alertData["borderColor"]}
             backgroundColor={alertData["backgroundColor"]}
             fontColor={alertData["fontColor"]}
+            maxWidth={alertData["maxWidth"]}
             toggleHidden={() =>
               setAlertData((prev) => {
                 return { ...prev, hidden: true };

@@ -5,8 +5,13 @@ export async function POST(request: Request) {
   var data = await request.json();
   var status;
 
+  // Convert the username to lowercase
+  data.username = data.username.toLowerCase();
+
   const usernameLengthRequirement = 8;
   const passwordLengthRequirement = 8;
+  const usernameRegex = /^[a-z0-9._]*$/;
+  const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()\-_=+[\]{};':"\\|,.<>/?]*$/;
 
   // Username too short -> return 410
   if (data.username.length < usernameLengthRequirement) {
@@ -16,6 +21,29 @@ export async function POST(request: Request) {
   // Password too short -> return 420
   else if (data.password.length < passwordLengthRequirement) {
     status = 420;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Username must only contain numbers, letters, . or _ -> return 420
+  else if (!usernameRegex.test(data.username)) {
+    status = 430;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Password must only contain numbers, letters, and special characters -> return 430
+  else if (!passwordRegex.test(data.password)) {
+    status = 440;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Username must contain at least one letter
+  else if (!/^(?=.*[a-z]).*$/.test(data.username)) {
+    status = 450;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Password must contain at least one number and one letter
+  else if (
+    !/^(?=.*\d).+$/.test(data.password) ||
+    !/^(?=.*[a-zA-Z]).*$/.test(data.password)
+  ) {
+    status = 460;
     return new Response(JSON.stringify({ status: status }));
   }
 
@@ -40,7 +68,7 @@ export async function POST(request: Request) {
         // Success -> return 200
         status = 200;
       } catch (e) {
-        //
+        // Internal server error -> return 500
         status = 500;
       }
     } else {
