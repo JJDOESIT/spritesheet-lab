@@ -4,7 +4,7 @@ import styles from "../sidenav/sidenav.module.css";
 import { useRef, useEffect, useState} from "react";
 
 export default function SideNav() {
-  const containerRef = useRef<HTMLHeadingElement>(null!);
+  const containerRef = useRef<HTMLDivElement>(null!);
 
   const [translateX, setTranslateX] = useState('250px');
 
