@@ -13,9 +13,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
-  function toggleSideNav() {
-    console.log("Side Nav Toggled");
-  }
 
   return (
     <html lang="en">
@@ -25,7 +22,7 @@ export default function RootLayout({
           className={`${styles.heightWithoutTopNav} flex flex-row w-screen relative overflow-hidden ${bgStyles.homeBG}`}
         >
           {children}
-          <SideNav/>
+          <SideNav />
         </div>
       </body>
     </html>

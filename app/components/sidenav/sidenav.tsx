@@ -27,10 +27,15 @@ export default function SideNav() {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(translateX);
+  } , [translateX]);
+
   return (
     <div
       ref={containerRef}
-      className={`h-[100%] flex-none w-[250px] bg-black block absolute right-0 translate-x-[${translateX}] ${styles.sideNav}`}
+      style={{ transform: `translateX(${translateX})` }}
+      className={`h-[100%] flex-none w-[250px] bg-black block absolute right-0 ${styles.sideNav}`}
     >
     </div>
   );
