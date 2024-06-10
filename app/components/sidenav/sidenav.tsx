@@ -7,23 +7,24 @@ import ProfilePicture from "@/app/components/profilePicture/profilePicture";
 export default function SideNav() {
   const containerRef = useRef<HTMLDivElement>(null!);
 
-  const [translateX, setTranslateX] = useState('250px');
-
+  const [translateX, setTranslateX] = useState("250px");
 
   useEffect(() => {
-    const navbarButton = document.getElementById('NavbarButton');  
+    const navbarButton = document.getElementById("NavbarButton");
 
     const handleClick = () => {
-      setTranslateX((prev) => {return prev === '0px' ? '250px' : '0px'});
+      setTranslateX((prev) => {
+        return prev === "0px" ? "250px" : "0px";
+      });
     };
 
     if (navbarButton) {
-      navbarButton.addEventListener('click', handleClick);
+      navbarButton.addEventListener("click", handleClick);
     }
 
     return () => {
       if (navbarButton) {
-        navbarButton.removeEventListener('click', handleClick);
+        navbarButton.removeEventListener("click", handleClick);
       }
     };
   }, []);

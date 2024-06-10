@@ -1,17 +1,23 @@
 import clientPromise from "../../../lib/mongodb";
-import encrypt from "@/app/functions/encrypt";
+import { passwordEncrypt } from "@/app/functions/password";
 
 export async function POST(request: Request) {
-  var data = await request.json();
   var status = 500;
-
-  // Convert the username to lowercase
-  data.username = data.username.toLowerCase();
-
   const usernameLengthRequirement = 8;
   const passwordLengthRequirement = 8;
   const usernameRegex = /^[a-z0-9._]*$/;
   const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()\-_=+[\]{};':"\\|,.<>/?]*$/;
+
+  try {
+    // Fetch data from POST request
+    var data = await request.json();
+    // Convert the username to lowercase
+    data.username = data.username.toLowerCase();
+  } catch (e) {
+    // Internal server error -> return 500
+    status = 500;
+    return new Response(JSON.stringify({ status: status }));
+  }
 
   // Username too short -> return 410
   if (data.username.length < usernameLengthRequirement) {
@@ -57,20 +63,15 @@ export async function POST(request: Request) {
       .findOne({ username: data.username });
     // If the username is not taken
     if (users == null) {
-      try {
-        // Attempt to encrypt the password
-        const hash = await encrypt(data.password, 10);
-        // Attempt to insert the password into the 'users' database
-        await db.collection("users").insertOne({
-          username: data.username,
-          password: hash,
-        });
-        // Success -> return 200
-        status = 200;
-      } catch (e) {
-        // Internal server error -> return 500
-        status = 500;
-      }
+      // Attempt to encrypt the password
+      const hash = await passwordEncrypt(data.password, 10);
+      // Attempt to insert the password into the 'users' database
+      await db.collection("users").insertOne({
+        username: data.username,
+        password: hash,
+      });
+      // Success -> return 200
+      status = 200;
     } else {
       // Username is taken -> return 400
       status = 400;
