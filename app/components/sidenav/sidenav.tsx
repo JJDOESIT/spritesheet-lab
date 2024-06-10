@@ -2,6 +2,7 @@
 
 import styles from "../sidenav/sidenav.module.css";
 import { useRef, useEffect, useState} from "react";
+import ProfilePicture from "@/app/components/profilePicture/profilePicture";
 
 export default function SideNav() {
   const containerRef = useRef<HTMLDivElement>(null!);
@@ -27,16 +28,16 @@ export default function SideNav() {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(translateX);
-  } , [translateX]);
 
   return (
     <div
       ref={containerRef}
       style={{ transform: `translateX(${translateX})` }}
-      className={`h-[100%] flex-none w-[250px] bg-black block absolute right-0 ${styles.sideNav}`}
+      className={`p-4 h-[100%] flex-none w-[250px] bg-black block absolute right-0 ${styles.sideNav}`}
     >
+    <ProfilePicture profileImgPath="/jjdoesit.png" username="jjdoesit" className="m-4" />
+
+    <button className="block neonBlackButton ">Your Profile</button>
     </div>
   );
 }
