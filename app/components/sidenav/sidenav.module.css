@@ -3,3 +3,35 @@
 .sideNav {
     transition: transform 0.55s ease-in-out;
 }
+
+.sideNavButton{
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    align-items: center;
+    margin: 4px 0;
+}
+
+.sideNavBar {
+    width: 100%;
+    margin-top: 0.9rem;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+.sideNavButtonIcon {
+    height: 20px;
+    width: 20px;
+    margin-right: 0.75rem;
+    display: inline;
+}
+
+
+.noScrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.noScrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
