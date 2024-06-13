@@ -10,6 +10,7 @@
     "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.19",
     "bcrypt": "^5.1.1",
+    "cookies-next": "^4.2.1",
     "eslint-config-next": "^14.2.3",
     "jose": "^5.4.0",
     "mongodb": "^6.5.0",

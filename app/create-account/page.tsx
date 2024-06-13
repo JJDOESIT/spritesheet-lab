@@ -181,6 +181,11 @@ export default function CreateAccount() {
               handleSubmit({ username: username, password: password })
             }
           ></input>
+          <a href="/login" className="w-fit">
+            <p className="mt-2 underline text-skyBlue underline-offset-2">
+              Login Instead
+            </p>
+          </a>
         </form>
       </div>
     </>
