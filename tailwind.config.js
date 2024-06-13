@@ -21,6 +21,7 @@ module.exports = {
         lightBlack: "#404040",
         white: "#FFFFFF",
         neonGreen: "#00FF80",
+        skyBlue: "#66B2FF",
       },
     },
   },

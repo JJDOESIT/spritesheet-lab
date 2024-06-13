@@ -1,5 +1,5 @@
 import clientPromise from "../../../lib/mongodb";
-import { cookieEncrypt, cookieDecrypt } from "@/app/functions/cookies";
+import { cookieEncrypt } from "@/app/functions/cookies";
 import { passwordDecrypt } from "@/app/functions/password";
 import { cookies } from "next/headers";
 
@@ -37,11 +37,13 @@ export async function POST(request: Request) {
       const match = await passwordDecrypt(data.password, users.password);
       if (match) {
         // Set a date for when the session expires
-        const cookieExpires = new Date(Date.now() + 10 * 720);
+        const cookieExpires = new Date(
+          Date.now() + parseInt(process.env.SESSION_TIME!)
+        );
         //Create a signed session
-        const session = await cookieEncrypt({ username, cookieExpires });
+        const cookie = await cookieEncrypt({ username, cookieExpires });
         // Save the session in a cookie
-        cookies().set(SESSION_NAME, session, {
+        cookies().set(SESSION_NAME, cookie, {
           expires: cookieExpires,
           httpOnly: true,
         });

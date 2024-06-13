@@ -4,8 +4,10 @@ import styles from "../login/login.module.css";
 import Alert from "../components/alert/alert";
 import createAlert from "../functions/createAlert";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alertData, setAlertData] = useState({
@@ -24,8 +26,11 @@ export default function Login() {
         body: JSON.stringify(info),
       });
       const data = await response.json();
-      console.log(data);
+      if (data.status === 200) {
+        router.push("/settings");
+      }
     } catch (error) {
+      console.log(error);
       setAlertData(
         createAlert({
           type: "error",
@@ -89,6 +94,11 @@ export default function Login() {
               handleSubmit({ username: username, password: password })
             }
           ></input>
+          <a href="/create-account" className="w-fit">
+            <p className="mt-2 underline text-skyBlue underline-offset-2">
+              Register Instead
+            </p>
+          </a>
         </form>
       </div>
     </>
