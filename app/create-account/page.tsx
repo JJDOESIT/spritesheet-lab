@@ -133,7 +133,7 @@ export default function CreateAccount() {
         className={`flex w-full justify-center items-center h-full animate__animated animate__fadeIn`}
       >
         <form
-          className={`flex flex-col w-fit h-fit border-4 p-10 rounded-xl border-black bg-white ${styles.form}`}
+          className={`roundedForm`}
         >
           <div className="flex justify-center">
             <p className="text-2xl font-semibold">Create Account</p>
