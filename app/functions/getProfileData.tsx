@@ -17,9 +17,14 @@ export default async function getProfileData() {
         }
       );
       data = await response.json();
-      // If the data exists
-      if (data != null) {
-        data = data.data;
+      // If the data exists, set the profile image, username, name, and bio
+      if (data) {
+        data = {
+          profile_image: data.data.profile_image,
+          username: cookie.username as string,
+          name: data.data.name,
+          bio: data.data.bio,
+        };
       }
       // If the data doesn't exist -> return null
       else {
