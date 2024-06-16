@@ -21,7 +21,6 @@ export default function RootLayout({
           className={`${styles.heightWithoutTopNav} flex flex-row w-full relative overflow-hidden  ${bgStyles.homeBG}`}
         >
           {children}
-          <LoadingIcon color="black" time={1} tileSize={100} className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" />
           <SideNav />
         </div>
       </body>
