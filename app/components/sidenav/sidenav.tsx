@@ -25,15 +25,15 @@ export default function SideNav() {
 
   const [translateX, setTranslateX] = useState("250px");
 
+  const handleClick = () => {
+    setTranslateX((prev) => {
+      return prev === "0px" ? "250px" : "0px";
+    });
+  };
+
   // Add event handler to navabr button
   useEffect(() => {
     const navbarButton = document.getElementById("NavbarButton");
-
-    const handleClick = () => {
-      setTranslateX((prev) => {
-        return prev === "0px" ? "250px" : "0px";
-      });
-    };
 
     if (navbarButton) {
       navbarButton.addEventListener("click", handleClick);
@@ -117,6 +117,35 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/contact"}
+        className={`neonBlackButton ${styles.sideNavButton}`}
+      >
+        <EnvelopeIcon className={styles.sideNavButtonIcon} />
+        Contact us
+      </Link>
+      <div className={styles.sideNavBar}>Social</div>
+
+      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+        <BellIcon className={styles.sideNavButtonIcon} />
+        Notifications
+      </Link>
+      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+        <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
+        Messages
+      </Link>
+
+      <div className={styles.sideNavBar}>Info</div>
+
+      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+        <DocumentTextIcon className={styles.sideNavButtonIcon} />
+        Licensing
+      </Link>
+      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+        <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
+        About us
+      </Link>
+      <Link
+        href={"/contact"}
+        onClick={handleClick}
         className={`neonBlackButton ${styles.sideNavButton}`}
       >
         <EnvelopeIcon className={styles.sideNavButtonIcon} />

@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className={`${redditMono.className} antialiased`}>
         <Navbar />
         <div
-          className={`${styles.heightWithoutTopNav} flex flex-row w-full relative overflow-hidden ${bgStyles.homeBG}`}
+          className={`${styles.heightWithoutTopNav} flex flex-row w-full relative overflow-hidden  ${bgStyles.homeBG}`}
         >
           {children}
           <SideNav />
