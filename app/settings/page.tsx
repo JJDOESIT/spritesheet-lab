@@ -1,36 +1,66 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styles from "../settings/settings.module.css";
 import ProfilePicture from "../components/profilePicture/profilePicture";
 import UploadImage from "../components/uploadImage/uploadImage";
 import getProfileData from "../functions/getProfileData";
+import LoadingIcon from "../components/loadingIcon/loadingIcon";
 
 export default function Settings() {
-  const [profilePath, setProfilePath] = useState("");
+  const [profileData, setProfileData] = useState({
+    profile_image: "/blank-profile-picture.png",
+    username: "",
+    name: "",
+    bio: "",
+  });
+  const [profileLoaded, setProfileLoaded] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
 
+  // Fetch the profile data
   async function getProfile() {
     const data = await getProfileData();
     if (data) {
-      if (data.profile_image != null) {
-        setProfilePath(data.profile_image);
-      } else {
-        setProfilePath("/blank-profile-picture.png");
-      }
+      console.log(data);
+      setProfileData(data);
     }
+    setProfileLoaded(true);
   }
+
+  // On render, fetch the profile data
   useEffect(() => {
     getProfile();
   }, []);
 
+  // Once the profile is loaded, set the pageLoaded to be true
+  useEffect(() => {
+    if (profileLoaded) {
+      setPageLoaded(true);
+    }
+  }, [profileLoaded]);
+
   return (
     <>
-      <div className="flex w-[200px] h-fit flex-col">
-        <ProfilePicture
-          profileImgPath={profilePath}
-          username="jjdoesit"
-          className="m-4"
-        />
-        <UploadImage collection="profiles" field="profile_image"></UploadImage>
+      <div
+        className={`flex w-full h-full justify-center pl-[10px] pr-[10px] ${styles.pageContainer}`}
+      >
+        {pageLoaded ? (
+          <div className="flex flex-col">
+            <ProfilePicture
+              profileImgPath={profileData["profile_image"]}
+              username="jjdoesit"
+              className="m-4"
+              backgroundColor="bg-black"
+              textColor="text-black"
+            />
+            <UploadImage
+              collection="profiles"
+              field="profile_image"
+            ></UploadImage>
+          </div>
+        ) : (
+          <LoadingIcon time={1} tileSize={100}></LoadingIcon>
+        )}
       </div>
     </>
   );
