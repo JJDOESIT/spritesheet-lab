@@ -41,10 +41,10 @@ export default function Settings() {
 
   return (
     <>
-      <div
-        className={`flex w-full h-full justify-center pl-[10px] pr-[10px] ${styles.pageContainer}`}
-      >
-        {pageLoaded ? (
+      {pageLoaded ? (
+        <div
+          className={`flex w-full h-full justify-center pl-[10px] pr-[10px] ${styles.pageContainer}`}
+        >
           <div className="flex flex-col">
             <ProfilePicture
               profileImgPath={profileData["profile_image"]}
@@ -58,10 +58,12 @@ export default function Settings() {
               field="profile_image"
             ></UploadImage>
           </div>
-        ) : (
-          <LoadingIcon time={1} tileSize={100}></LoadingIcon>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center w-full h-full">
+          <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon>
+        </div>
+      )}
     </>
   );
 }
