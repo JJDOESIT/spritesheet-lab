@@ -27,7 +27,9 @@ export default function Login() {
       });
       const data = await response.json();
       if (data.status === 200) {
-        router.push("/settings");
+        await router.refresh();
+        await router.push("/settings");
+        location.replace("/settings");
       }
     } catch (error) {
       console.log(error);

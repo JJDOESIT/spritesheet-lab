@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const username = data.username;
     // Connect to the database 'db'
     const client = await clientPromise;
-    const db = client.db("db");
+    const db = client.db(process.env.DB_NAME);
     // Check if the username exists in the database
     const users = await db
       .collection("users")

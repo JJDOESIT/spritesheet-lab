@@ -1,18 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookieUpdate, cookieGet } from "./app/functions/cookies";
+import { cookieUpdate } from "./app/functions/cookies";
+import isAuthenticated from "./app/functions/isAuthenticated";
 
-// Authenticate cookie session 
+// Authenticate cookie session
 async function cookieAuth(
   request: NextRequest,
   SESSION_NAME: string,
   redirectURL: string
 ) {
   // Fetch the cookie from session
-  const cookie = await cookieGet(SESSION_NAME);
-  if (cookie == null) {
+  const response: { auth: boolean; cookie: any } = await isAuthenticated(
+    SESSION_NAME
+  );
+
+  // If not authenticated
+  if (!response.auth || !response.cookie) {
+    // Redirect
     return NextResponse.redirect(new URL(redirectURL, request.url));
   }
-  const COOKIE_EXPIRATION_TIME = 1000 * 60 * 60 * 2; // <-- Update by 2 hours
+  // Update to cookie session expiration time
+  const COOKIE_EXPIRATION_TIME = parseInt(process.env.SESSION_TIME!);
   return await cookieUpdate(
     request,
     process.env.SESSION_NAME!,
