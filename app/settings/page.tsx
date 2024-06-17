@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from "react";
 import styles from "../settings/settings.module.css";
+import createAlert from "../functions/createAlert";
 import ProfilePicture from "../components/profilePicture/profilePicture";
 import UploadImage from "../components/uploadImage/uploadImage";
 import getProfileData from "../functions/getProfileData";
 import LoadingIcon from "../components/loadingIcon/loadingIcon";
+import { create } from "domain";
+import Alert from "../components/alert/alert";
 
 export default function Settings() {
   const [profileData, setProfileData] = useState({
@@ -16,6 +19,14 @@ export default function Settings() {
   });
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [imageAlertData, setImageAlertData] = useState({
+    hidden: true,
+    message: "",
+    borderColor: "",
+    backgroundColor: "",
+    fontColor: "",
+    maxWidth: 0,
+  });
 
   // Fetch the profile data
   async function getProfile() {
@@ -25,6 +36,20 @@ export default function Settings() {
       setProfileData(data);
     }
     setProfileLoaded(true);
+  }
+
+  // Image alert callback
+  function imageAlertCallback(status: number) {
+    if (status == 200) {
+      setImageAlertData(
+        createAlert({
+          type: "success",
+          message: "Image Uploaded. Please refresh.",
+          hidden: false,
+          maxWidth: 305,
+        })
+      );
+    }
   }
 
   // On render, fetch the profile data
@@ -48,7 +73,7 @@ export default function Settings() {
           <div className="flex flex-col">
             <ProfilePicture
               profileImgPath={profileData["profile_image"]}
-              username="jjdoesit"
+              username={profileData["username"]}
               className="m-4"
               backgroundColor="bg-black"
               textColor="text-black"
@@ -56,7 +81,21 @@ export default function Settings() {
             <UploadImage
               collection="profiles"
               field="profile_image"
+              callback={imageAlertCallback}
             ></UploadImage>
+            <Alert
+              hidden={imageAlertData["hidden"]}
+              message={imageAlertData["message"]}
+              borderColor={imageAlertData["borderColor"]}
+              backgroundColor={imageAlertData["backgroundColor"]}
+              fontColor={imageAlertData["fontColor"]}
+              maxWidth={imageAlertData["maxWidth"]}
+              toggleHidden={() =>
+                setImageAlertData((prev) => {
+                  return { ...prev, hidden: true };
+                })
+              }
+            ></Alert>
           </div>
         </div>
       ) : (
