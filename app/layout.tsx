@@ -5,7 +5,6 @@ import Navbar from "./components/navbar/navbar";
 import SideNav from "./components/sidenav/sidenav";
 import styles from "@/app/layout.module.css";
 import bgStyles from "@/app/home/home.module.css";
-import LoadingIcon from "./components/loadingIcon/loadingIcon";
 
 
 export default function RootLayout({

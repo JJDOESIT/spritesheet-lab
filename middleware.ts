@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookieUpdate } from "./app/functions/cookies";
-import isAuthenticated from "./app/functions/isAuthenticated";
+import { isAuthenticated } from "./app/functions/cookies";
 
 // Authenticate cookie session
 async function cookieAuth(

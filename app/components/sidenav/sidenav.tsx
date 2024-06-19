@@ -31,9 +31,11 @@ export default function SideNav() {
     });
   };
 
-  // Add event handler to navabr button
+  // Add event handler to navbar button
   useEffect(() => {
     const navbarButton = document.getElementById("NavbarButton");
+
+    console.log(navbarButton);
 
     if (navbarButton) {
       navbarButton.addEventListener("click", handleClick);

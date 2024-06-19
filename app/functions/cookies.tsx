@@ -1,3 +1,5 @@
+"use server";
+
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
@@ -42,7 +44,7 @@ export async function cookieGet(name: string) {
   const cookie = cookies().get(name!)?.value;
   // If there is no cookie -> return null
   if (cookie == null) {
-    return null;
+    throw new Error("No cookie found");
   }
   // Decrypt the cookie
   return await cookieDecrypt(cookie);
@@ -74,3 +76,30 @@ export async function cookieUpdate(
   });
   return result;
 }
+
+export async function isAuthenticated(sessionName: string) {
+  var auth;
+  var cookie;
+  try {
+    // Fetch the current auth session
+    cookie = await cookieGet(sessionName);
+    // If the user is logged in
+    if (cookie) {
+      auth = true;
+    } else {
+      // If the user is not logged in
+      auth = false;
+      cookie = null;
+    }
+  } catch (e) {
+    console.error(e);
+    if (e instanceof Error) {
+      console.error(e.stack);
+    }
+    // Unresolved error
+    auth = false;
+    cookie = null;
+  }
+  return { auth: auth, cookie: cookie };
+}
+

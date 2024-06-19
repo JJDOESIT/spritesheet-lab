@@ -1,6 +1,6 @@
 "use server";
 
-import isAuthenticated from "./isAuthenticated";
+import { isAuthenticated } from "@/app/functions/cookies";
 
 export default async function updateDBField(
   collection: string,
