@@ -2,10 +2,24 @@
 
 import { cookieGet } from "./cookies";
 
-export default async function getProfileData() {
+export type ProfileData = {
+  profile_image: any;
+  username: string;
+  name: any;
+  bio: string;
+}
+
+
+export default async function getProfileData(username: string | null = null) {
   var data;
   try {
     // Fetch the current auth session
+    if (!username) {
+      const cookie = await cookieGet(process.env.SESSION_NAME!);
+      if (cookie) {
+        username = cookie.username as string;
+      }
+    }
     const cookie = await cookieGet(process.env.SESSION_NAME!);
     if (cookie) {
       // Fetch the profile data
@@ -13,7 +27,7 @@ export default async function getProfileData() {
         process.env.BASE_URL + "api/get-profile-data",
         {
           method: "POST",
-          body: JSON.stringify({ username: cookie.username }),
+          body: JSON.stringify({ username: username }),
         }
       );
       data = await response.json();
@@ -21,12 +35,11 @@ export default async function getProfileData() {
       if (data) {
         data = {
           profile_image: data.data.profile_image,
-          username: cookie.username as string,
+          username: username as string,
           name: data.data.name,
           bio: data.data.bio,
-        };
-      }
-      // If the data doesn't exist -> return null
+        } as ProfileData;
+            }
       else {
         data = null;
       }
