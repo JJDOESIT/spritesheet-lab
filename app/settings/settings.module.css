@@ -1,7 +1,36 @@
 .pageContainer{
     background: linear-gradient(45deg, rgba(0,255,128,1) 48%, rgba(248, 248, 248, 0.5) 50%, rgba(255,255,255,0) 50%);
+    overflow-y: scroll;
 }
 
 .pageContainer *{
-    font-size: clamp(10px, 1.5vw, 20px);
+    font-size: clamp(10px, 1.5vw, 15px);
+}
+
+.gridContainer{
+    width: 95%;
+    height: fit-content;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 400px);
+    gap: 20px;
+}
+
+.gridContainer > div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 400px;
+}
+
+.textTitle{
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+    .gridContainer{
+        grid-template-columns: repeat(auto-fit, 300px);
+    }
+    .gridContainer > div {
+        width: 300px;
+    }
 }
