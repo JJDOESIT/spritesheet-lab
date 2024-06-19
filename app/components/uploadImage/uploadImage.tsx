@@ -7,6 +7,7 @@ import { useRef } from "react";
 interface UploadImageProps {
   collection: string;
   field: string;
+  callback: Function;
 }
 
 export default function UploadImage(props: UploadImageProps) {
@@ -32,6 +33,7 @@ export default function UploadImage(props: UploadImageProps) {
             props.field,
             base64Image
           );
+          props.callback(response);
         } catch (e) {
           // Image was not uploaded correctly
           console.log(e);
