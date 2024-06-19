@@ -35,8 +35,6 @@ export default function SideNav() {
   useEffect(() => {
     const navbarButton = document.getElementById("NavbarButton");
 
-    console.log(navbarButton);
-
     if (navbarButton) {
       navbarButton.addEventListener("click", handleClick);
     }
@@ -109,7 +107,10 @@ export default function SideNav() {
 
       <div className={styles.sideNavBar}>Info</div>
 
-      <Link href={"/licensing"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link
+        href={"/licensing"}
+        className={`neonBlackButton ${styles.sideNavButton}`}
+      >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
         Licensing
       </Link>

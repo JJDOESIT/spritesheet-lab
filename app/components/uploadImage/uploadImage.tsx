@@ -2,6 +2,7 @@
 
 import imageToBase64 from "@/app/functions/imageToBase64";
 import updateDBField from "@/app/functions/updateDBField";
+import styles from "../uploadImage/uploadImage.module.css";
 import { useRef } from "react";
 
 interface UploadImageProps {
@@ -42,20 +43,21 @@ export default function UploadImage(props: UploadImageProps) {
     }
   }
   return (
-    <>
+    <div className="flex flex-col items-center self-start justify-center w-full">
       <input
+        className={``}
         type="file"
         ref={fileUpload}
         accept="image/png, image/jpg, image/jpeg"
       ></input>
       <input
-        className="neonBlackButton"
+        className="neonBlackButton w-fit !pt-[1px] !pb-[1px] !pl-[30px] !pr-[30px] mt-[10px] mb-[10px]"
         type="button"
         value="Upload"
         onClick={() => {
           handleSubmit();
         }}
       ></input>
-    </>
+    </div>
   );
 }

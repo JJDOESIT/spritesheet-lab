@@ -31,7 +31,7 @@ export default function Settings() {
           type: "success",
           message: "Image Uploaded. Please refresh.",
           hidden: false,
-          maxWidth: 305,
+          maxWidth: 999,
         })
       );
     }
@@ -42,20 +42,13 @@ export default function Settings() {
     setPageLoaded(true);
   }, []);
 
-  // On mount, set the page loaded to true
-  useEffect(() => {
-    if (profileLoaded) {
-      setPageLoaded(true);
-    }
-  }, [profileLoaded]);
-
   return (
     <>
       {pageLoaded ? (
         <div
           className={`flex w-full h-full justify-center pl-[10px] pr-[10px] ${styles.pageContainer}`}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col roundedFormOppositeShadow mt-[10px]">
             <ProfilePicture
               profileImgPath={profileData["profile_image"]}
               username={profileData["username"]}
