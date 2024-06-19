@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Logo() {
   return (
     <div className={`flex flex-row items-center text-white`}>
-      <Link href={"/"} className="flex items-center">
+      <Link href={"/home"} className="flex items-center">
         <BeakerIcon
           className={`h-[5vw] w-[5vw] animate__animated animate__headShake animate__delay-1s animate__slow ${styles.logoIcon} ${styles.logoSplash}`}
         />

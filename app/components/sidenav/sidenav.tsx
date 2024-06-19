@@ -80,11 +80,13 @@ export default function SideNav() {
       style={{ transform: `translateX(${translateX})` }}
       className={`p-4 h-[100%] flex-none w-[250px] bg-black block absolute right-0 overflow-y-scroll ${styles.noScrollbar} ${styles.sideNav}`}
     >
-      <ProfilePicture
-        profileImgSrc={profileData.profile_image}
-        username={profileData.username}
-        className="m-4"
-      />
+      <a href={`/profiles/${profileData.username}`}>
+        <ProfilePicture
+          profileImgSrc={profileData.profile_image}
+          username={profileData.username}
+          className="m-4"
+        />
+      </a>
 
       <div className={styles.sideNavBar}>Tools</div>
 

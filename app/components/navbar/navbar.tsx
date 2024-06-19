@@ -21,7 +21,12 @@ export default function Navbar() {
       <div className="flex flex-row items-center text-white md:w-[60%] w-[100%] md:justify-end justify-between space-x-[15px] px-[15px]">
         <p>Search Bar Representative</p>
         {profileData.username ? 
-          <><ProfilePictureBubble profileImgSrc={profileData.profile_image} backgroundColor={"bg-[#FFFFFF]"} className="w-[55px] h-[55px]"></ProfilePictureBubble><button id="NavbarButton"><AdjustmentsHorizontalIcon className="h-[30px] w-[30px]"/></button></>
+          <>
+            <a href={`/profiles/${profileData.username}`}>
+              <ProfilePictureBubble profileImgSrc={profileData.profile_image} backgroundColor={"bg-[#FFFFFF]"} className="w-[55px] h-[55px]"></ProfilePictureBubble>
+            </a>
+            
+            <button id="NavbarButton"><AdjustmentsHorizontalIcon className="h-[40px] w-[40px]"/></button></>
           : loginButton
         }
       </div>
