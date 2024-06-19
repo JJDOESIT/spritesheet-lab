@@ -6,7 +6,6 @@ import styles from "../settings/settings.module.css";
 import createAlert from "../functions/createAlert";
 import ProfilePicture from "../components/profilePicture/profilePicture";
 import UploadImage from "../components/uploadImage/uploadImage";
-import getProfileData from "../functions/getProfileData";
 import LoadingIcon from "../components/loadingIcon/loadingIcon";
 import Alert from "../components/alert/alert";
 
