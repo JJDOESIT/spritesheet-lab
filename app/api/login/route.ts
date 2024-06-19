@@ -4,13 +4,7 @@ import { passwordDecrypt } from "@/app/functions/password";
 import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
-  var status = 500;
-  var SESSION_NAME = process.env.SESSION_NAME;
-
-  // If the session name doesn't exist, set its default name to session
-  if (!SESSION_NAME) {
-    SESSION_NAME = "session";
-  }
+  var status;
 
   try {
     // Fetch data from POST request
@@ -43,7 +37,7 @@ export async function POST(request: Request) {
         //Create a signed session
         const cookie = await cookieEncrypt({ username, cookieExpires });
         // Save the session in a cookie
-        cookies().set(SESSION_NAME, cookie, {
+        cookies().set(process.env.SESSION_NAME!, cookie, {
           expires: cookieExpires,
           httpOnly: true,
         });

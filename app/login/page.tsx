@@ -30,6 +30,24 @@ export default function Login() {
         await router.refresh();
         await router.push("/settings");
         location.replace("/settings");
+      } else if (data.status == 404) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Incorrect Username/Password",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Internal Server Error",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
       }
     } catch (error) {
       console.log(error);
