@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     }
   } catch (e) {
     data = null;
+    console.log(e);
   }
   return new Response(JSON.stringify({ data: data }));
 }
