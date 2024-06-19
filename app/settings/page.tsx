@@ -1,22 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import ProfileDataContext from "../functions/profileDataContext";
 import styles from "../settings/settings.module.css";
 import createAlert from "../functions/createAlert";
 import ProfilePicture from "../components/profilePicture/profilePicture";
 import UploadImage from "../components/uploadImage/uploadImage";
 import getProfileData from "../functions/getProfileData";
 import LoadingIcon from "../components/loadingIcon/loadingIcon";
-import { create } from "domain";
 import Alert from "../components/alert/alert";
 
 export default function Settings() {
-  const [profileData, setProfileData] = useState({
-    profile_image: "/blank-profile-picture.png",
-    username: "",
-    name: "",
-    bio: "",
-  });
+  const profileData = useContext(ProfileDataContext);
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [pageLoaded, setPageLoaded] = useState(false);
   const [imageAlertData, setImageAlertData] = useState({
@@ -27,15 +22,6 @@ export default function Settings() {
     fontColor: "",
     maxWidth: 0,
   });
-
-  // Fetch the profile data
-  async function getProfile() {
-    const data = await getProfileData();
-    if (data) {
-      setProfileData(data);
-    }
-    setProfileLoaded(true);
-  }
 
   // Image alert callback
   function imageAlertCallback(status: number) {
@@ -53,10 +39,10 @@ export default function Settings() {
 
   // On render, fetch the profile data
   useEffect(() => {
-    getProfile();
+    setPageLoaded(true);
   }, []);
 
-  // Once the profile is loaded, set the pageLoaded to be true
+  // On mount, set the page loaded to true
   useEffect(() => {
     if (profileLoaded) {
       setPageLoaded(true);
