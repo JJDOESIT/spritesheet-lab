@@ -41,7 +41,7 @@ export default function Page() {
             <ArrowRightIcon className="h-[20px] w-[30px] inline" />
           </Link>
           <Link href={"/"} className={`neonBlackButton inline-block m-6`}>
-            Browse the gallery
+            Browse gallery
             <ArrowDownIcon className="h-[20px] w-[30px] inline" />
           </Link>
         </div>

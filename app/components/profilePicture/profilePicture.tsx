@@ -1,13 +1,14 @@
 import Image from "next/image";
+import ProfilePictureBubble from "../profilePictureBubble/profilePictureBubble";
 
 export default function ProfilePicture({
-  profileImgPath,
+  profileImgSrc: profileImgSrc,
   username,
   className,
   backgroundColor = "bg-white",
   textColor = "text-white",
 }: {
-  profileImgPath: string;
+  profileImgSrc: string;
   username: string;
   className?: string;
   backgroundColor?: string;
@@ -15,18 +16,7 @@ export default function ProfilePicture({
 }) {
   return (
     <div className={`${className} flex flex-col items-center`}>
-      <div
-        className={`flex items-center justify-center w-48 h-48 overflow-hidden ${backgroundColor} rounded-full`}
-      >
-        <div
-          className="w-[95%] h-[95%] overflow-hidden bg-black rounded-full"
-          style={{
-            backgroundImage: `url(${profileImgPath})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        ></div>
-      </div>
+      <ProfilePictureBubble profileImgSrc={profileImgSrc} backgroundColor={backgroundColor} />
       <p className={`block text-2xl text-center ${textColor}`}>{username}</p>
     </div>
   );

@@ -4,7 +4,7 @@ import styles from "../sidenav/sidenav.module.css";
 import ProfilePicture from "@/app/components/profilePicture/profilePicture";
 import logout from "@/app/functions/logout";
 import Link from "next/link";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import {
   ArrowUpCircleIcon,
   Cog6ToothIcon,
@@ -18,10 +18,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import getProfileData from "@/app/functions/getProfileData";
+import ProfileDataContext from "@/app/functions/profileDataContext";
 
 export default function SideNav() {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null!);
+
+  const profileData = useContext(ProfileDataContext);
 
   const [translateX, setTranslateX] = useState("250px");
 
@@ -78,8 +81,8 @@ export default function SideNav() {
       className={`p-4 h-[100%] flex-none w-[250px] bg-black block absolute right-0 overflow-y-scroll ${styles.noScrollbar} ${styles.sideNav}`}
     >
       <ProfilePicture
-        profileImgPath="/jjdoesit.png"
-        username="jjdoesit"
+        profileImgSrc={profileData.profile_image}
+        username={profileData.username}
         className="m-4"
       />
 

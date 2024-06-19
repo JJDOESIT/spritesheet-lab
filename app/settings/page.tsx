@@ -50,7 +50,7 @@ export default function Settings() {
         >
           <div className="flex flex-col roundedFormOppositeShadow mt-[10px]">
             <ProfilePicture
-              profileImgPath={profileData["profile_image"]}
+              profileImgSrc={profileData["profile_image"]}
               username={profileData["username"]}
               className="m-4"
               backgroundColor="bg-black"

@@ -2,27 +2,15 @@
 
 import Logo from "../logo/logo";
 import { AdjustmentsHorizontalIcon} from "@heroicons/react/24/solid";
-import isClientAuthenticated from "@/app/functions/isClientAuthenticated";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import ProfileDataContext from "@/app/functions/profileDataContext";
+import { useContext } from "react";
+import ProfilePictureBubble from "../profilePictureBubble/profilePictureBubble";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const profileData = useContext(ProfileDataContext);
 
-  const sideNavButton = <button id="NavbarButton"><AdjustmentsHorizontalIcon className="h-[30px] w-[30px]"/></button>;
-  const loginButton = <Link className="text-lg neonBlackButton" href="/login">Login</Link>;
-
-  function checkLoggedIn()
-  {
-    const response =  isClientAuthenticated();
-    return response;
-  }
-
-  useEffect(() => {
-    checkLoggedIn().then((response) => {
-      setIsLoggedIn(response.auth);
-    });
-  }, []);
+  const loginButton = <Link className="text-lg blackButton" href="/login">Login</Link>;
 
 
   return (
@@ -32,7 +20,10 @@ export default function Navbar() {
       </div>
       <div className="flex flex-row items-center text-white md:w-[60%] w-[100%] md:justify-end justify-between space-x-[15px] px-[15px]">
         <p>Search Bar Representative</p>
-        {isLoggedIn ? sideNavButton : loginButton}
+        {profileData.username ? 
+          <><ProfilePictureBubble profileImgSrc={profileData.profile_image} backgroundColor={"bg-[#FFFFFF]"} className="w-[55px] h-[55px]"></ProfilePictureBubble><button id="NavbarButton"><AdjustmentsHorizontalIcon className="h-[30px] w-[30px]"/></button></>
+          : loginButton
+        }
       </div>
     </div>
   );
