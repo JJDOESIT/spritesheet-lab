@@ -40,7 +40,7 @@ export default function Page({ params }: PageProps){
   return (profileLoaded ?
     <main className="flex flex-col items-center w-full h-full overflow-scroll">
       <div className={`w-[90%] ${styles.profileBox} flex flex-col md:flex-row items-center`}>
-        <ProfilePictureBubble backgroundColor="bg-black" profileImgSrc={profileData.profile_image} className="w-[300px] h-[300px]"></ProfilePictureBubble>
+        <ProfilePictureBubble backgroundColor="bg-black" profileImgSrc={profileData.profile_image} className="w-[250px] h-[250px]"></ProfilePictureBubble>
         <div className="flex flex-col items-start justify-startw-[90%] md:w-[50%] flex-grow p-[20px]">
           <h1 className="text-2xl md:text-4xl"><strong>{profileData.username}</strong></h1>
           <p className="text-xl md:text-2xl my-[10px]"><strong>{profileData.name}</strong></p>

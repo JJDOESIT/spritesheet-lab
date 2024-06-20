@@ -100,7 +100,7 @@ export default function Settings() {
     <>
       {pageLoaded ? (
         <div
-          className={`flex w-full h-full justify-center pl-[10px] pr-[10px] ${styles.pageContainer}`}
+          className={`flex w-full h-full justify-center pl-[10px] pr-[10px] animate__animated animate__fadeIn ${styles.pageContainer}`}
         >
           <div className={`grid ${styles.gridContainer}`}>
             <div className="items-center roundedFormOppositeShadow">

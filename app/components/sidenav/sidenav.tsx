@@ -105,7 +105,7 @@ export default function SideNav() {
         <BellIcon className={styles.sideNavButtonIcon} />
         Notifications
       </Link>
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link href={"/messages"} onClick={handleClick} className={`neonBlackButton ${styles.sideNavButton}`}>
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
       </Link>
@@ -136,6 +136,7 @@ export default function SideNav() {
 
       <Link
         href={"/settings"}
+        onClick={handleClick}
         className={`neonBlackButton ${styles.sideNavButton}`}
       >
         <Cog6ToothIcon className={styles.sideNavButtonIcon} />
@@ -143,8 +144,9 @@ export default function SideNav() {
       </Link>
       <a
         href={"#"}
+
         className={`neonBlackButton ${styles.sideNavButton}`}
-        onClick={() => handleLogout()}
+        onClick={() => {handleClick(); handleLogout();}}
       >
         <ArrowLeftEndOnRectangleIcon className={styles.sideNavButtonIcon} />
         Log out
