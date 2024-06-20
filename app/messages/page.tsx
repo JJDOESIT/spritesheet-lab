@@ -1,21 +1,11 @@
 "use client";
-import { useEffect } from "react"
-import getConversations from "../functions/getConversations"
 
 
 export default function Page() {
-
-
-    useEffect(() => {
-        getConversations().then((data) => {
-            console.log("Messages: " + data);
-        });
-    }, [])
-
-
+    
     return (
-        <div>
-            <h1>Messages</h1>
+        <div className="flex flex-col items-center justify-center w-full h-full">
+            <p>Select a conversation to view its messages.</p>
         </div>
     )
 

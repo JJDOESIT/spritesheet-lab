@@ -26,6 +26,7 @@ export default function Page() {
     return (
     <main className="flex flex-col items-center w-full h-[100%] overflow-scroll hideScrollbar">
         <div className="flex flex-col h-fit w-fit mb-[20px] animate__animated animate__fadeIn">
+            {/* Add some decorative svg here with like an envelope or something */}
             <p className="mt-10 text-lg text-left md:text-3xl">Questions?</p>
             <p className="mt-3 text-lg text-left md:mt-10 md:text-3xl">Concerns?</p>
             <p className="mt-3 text-lg text-left md:mt-10 md:text-3xl">Business inquiries?</p>
@@ -41,7 +42,7 @@ export default function Page() {
                 <button className="block neonBlackButton">Send</button>
                 {result && <p>{result}</p>}
             </form>
-        </div>
+        </div>           
     </main>
     )
 }
