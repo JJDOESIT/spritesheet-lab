@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const client = await clientPromise;
     const db = client.db(process.env.DB_NAME);
 
-    const userId = await db.collection(process.env.USERS_DB_NAME!).findOne({ username : body.username });
+    const userId = await db.collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!).findOne({ username : body.username });
 
     if (!userId) {
       throw new Error("No user found");
