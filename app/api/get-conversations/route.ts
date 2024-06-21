@@ -15,13 +15,12 @@ export async function POST(request: Request) {
             return new Response(JSON.stringify({ data: null }));
         }
 
-        const conversations = await db.collection('conversations').find({ users: id._id }).toArray();
+        const conversations = await db.collection(process.env.CONVERSATIONS_DB_NAME!).find({ users: id._id }).toArray();
 
         await Promise.all(conversations.map(async (conversation) => {
             conversation.users = await Promise.all(conversation.users.map(async (user: any) => {
             const userObj = await db.collection(process.env.USERS_DB_NAME!).findOne({_id: user});
             if (userObj) {
-                console.log(userObj.username);
                 return userObj.username;
             } else {
                 throw new Error("User not found");

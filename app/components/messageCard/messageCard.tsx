@@ -7,8 +7,6 @@ import LoadingIcon from "../loadingIcon/loadingIcon";
 
 export function MessageCard({userArray, conversationId} : {userArray: string[], conversationId: string}) {
 
-    console.log(userArray);
-
     const profileData = useContext(ProfileDataContext);
     const userName = profileData.username;
     const [selected, setSelected] = useState<boolean>(false);

@@ -26,9 +26,7 @@ export default function Page({ params }: PageProps){
 
 
   useEffect(() => {
-    console.log(params.username);
     getProfileData(params.username).then((data) => {
-      console.log(data);
       if (data) {
         setProfileData(data);
       }
