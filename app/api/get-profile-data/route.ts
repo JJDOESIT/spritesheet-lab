@@ -11,13 +11,13 @@ export async function POST(request: Request) {
 
     // Fetch the id from the newly created account
     const id = await db
-      .collection(process.env.USERS_DB_NAME!)
+      .collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!)
       .findOne({ username: body.username });
 
     // If the account exists
     if (id && id._id) {
       data = await db
-        .collection(process.env.PROFILES_DB_NAME!)
+        .collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!)
         .findOne({ foreign_key: id._id });
     } else {
       data = null;

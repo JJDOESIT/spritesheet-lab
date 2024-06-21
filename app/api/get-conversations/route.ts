@@ -1,13 +1,13 @@
 import clientPromise from "../../../lib/mongodb";
 
 export async function POST(request: Request) {
-    try {
-        // Fetch data from POST request
-        var data = await request.json();
+  try {
+    // Fetch data from POST request
+    var data = await request.json();
 
-        // Connect to the database 'db'
-        const client = await clientPromise;
-        const db = client.db("db");
+    // Connect to the database 'db'
+    const client = await clientPromise;
+    const db = client.db("db");
 
         const id = await db.collection(process.env.USERS_DB_NAME!).findOne({username: data.username});
         if (!id || !id._id) {

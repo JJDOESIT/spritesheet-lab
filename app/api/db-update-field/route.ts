@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     // Fetch the id from the newly created account
     const id = await db
-      .collection(process.env.USERS_DB_NAME!)
+      .collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!)
       .findOne({ username: user });
 
     // If the user account exists

@@ -3,12 +3,11 @@
 import { cookieGet } from "./cookies";
 
 export type ProfileData = {
-  profile_image: any;
+  profile_image: any | null;
   username: string;
-  name: any;
-  bio: string;
-}
-
+  name: string | null;
+  bio: string | null;
+};
 
 export default async function getProfileData(username: string | null = null) {
   var data;
@@ -39,8 +38,7 @@ export default async function getProfileData(username: string | null = null) {
           name: data.data.name,
           bio: data.data.bio,
         } as ProfileData;
-            }
-      else {
+      } else {
         data = null;
       }
     } else {
