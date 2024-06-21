@@ -30,6 +30,16 @@ export default function Settings() {
     fontColor: "",
     maxWidth: 0,
   });
+  const [bioAlertData, setBioAlertData] = useState({
+    hidden: true,
+    message: "",
+    borderColor: "",
+    backgroundColor: "",
+    fontColor: "",
+    maxWidth: 0,
+  });
+  let maxNameLength = 50; // The max number of characters the name can be
+  let maxBioLength = 150; // The max number of characters the bio can be
 
   // Image alert callback
   function imageAlertCallback(status: number) {
@@ -54,11 +64,16 @@ export default function Settings() {
     }
   }
 
+  // On save, update the user's name
   async function handleEditName() {
     const name = document.getElementById("name") as HTMLInputElement;
     if (name && name.value) {
-      if (name.value.length > 0 && name.value.length <= 50) {
-        const status = await updateDBField("profiles", "name", name.value);
+      if (name.value.length > 0 && name.value.length <= maxNameLength) {
+        const status = await updateDBField(
+          process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+          "name",
+          name.value
+        );
         if (status == 200) {
           setNameAlertData(
             createAlert({
@@ -82,7 +97,55 @@ export default function Settings() {
         setNameAlertData(
           createAlert({
             type: "error",
-            message: "Error: Name must be between 1 and 50 characters ...",
+            message:
+              "Error: Name must be between 1 and " +
+              maxNameLength +
+              " characters ...",
+            hidden: false,
+            maxWidth: 300,
+          })
+        );
+      }
+    }
+  }
+
+  // On save, update the user's bio
+  async function handleEditBio() {
+    const bio = document.getElementById("bio") as HTMLInputElement;
+    if (bio && bio.value) {
+      if (bio.value.length > 0 && bio.value.length <= maxBioLength) {
+        const status = await updateDBField(
+          process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+          "bio",
+          bio.value
+        );
+        if (status == 200) {
+          setBioAlertData(
+            createAlert({
+              type: "success",
+              message: "Bio updated. Please refresh.",
+              hidden: false,
+              maxWidth: 400,
+            })
+          );
+        } else {
+          setBioAlertData(
+            createAlert({
+              type: "error",
+              message: "Error Updating Bio ...",
+              hidden: false,
+              maxWidth: 400,
+            })
+          );
+        }
+      } else {
+        setBioAlertData(
+          createAlert({
+            type: "error",
+            message:
+              "Error: Bio must be between 1 and " +
+              maxBioLength +
+              " characters ...",
             hidden: false,
             maxWidth: 300,
           })
@@ -142,9 +205,11 @@ export default function Settings() {
                 <input
                   id="name"
                   type="text"
-                  maxLength={50}
+                  maxLength={maxNameLength}
                   className="p-1 border-2 rounded-xl border-slate-300 w-[80%]"
-                  placeholder={profileData.name}
+                  placeholder={
+                    profileData.name ? profileData.name : "Enter a name!"
+                  }
                 ></input>
               </div>
               <input
@@ -164,6 +229,41 @@ export default function Settings() {
                 maxWidth={nameAlertData["maxWidth"]}
                 toggleHidden={() =>
                   setNameAlertData((prev) => {
+                    return { ...prev, hidden: true };
+                  })
+                }
+              ></Alert>
+              <p className={`w-fit mt-[5px] ${styles.textTitle}`}>Edit Bio</p>
+              <div className="flex h-[30px] w-full h-[150px]">
+                <label className="flex items-center justify-center w-[20%]">
+                  Bio:{" "}
+                </label>
+                <textarea
+                  id="bio"
+                  maxLength={150}
+                  className="p-1 border-2 rounded-xl border-slate-300 w-[80%] h-full"
+                  placeholder={
+                    profileData.bio ? profileData.bio : "Create a bio!"
+                  }
+                ></textarea>
+              </div>
+              <input
+                type="button"
+                value="Save"
+                className={`neonBlackButton mt-[5px] mb-[5px]`}
+                onClick={() => {
+                  handleEditBio();
+                }}
+              ></input>
+              <Alert
+                hidden={bioAlertData["hidden"]}
+                message={bioAlertData["message"]}
+                borderColor={bioAlertData["borderColor"]}
+                backgroundColor={bioAlertData["backgroundColor"]}
+                fontColor={bioAlertData["fontColor"]}
+                maxWidth={bioAlertData["maxWidth"]}
+                toggleHidden={() =>
+                  setBioAlertData((prev) => {
                     return { ...prev, hidden: true };
                   })
                 }

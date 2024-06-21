@@ -59,24 +59,24 @@ export async function POST(request: Request) {
     const db = client.db("db");
     // Check if the username is taken
     const users = await db
-      .collection(process.env.USERS_DB_NAME!)
+      .collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!)
       .findOne({ username: data.username });
     // If the username is not taken
     if (users == null) {
       // Attempt to encrypt the password
       const hash = await passwordEncrypt(data.password, 10);
       // Attempt to insert the password into the 'users' database
-      await db.collection(process.env.USERS_DB_NAME!).insertOne({
+      await db.collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!).insertOne({
         username: data.username,
         password: hash,
       });
       // Fetch the id from the newly created account
       const id = await db
-        .collection(process.env.USERS_DB_NAME!)
+        .collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!)
         .findOne({ username: data.username });
 
       // Create a fresh profile for the user
-      await db.collection(process.env.PROFILES_DB_NAME!).insertOne({
+      await db.collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!).insertOne({
         foreign_key: id!._id,
         profile_image: null,
         name: null,
