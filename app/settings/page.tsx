@@ -234,14 +234,14 @@ export default function Settings() {
                 }
               ></Alert>
               <p className={`w-fit mt-[5px] ${styles.textTitle}`}>Edit Bio</p>
-              <div className="flex h-[30px] w-full h-[150px]">
+              <div className="flex h-[120px] w-full h-[150px]">
                 <label className="flex items-center justify-center w-[20%]">
                   Bio:{" "}
                 </label>
                 <textarea
                   id="bio"
                   maxLength={150}
-                  className="p-1 border-2 rounded-xl border-slate-300 w-[80%] h-full"
+                  className="p-1 border-2 rounded-xl border-slate-300 w-[80%] h-full resize-none"
                   placeholder={
                     profileData.bio ? profileData.bio : "Create a bio!"
                   }
