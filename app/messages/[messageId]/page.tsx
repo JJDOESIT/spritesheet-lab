@@ -6,6 +6,7 @@ import { ObjectId } from "mongodb";
 import { useContext, useEffect, useRef, useState } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import sendMessage from "@/app/functions/sendMessage";
+import LoadingIcon from "@/app/components/loadingIcon/loadingIcon";
 
 interface PageProps {
     params: {
@@ -62,14 +63,15 @@ export default function Page({ params }: PageProps) {
     
     return (
         <div className="flex-col items-center justify-center w-full h-full ">
-            <div className="flex flex-col-reverse items-center justify-start w-full h-[92%] p-[20px] overflow-y-auto">
-                {messagesArray.map((message : any) => {
+            <div className={`flex flex-col-reverse items-center ${messagesArray.length === 0 ? "justify-center" : "justify-start"} w-full h-[92%] p-[20px] overflow-y-auto`}>
+                {messagesArray.length === 0 ? <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon> : 
+                messagesArray.map((message : any) => {
                     return <MessageBox sender={message.user} message={message.message} sent={message.user == profileContext.username} />
                 })}
             </div>
             <div className="flex items-center justify-center w-full h-[8%] px-[10px]">
                 <input ref={inputRef} type="text" className="w-[80%] h-[80%] rounded-lg border-black border-2 p-[10px]" />
-                <button className="w-[20%] h-[80%] bg-neonGreen rounded-lg border-black border-2" onClick={() => {onSubmit()}} >Send</button>
+                <button className="w-[20%] h-[80%] neonBlackButton" onClick={() => {onSubmit()}} >Send</button>
             </div>
         </div>
     )
