@@ -26,6 +26,15 @@ export async function POST(request: Request) {
       return await db.collection("messages").findOne({ _id: message });
     }));
 
+    await Promise.all(messages.map(async (message: any) => {
+      var user = await db.collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!).findOne({ _id: message.user });
+      if (!user)
+      {
+        throw new Error("No sender found");
+      }
+      message.user = user.username;
+    }));
+
     return new Response(JSON.stringify({ data: messages }));
   } catch (e) {
     console.error(e);

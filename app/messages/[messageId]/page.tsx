@@ -1,7 +1,11 @@
 "use client";
+import MessageBox from "@/app/components/messageBox/messageBox";
 import getMessages from "@/app/functions/getMessages";
 import { get } from "http";
 import { ObjectId } from "mongodb";
+import { useContext, useEffect, useRef, useState } from "react";
+import ProfileDataContext from "@/app/functions/profileDataContext";
+import sendMessage from "@/app/functions/sendMessage";
 
 interface PageProps {
     params: {
@@ -10,20 +14,63 @@ interface PageProps {
   }
   
 export default function Page({ params }: PageProps) {
+    const [messagesArray, setMessagesArray] = useState([]);
 
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    async function getMessageP() {
-        console.log("MessageP: " + params.messageId);
-        return getMessages(params.messageId).then((data) => {
-            console.log(JSON.stringify(data));
+    const profileContext = useContext(ProfileDataContext);
+
+    function getMessagesArray() {
+        getMessages(params.messageId).then((data) => {
+            setMessagesArray(data);
         });
     }
 
-    getMessageP();
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getMessagesArray();
+        }, 1000);
 
+        return () => clearInterval(interval);
+    }, []);
+
+    async function onSubmit() {
+        const inputText = inputRef.current!.value as string | null;
+        inputRef.current!.value = "";
+        if (!inputText) {
+            return;
+        }
+        console.log(inputText);
+        await sendMessage(params.messageId, inputText);
+        getMessagesArray();
+    }
+    
+    useEffect(() => {
+        const handleKeyPress = (event: KeyboardEvent) => {
+            if (event.key === "Enter") {
+                onSubmit();
+            }
+        };
+
+        document.addEventListener("keydown", handleKeyPress);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyPress);
+        };
+    }, []);
+
+    
     return (
-        <div className="flex flex-col items-center justify-center w-full h-full">
-            <p>Select a conversation to view its messages.</p>
+        <div className="flex-col items-center justify-center w-full h-full ">
+            <div className="flex flex-col-reverse items-center justify-start w-full h-[92%] p-[20px] overflow-y-auto">
+                {messagesArray.map((message : any) => {
+                    return <MessageBox sender={message.user} message={message.message} sent={message.user == profileContext.username} />
+                })}
+            </div>
+            <div className="flex items-center justify-center w-full h-[8%] px-[10px]">
+                <input ref={inputRef} type="text" className="w-[80%] h-[80%] rounded-lg border-black border-2 p-[10px]" />
+                <button className="w-[20%] h-[80%] bg-neonGreen rounded-lg border-black border-2" onClick={() => {onSubmit()}} >Send</button>
+            </div>
         </div>
     )
 
