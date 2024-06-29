@@ -51,6 +51,7 @@ export async function POST(request: Request) {
       status = 404;
     }
   } catch (e) {
+    console.error(e)
     // Couldn't connect to database -> return 500
     status = 500;
   }
