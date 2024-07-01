@@ -40,7 +40,7 @@ export function MessageCard({userArray, conversationId} : {userArray: string[], 
     useEffect(() => {
         if (userArray.length > 1) {
             getProfileData(userArray[0]).then((data) => {
-                setProfilePicture("group_chat.png");
+                setProfilePicture("/group_chat.png");
             });
         } else if (userArray.length == 1) {
             getProfileData(userArray[0]).then((data) => {
@@ -62,7 +62,6 @@ export function MessageCard({userArray, conversationId} : {userArray: string[], 
             </a>
         </Link>
     )
-
 }
 
 export function BlankMessageCard() {

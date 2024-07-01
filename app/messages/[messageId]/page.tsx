@@ -7,6 +7,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import sendMessage from "@/app/functions/sendMessage";
 import LoadingIcon from "@/app/components/loadingIcon/loadingIcon";
+import Link from "next/link";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 interface PageProps {
     params: {
@@ -16,6 +18,18 @@ interface PageProps {
   
 export default function Page({ params }: PageProps) {
     const [messagesArray, setMessagesArray] = useState([]);
+    const [isMd, setIsMd] = useState(window.innerWidth >= 768);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMd(window.innerWidth >= 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -62,14 +76,21 @@ export default function Page({ params }: PageProps) {
 
     
     return (
-        <div className="flex-col items-center justify-center w-full h-full ">
-            <div className={`flex flex-col-reverse items-center ${messagesArray.length === 0 ? "justify-center" : "justify-start"} w-full h-[92%] p-[20px] overflow-y-auto`}>
+        <div className="h-full w-full border-black border-[2px] rounded-[13px] bg-white flex-col items-center justify-center">
+            {isMd ?
+                <></>
+                :
+                <div className="flex flex-row items-center justify-center">
+                <Link href={"/messages"} className="block w-full border-b-2 border-black h-[6%]"><ArrowLeftIcon height={"20px"} width={"20px"} className="inline"></ArrowLeftIcon><p className="inline">Back</p></Link>
+                </div>
+            }
+            <div className={`flex flex-col-reverse items-center ${messagesArray.length === 0 ? "justify-center" : "justify-start"} w-full md:h-[92%] h-[88%] p-[20px] overflow-y-auto`}>
                 {messagesArray.length === 0 ? <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon> : 
                 messagesArray.map((message : any) => {
                     return <MessageBox sender={message.user} message={message.message} sent={message.user == profileContext.username} />
                 })}
             </div>
-            <div className="flex items-center justify-center w-full h-[8%] px-[10px]">
+            <div className="flex items-center justify-center w-full h-[8%] px-[10px] border-t-2 border-black">
                 <input ref={inputRef} type="text" className="w-[80%] h-[80%] rounded-lg border-black border-2 p-[10px]" />
                 <button className="w-[20%] h-[80%] neonBlackButton" onClick={() => {onSubmit()}} >Send</button>
             </div>

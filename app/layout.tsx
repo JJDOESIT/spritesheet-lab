@@ -41,8 +41,8 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en">
-      <body className={`${redditMono.className} antialiased`}>
+    <html lang="en" className="overflow-x-hidden">
+      <body className={`${redditMono.className} antialiased overflow-x-hidden`}>
         {profileLoaded ? (
           <ProfileDataContext.Provider value={profileData}>
             <Navbar />
