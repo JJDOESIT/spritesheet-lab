@@ -113,11 +113,11 @@ export default function SideNav() {
       <div className={styles.sideNavBar}>Info</div>
 
       <Link
-        href={"/licensing"}
+        href={"/licensing-tos"}
         className={`neonBlackButton ${styles.sideNavButton}`}
       >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
-        Licensing
+        Licensing & TOS
       </Link>
       <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
