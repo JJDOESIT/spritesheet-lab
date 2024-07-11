@@ -51,6 +51,27 @@ html, body {
     border-color: black;
 }
 
+.redBlackButton {
+    border: 2px solid black;
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 6px;
+    border-color: white;
+    transition: background-color 1s ease;
+    transition: color 1s ease;
+    transition: border 1s ease;
+    transition: border-color 1s ease;
+}
+
+.redBlackButton:hover {
+    background-color: white;
+    color: red;
+    border: 2px solid red;
+    cursor: pointer;
+    border-color: red;
+}
+
 .roundedForm {
     display: flex;
     flex-direction: column;
