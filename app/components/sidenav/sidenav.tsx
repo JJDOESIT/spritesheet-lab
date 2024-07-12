@@ -90,18 +90,18 @@ export default function SideNav() {
 
       <div className={styles.sideNavBar}>Tools</div>
 
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`} onClick={handleClick}>
         <BuildingStorefrontIcon className={styles.sideNavButtonIcon} />
         Workshop
       </Link>
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`} onClick={handleClick}>
         <ArrowUpCircleIcon className={styles.sideNavButtonIcon} />
         Upload
       </Link>
 
       <div className={styles.sideNavBar}>Social</div>
 
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link href={"/notifications"} className={`neonBlackButton ${styles.sideNavButton} ` } onClick={handleClick}>
         <BellIcon className={styles.sideNavButtonIcon} />
         Notifications
       </Link>
@@ -114,6 +114,7 @@ export default function SideNav() {
 
       <Link
         href={"/licensing-tos"}
+        onClick={handleClick}
         className={`neonBlackButton ${styles.sideNavButton}`}
       >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
