@@ -32,10 +32,10 @@ export async function POST(request: Request) {
 
     // If the user account exists
     if (id && id._id) {
+      const data = await db
+        .collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!)
+        .findOne({ foreign_key: id._id });
       if (type === "like") {
-        const data = await db
-          .collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!)
-          .findOne({ foreign_key: id._id });
         // If the post hasn't been liked already
         if (
           data &&
@@ -58,6 +58,30 @@ export async function POST(request: Request) {
         } else {
           // Else post is already liked -> return 410
           status = 410;
+        }
+      } else if (type === "unlike") {
+        // If the post has been liked already
+        if (
+          data &&
+          data["liked_posts"] &&
+          isPostLiked(data["liked_posts"], postID)
+        ) {
+          // Delete liked post from the collection with the associated user
+          await db
+            .collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!)
+            .updateOne(
+              { foreign_key: id._id },
+              { $pull: { ["liked_posts"]: postID } }
+            );
+          // Update the like count
+          await db
+            .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
+            .updateOne({ _id: postID }, { $inc: { likes: -1 } });
+          // Success -> return 200
+          status = 200;
+        } else {
+          // Post hasn't been liked -> return 404
+          status = 404;
         }
       }
     } else {

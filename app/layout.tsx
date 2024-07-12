@@ -30,7 +30,6 @@ export default function RootLayout({
   async function getProfile() {
     const data = await getProfileData();
     if (data) {
-      console.log(data);
       setProfileData(data);
     }
     setProfileLoaded(true);
