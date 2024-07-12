@@ -99,7 +99,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
     }
 
     return (
-        <main className="flex flex-col md:flex-row p-[30px] w-full justify-center items-center">
+        <main className="flex flex-col md:flex-row p-[30px] w-full justify-center items-center animate__animated animate__fadeIn">
             {pathName.endsWith("messages") || isMd ?
                 <div className="flex flex-col items-center flex-shrink-0 h-full border-black border-[2px] rounded-[13px] bg-white w-[330px] overflow-x-visible overflow-y-scroll hideScrollbar">
                     <div className="w-full h-fit border-black border-b-[2px]">

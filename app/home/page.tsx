@@ -5,8 +5,13 @@ import styles from "@/app/home/home.module.css";
 import VerticalCarousel from "../components/verticalCarousel/verticalCarousel";
 import { ArrowRightIcon, ArrowDownIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import ProfileDataContext from "../functions/profileDataContext";
+import { useContext } from "react";
 
 export default function Page() {
+  const profileData = useContext(ProfileDataContext);
+
+  
   return (
     <main className={`h-[100%]`}>
       <div
@@ -34,13 +39,13 @@ export default function Page() {
             />
           </div>
           <Link
-            href={"/create-account"}
+            href={profileData.username ? "/upload" : "/create-account"}
             className={`neonBlackButton inline-block m-6`}
           >
-            Start creating
+            {profileData.username ?  "Upload Artwork" : "Make account"}
             <ArrowRightIcon className="h-[20px] w-[30px] inline" />
           </Link>
-          <Link href={"/"} className={`neonBlackButton inline-block m-6`}>
+          <Link href={"/gallery"} className={`neonBlackButton inline-block m-6`}>
             Browse gallery
             <ArrowDownIcon className="h-[20px] w-[30px] inline" />
           </Link>
