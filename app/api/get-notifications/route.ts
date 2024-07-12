@@ -25,6 +25,7 @@ export async function POST(request: Request) {
     if (user_document) {
         data = user_document.notifications;
     }
+
   } catch (e) {
     data = null;
     console.log(e);

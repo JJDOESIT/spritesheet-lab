@@ -56,12 +56,11 @@ export async function deleteNotification(notification: string) {
 }
 
 export async function notifyUser(username: string, type: string, id: string) {
-    console.log("Notifying user");
     var data;
     try {
         const cookie = await cookieGet(process.env.SESSION_NAME!);
         if (cookie) {
-            var notification = cookie.username + "|" + type + "|" + getYYMMDDHH() + "|" + id;
+            var notification = cookie.username + "|" + type + "|" + getYYMMDDHH() + "|" + id ;
 
             const response = await fetch(
                 process.env.BASE_URL + "api/modify-notifications",

@@ -17,8 +17,9 @@ interface PageProps {
   }
   
 export default function Page({ params }: PageProps) {
-    const [messagesArray, setMessagesArray] = useState<any[] | null>(null);
+    const [messagesArray, setMessagesArray] = useState<any[]>([]);
     const [isMd, setIsMd] = useState(window.innerWidth >= 768);
+    const [isSending, setIsSending] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -43,21 +44,37 @@ export default function Page({ params }: PageProps) {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            getMessagesArray();
+            console.log(isSending);
+            if (!isSending) {
+                getMessagesArray();
+            }
+            else{
+            }
         }, 1000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [isSending]);
 
     async function onSubmit() {
         const inputText = inputRef.current!.value as string | null;
+        if (messagesArray != null) {
+            setMessagesArray((prev) =>
+            {
+                return [{user: profileContext.username, message: inputText}, ...prev]
+            }
+            );
+        }
+        setIsSending(true);
+        
         inputRef.current!.value = "";
         if (!inputText) {
             return;
         }
-        console.log(inputText);
-        await sendMessage(params.messageId, inputText);
-        getMessagesArray();
+        await sendMessage(params.messageId, inputText).then(() => {
+            getMessagesArray();
+            setIsSending(false);
+        });
+
     }
     
     useEffect(() => {
