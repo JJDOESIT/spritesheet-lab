@@ -90,11 +90,17 @@ export default function SideNav() {
 
       <div className={styles.sideNavBar}>Tools</div>
 
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link
+        href={"/gallery"}
+        className={`neonBlackButton ${styles.sideNavButton}`}
+      >
         <BuildingStorefrontIcon className={styles.sideNavButtonIcon} />
-        Workshop
+        Gallery
       </Link>
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link
+        href={"/upload"}
+        className={`neonBlackButton ${styles.sideNavButton}`}
+      >
         <ArrowUpCircleIcon className={styles.sideNavButtonIcon} />
         Upload
       </Link>
@@ -105,7 +111,11 @@ export default function SideNav() {
         <BellIcon className={styles.sideNavButtonIcon} />
         Notifications
       </Link>
-      <Link href={"/messages"} onClick={handleClick} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link
+        href={"/messages"}
+        onClick={handleClick}
+        className={`neonBlackButton ${styles.sideNavButton}`}
+      >
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
       </Link>
@@ -144,9 +154,11 @@ export default function SideNav() {
       </Link>
       <a
         href={"#"}
-
         className={`neonBlackButton ${styles.sideNavButton}`}
-        onClick={() => {handleClick(); handleLogout();}}
+        onClick={() => {
+          handleClick();
+          handleLogout();
+        }}
       >
         <ArrowLeftEndOnRectangleIcon className={styles.sideNavButtonIcon} />
         Log out

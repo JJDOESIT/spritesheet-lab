@@ -81,6 +81,7 @@ export async function POST(request: Request) {
         profile_image: null,
         name: null,
         bio: null,
+        liked_posts: [],
       });
       // Success -> return 200
       status = 200;

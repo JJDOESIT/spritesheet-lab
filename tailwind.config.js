@@ -22,10 +22,9 @@ module.exports = {
         white: "#FFFFFF",
         neonGreen: "#00FF80",
         skyBlue: "#66B2FF",
+        cornFlowerBlue: "#4285f4",
       },
     },
   },
-  plugins: [
-    
-  ],
+  plugins: [],
 };

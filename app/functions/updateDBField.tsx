@@ -34,6 +34,7 @@ export default async function updateDBField(
       status = await response.json();
     }
   } catch (e) {
+    // Faield to update data -> return 500
     status = 500;
   }
   return status;
