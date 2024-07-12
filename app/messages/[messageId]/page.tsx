@@ -17,7 +17,7 @@ interface PageProps {
   }
   
 export default function Page({ params }: PageProps) {
-    const [messagesArray, setMessagesArray] = useState([]);
+    const [messagesArray, setMessagesArray] = useState<any[] | null>(null);
     const [isMd, setIsMd] = useState(window.innerWidth >= 768);
 
     useEffect(() => {
@@ -84,8 +84,8 @@ export default function Page({ params }: PageProps) {
                 <Link href={"/messages"} className="block w-full border-b-2 border-black h-[6%]"><ArrowLeftIcon height={"20px"} width={"20px"} className="inline"></ArrowLeftIcon><p className="inline">Back</p></Link>
                 </div>
             }
-            <div className={`flex flex-col-reverse items-center ${messagesArray.length === 0 ? "justify-center" : "justify-start"} w-full md:h-[92%] h-[88%] p-[20px] overflow-y-auto`}>
-                {messagesArray.length === 0 ? <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon> : 
+            <div className={`flex flex-col-reverse items-center ${messagesArray === null ? "justify-center" : "justify-start"} w-full md:h-[92%] h-[88%] p-[20px] overflow-y-auto`}>
+                {messagesArray === null ? <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon> : 
                 messagesArray.map((message : any) => {
                     return <MessageBox sender={message.user} message={message.message} sent={message.user == profileContext.username} />
                 })}
@@ -96,5 +96,4 @@ export default function Page({ params }: PageProps) {
             </div>
         </div>
     )
-
 }

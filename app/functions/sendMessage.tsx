@@ -1,5 +1,6 @@
 "use server";
 import { cookieGet } from "./cookies";
+import { notifyUser } from "./notify";
 
 export default async function sendMessage(conversationID : string, message : string) {
     console.log("ConversationID: " + conversationID);
@@ -14,8 +15,15 @@ export default async function sendMessage(conversationID : string, message : str
                 }
             );
             var data = await response.json();
+            console.log(data.users);
+            if (data && data.users) {
+                data.users.forEach(async (user: string) => {
+                    if (user != cookie.username) {
+                        await notifyUser(user, "m", conversationID);
+                    }
+                });
+            }
 
-            console.log(data);
         } else {
             throw new Error("No cookie found");
         }

@@ -107,7 +107,11 @@ export default function SideNav() {
 
       <div className={styles.sideNavBar}>Social</div>
 
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link
+        href={"/notifications"}
+        className={`neonBlackButton ${styles.sideNavButton} `}
+        onClick={handleClick}
+      >
         <BellIcon className={styles.sideNavButtonIcon} />
         Notifications
       </Link>
@@ -123,11 +127,12 @@ export default function SideNav() {
       <div className={styles.sideNavBar}>Info</div>
 
       <Link
-        href={"/licensing"}
+        href={"/licensing-tos"}
+        onClick={handleClick}
         className={`neonBlackButton ${styles.sideNavButton}`}
       >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
-        Licensing
+        Licensing & TOS
       </Link>
       <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
