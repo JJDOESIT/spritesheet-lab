@@ -34,7 +34,21 @@ export async function POST(request: Request) {
       { $push: { messages: { $each: [newMessage.insertedId], $position: 0 } } } as unknown as PushOperator<ObjectId>
     );
 
-    return new Response(JSON.stringify({ data: "Message sent"}));
+    var conversation = await db.collection('conversations').findOne({ _id: ObjectId.createFromHexString(body.conversationID) });
+
+    if (!conversation) {
+      throw new Error("No conversation found");
+    }
+
+    var users = await Promise.all(conversation.users.map(async (user: ObjectId) => {
+      var doc = await db.collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!).findOne({ _id: user });
+      if (!doc) {
+        throw new Error("No user found");
+      }
+      return doc.username;
+    }));
+
+    return new Response(JSON.stringify({ data: "Message sent", users: users }));
   } catch (e) {
     console.error(e);
     data = null;
