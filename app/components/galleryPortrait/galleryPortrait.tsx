@@ -19,14 +19,28 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
   const [overideTempLike, setOverideTempLike] = useState(false);
   const likeCountRef = useRef<HTMLParagraphElement>(null);
 
+  // Like a post
   async function likeAPost(id: string) {
-    const response = await likePost(id);
-    console.log(response);
+    setTempLike(true);
+    setOverideTempLike(false);
+    if (likeCountRef.current) {
+      likeCountRef.current.innerHTML = (
+        parseInt(likeCountRef.current.innerHTML) + 1
+      ).toString();
+    }
+    await likePost(id);
   }
 
+  // Unlike a post
   async function unlikeAPost(id: string) {
-    const response = await unlikePost(id);
-    console.log(response);
+    setTempLike(false);
+    setOverideTempLike(true);
+    if (likeCountRef.current) {
+      likeCountRef.current.innerHTML = (
+        parseInt(likeCountRef.current.innerHTML) - 1
+      ).toString();
+    }
+    await unlikePost(id);
   }
 
   return (
@@ -53,13 +67,6 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
               onClick={() => {
                 // Unlike the post and give temp feedback to the user
                 unlikeAPost(props.id);
-                setTempLike(false);
-                setOverideTempLike(true);
-                if (likeCountRef.current) {
-                  likeCountRef.current.innerHTML = (
-                    parseInt(likeCountRef.current.innerHTML) - 1
-                  ).toString();
-                }
               }}
             ></HandThumbUpIconSolid>
           ) : (
@@ -68,13 +75,6 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
               onClick={() => {
                 // Like a post and give temp feedback to the user
                 likeAPost(props.id);
-                setTempLike(true);
-                setOverideTempLike(false);
-                if (likeCountRef.current) {
-                  likeCountRef.current.innerHTML = (
-                    parseInt(likeCountRef.current.innerHTML) + 1
-                  ).toString();
-                }
               }}
             ></HandThumbUpIconOutline>
           )
