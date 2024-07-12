@@ -11,7 +11,6 @@ import SideNav from "./components/sidenav/sidenav";
 import LoadingIcon from "./components/loadingIcon/loadingIcon";
 import styles from "@/app/layout.module.css";
 import bgStyles from "@/app/home/home.module.css";
-import { profile } from "console";
 
 export default function RootLayout({
   children,
@@ -23,6 +22,7 @@ export default function RootLayout({
     username: "",
     name: "",
     bio: "",
+    liked_posts: [],
   });
   const [profileLoaded, setProfileLoaded] = useState(false);
 

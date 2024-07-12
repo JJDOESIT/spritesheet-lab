@@ -5,5 +5,6 @@ const ProfileDataContext = React.createContext({
   username: "",
   name: "",
   bio: "",
+  liked_posts: [],
 });
 export default ProfileDataContext;

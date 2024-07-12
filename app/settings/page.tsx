@@ -180,6 +180,7 @@ export default function Settings() {
               <UploadImage
                 collection="profiles"
                 field="profile_image"
+                type="update"
                 callback={imageAlertCallback}
               ></UploadImage>
               <Alert

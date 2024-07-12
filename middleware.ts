@@ -28,11 +28,15 @@ async function cookieAuth(
 }
 
 export async function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith("/settings") || request.nextUrl.pathname.startsWith("/messages")) {
+  if (
+    request.nextUrl.pathname.startsWith("/settings") ||
+    request.nextUrl.pathname.startsWith("/messages") ||
+    request.nextUrl.pathname.startsWith("/upload")
+  ) {
     return await cookieAuth(request, process.env.SESSION_NAME!, "/login");
   }
 }
 
 export const config = {
-  matcher: ["/messages", "/settings"],
+  matcher: ["/messages", "/settings", "/upload"],
 };

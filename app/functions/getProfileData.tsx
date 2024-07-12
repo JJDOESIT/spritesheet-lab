@@ -7,6 +7,7 @@ export type ProfileData = {
   username: string;
   name: string | null;
   bio: string | null;
+  liked_posts: Array<string> | null;
 };
 
 export default async function getProfileData(username: string | null = null) {
@@ -37,6 +38,7 @@ export default async function getProfileData(username: string | null = null) {
           username: username as string,
           name: data.data.name,
           bio: data.data.bio,
+          liked_posts: data.data.liked_posts,
         } as ProfileData;
       } else {
         data = null;
