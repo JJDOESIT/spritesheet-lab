@@ -8,7 +8,10 @@ export default function Page() {
   return (
     <div className={`${styles.container}`}>
       <GallerySideBar></GallerySideBar>
-      <Gallery></Gallery>
+      <Gallery
+        type={process.env.NEXT_PUBLIC_DEFAULT_GALLERY_SEARCH!}
+        username={null}
+      ></Gallery>
     </div>
   );
 }

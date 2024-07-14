@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "../galleryPortrait/galleryPortrait.module.css";
 import { likePost, unlikePost } from "./galleryPortrait.server";
 import { useState, useRef, useContext } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
@@ -44,7 +45,10 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
   }
 
   return (
-    <div className="w-full h-full bg-white border-2 border-black" id={props.id}>
+    <div
+      className={`w-full h-full bg-white border-2 border-black ${styles.container}`}
+      id={props.id}
+    >
       <div className="w-full h-[80%]">
         <img
           src={props.image ? props.image : "/jjdoesit.png"}
@@ -63,7 +67,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             tempLike) &&
           !overideTempLike ? (
             <HandThumbUpIconSolid
-              className="h-full pl-[5px]"
+              className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
               onClick={() => {
                 // Unlike the post and give temp feedback to the user
                 unlikeAPost(props.id);
@@ -71,7 +75,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             ></HandThumbUpIconSolid>
           ) : (
             <HandThumbUpIconOutline
-              className="h-full pl-[5px]"
+              className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
               onClick={() => {
                 // Like a post and give temp feedback to the user
                 likeAPost(props.id);

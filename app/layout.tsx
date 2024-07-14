@@ -37,7 +37,7 @@ export default function RootLayout({
 
   // Fetch the profile data each refresh
   useEffect(() => {
-    const data = getProfile();
+    getProfile();
   }, []);
 
   return (

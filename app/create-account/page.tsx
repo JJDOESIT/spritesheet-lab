@@ -1,13 +1,15 @@
 "use client";
-
-import styles from "./create-account.module.css";
+import LoadingIcon from "../components/loadingIcon/loadingIcon";
 import Alert from "../components/alert/alert";
 import createAlert from "../functions/createAlert";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loadingPage, setLoadingPage] = useState(false);
+  const [passwordValidation, setPasswordValidation] = useState("");
+  const [usernameValidation, setUsernameValidation] = useState("");
   const [alertData, setAlertData] = useState({
     hidden: true,
     message: "",
@@ -16,11 +18,71 @@ export default function CreateAccount() {
     fontColor: "",
     maxWidth: 0,
   });
-  const usernameField = useRef<HTMLInputElement>(null!);
-  const passwordField = useRef<HTMLInputElement>(null!);
+
+  useEffect(() => {
+    const usernameLengthRequirement = 2;
+    const passwordLengthRequirement = 8;
+    const usernameRegex = /^[a-z0-9._]*$/;
+    const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()\-_=+[\]{};':"\\|,.<>/?]*$/;
+
+    if (username) {
+      // Username too short
+      if (username.length < usernameLengthRequirement) {
+        setUsernameValidation(
+          `\u2022Username must be ${usernameLengthRequirement} characters long`
+        );
+      }
+      // Username must only contain numbers, letters, . or _
+      else if (!usernameRegex.test(username)) {
+        setUsernameValidation(
+          "\u2022Username must only contain numbers, letters, . or _"
+        );
+      }
+      // Username must contain at least one letter
+      else if (!/^(?=.*[a-z]).*$/.test(username)) {
+        setUsernameValidation(
+          "\u2022Username must contain at least one letter"
+        );
+      }
+      // Else looks good
+      else {
+        setUsernameValidation("");
+      }
+    }
+    if (password) {
+      // Password too short
+      if (password.length < passwordLengthRequirement) {
+        setPasswordValidation(
+          `\u2022Password must be ${passwordLengthRequirement} characters long`
+        );
+      }
+
+      // Password must only contain numbers, letters, and special characters
+      else if (!passwordRegex.test(password)) {
+        setPasswordValidation(
+          "\u2022Password must only contain numbers, letters, and special characters"
+        );
+      }
+
+      // Password must contain at least one number and one letter
+      else if (
+        !/^(?=.*\d).+$/.test(password) ||
+        !/^(?=.*[a-zA-Z]).*$/.test(password)
+      ) {
+        setPasswordValidation(
+          "\u2022Password must contain at least one number and one letter"
+        );
+      }
+      // Else looks good
+      else {
+        setPasswordValidation("");
+      }
+    }
+  }, [password, username]);
 
   async function handleSubmit(info: { [key: string]: string }) {
     try {
+      setLoadingPage(true);
       const response = await fetch("/api/create-account", {
         method: "POST",
         body: JSON.stringify(info),
@@ -111,11 +173,12 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
-        // Clear username and password fields
-        usernameField.current.value = "";
-        passwordField.current.value = "";
       }
+      setPasswordValidation("");
+      setUsernameValidation("");
+      setLoadingPage(false);
     } catch (error) {
+      console.log(error);
       setAlertData(
         createAlert({
           type: "error",
@@ -124,70 +187,85 @@ export default function CreateAccount() {
           maxWidth: 225,
         })
       );
+      setPasswordValidation("");
+      setUsernameValidation("");
+      setLoadingPage(false);
     }
   }
 
   return (
     <>
-      <div
-        className={`flex w-full justify-center items-center h-full animate__animated animate__fadeIn`}
-      >
-        <form
-          className={`roundedForm`}
+      {!loadingPage ? (
+        <div
+          className={`flex w-full justify-center items-center h-full animate__animated animate__fadeIn`}
         >
-          <div className="flex justify-center">
-            <p className="text-2xl font-semibold">Create Account</p>
-          </div>
-          <input
-            id="username"
-            placeholder="Username"
-            type="text"
-            className="p-1 mt-5 border-2 rounded-3xl border-slate-300"
-            maxLength={15}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-            ref={usernameField}
-          ></input>
-          <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            className="p-1 mt-2 border-2 rounded-3xl border-slate-300 mb-[15px]"
-            maxLength={128}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            ref={passwordField}
-          ></input>
-          <Alert
-            hidden={alertData["hidden"]}
-            message={alertData["message"]}
-            borderColor={alertData["borderColor"]}
-            backgroundColor={alertData["backgroundColor"]}
-            fontColor={alertData["fontColor"]}
-            maxWidth={alertData["maxWidth"]}
-            toggleHidden={() =>
-              setAlertData((prev) => {
-                return { ...prev, hidden: true };
-              })
-            }
-          ></Alert>
-          <input
-            type="button"
-            value="Submit"
-            className={`border-2 mt-5 border-slate-300 neonBlackButton`}
-            onClick={() =>
-              handleSubmit({ username: username, password: password })
-            }
-          ></input>
-          <a href="/login" className="w-fit">
-            <p className="mt-2 underline text-skyBlue underline-offset-2">
-              Login Instead
-            </p>
-          </a>
-        </form>
-      </div>
+          <form className={`roundedForm`}>
+            <div className="flex justify-center">
+              <p className="text-2xl font-semibold">Create Account</p>
+            </div>
+            <input
+              id="username"
+              placeholder="Username"
+              type="text"
+              className="p-1 mt-5 border-2 rounded-3xl border-slate-300"
+              maxLength={15}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+            ></input>
+            <input
+              id="password"
+              type="password"
+              placeholder="Password"
+              className="p-1 mt-2 border-2 rounded-3xl border-slate-300 mb-[15px]"
+              maxLength={128}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            ></input>
+            <div>
+              <p className="text-xs text-red-600 max-w-[210px]">
+                {usernameValidation}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-red-600 max-w-[210px]">
+                {passwordValidation}
+              </p>
+            </div>
+            <Alert
+              hidden={alertData["hidden"]}
+              message={alertData["message"]}
+              borderColor={alertData["borderColor"]}
+              backgroundColor={alertData["backgroundColor"]}
+              fontColor={alertData["fontColor"]}
+              maxWidth={alertData["maxWidth"]}
+              toggleHidden={() =>
+                setAlertData((prev) => {
+                  return { ...prev, hidden: true };
+                })
+              }
+            ></Alert>
+            <input
+              type="button"
+              value="Submit"
+              className={`border-2 mt-5 border-slate-300 neonBlackButton`}
+              onClick={() =>
+                handleSubmit({ username: username, password: password })
+              }
+            ></input>
+            <a href="/login" className="w-fit">
+              <p className="mt-2 underline text-skyBlue underline-offset-2">
+                Login Instead
+              </p>
+            </a>
+          </form>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center w-full h-full">
+          <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon>
+        </div>
+      )}
     </>
   );
 }

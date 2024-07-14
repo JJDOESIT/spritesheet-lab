@@ -4,6 +4,7 @@
     background: linear-gradient(0deg, rgba(213,219,219,1) 0%, rgba(0,0,0,1) 90%);
     width: 300px;
     box-shadow: #00FF80 5px 0px 20px;
+    min-height: 100px;
 }
 
 @media only screen and (max-width: 600px) {

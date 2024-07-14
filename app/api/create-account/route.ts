@@ -3,7 +3,7 @@ import { passwordEncrypt } from "@/app/functions/password";
 
 export async function POST(request: Request) {
   var status = 500;
-  const usernameLengthRequirement = 8;
+  const usernameLengthRequirement = 2;
   const passwordLengthRequirement = 8;
   const usernameRegex = /^[a-z0-9._]*$/;
   const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()\-_=+[\]{};':"\\|,.<>/?]*$/;

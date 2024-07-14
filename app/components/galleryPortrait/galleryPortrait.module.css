@@ -1,0 +1,8 @@
+.thumbsUpIcon:hover{
+    cursor: pointer;
+}
+
+.container{
+    box-shadow: 5px 5px 10px black;
+    position: relative;
+}
