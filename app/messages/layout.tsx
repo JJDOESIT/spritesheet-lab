@@ -114,7 +114,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
                                 });}}
                                 onKeyPress={(event) => {
                                     if (event.key === 'Enter') {
-                                        addUser(); // Call the callback function here
+                                        addUser();
                                     }
                                 }}
                             >
@@ -149,7 +149,7 @@ export default function Layout({children}: {children: React.ReactNode}) {
                     </div>
                     {conversations.length === 0 ? 
                     <div className="flex flex-col items-center justify-center h-[90%] w-[300px] m-[10px]">
-                        <LoadingIcon time={1} tileSize={90} color="#A0A0A0"></LoadingIcon>
+                        <LoadingIcon time={1} tileSize={90} color="#000000"></LoadingIcon>
                     </div> 
                     :
                     getConversationCards()}

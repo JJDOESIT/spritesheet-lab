@@ -70,12 +70,12 @@ export default function Page() {
                         } 
                     )
                     :
-                    <div className="flex flex-col items-center justify-center w-[80vw] h-[70vh]">
+                    <div className="flex flex-col items-center justify-center w-[60vw] h-[70vh]">
                         <p >You don't have any notifications yet.</p>
                         <p >Come back later to see any likes, comments, or messages you get!</p>
                     </div>
                 :
-                <div className="flex flex-col items-center justify-center w-[80vw] h-[70vh]">
+                <div className="flex flex-col items-center justify-center w-[60vw] h-[70vh]">
                         <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon>
                 </div>
                 }   
