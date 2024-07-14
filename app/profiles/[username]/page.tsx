@@ -32,7 +32,9 @@ export default function Page({ params }: PageProps) {
   }, []);
 
   return profileLoaded ? (
-    <main className="flex flex-row items-center w-full h-full overflow-hidden">
+    <main
+      className={`flex flex-row items-center w-full h-full overflow-scroll ${styles.container}`}
+    >
       <div className="h-full w-[50%]">
         <div
           className={`w-full ${styles.profileBox} flex flex-col md:flex-row items-center`}
