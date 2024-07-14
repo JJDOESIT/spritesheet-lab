@@ -17,13 +17,13 @@ export default function Notification({username, href, text, time, removeCallback
     }, []);
 
     return (
-        <div className="w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md" >
+        <div className={`w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md`} >
             <ProfilePictureBubble className="w-[70px] h-[70px]" backgroundColor="bg-black" profileImgSrc={profilePicture}></ProfilePictureBubble>
-            <Link className="w-[90%] px-10" href={href}>
+            <Link className="w-[90%] px-10" href={href} onClick={removeCallback}>
                 <p>{time}</p>
                 <p >{text}</p>
             </Link>
-            <button onClick={removeCallback} className="text-2xl">X</button>
+            <button onClick={removeCallback} className="text-2xl redBlackButton">X</button>
         </div>
     )
 }

@@ -23,6 +23,9 @@ export default function Page() {
     }
 
     function removeNotification(notification: string) {
+        if (notifications) {
+            setNotifications(notifications.filter((item) => item !== notification));
+        }
         deleteNotification(notification).then(() =>
         {
             queryNotifications();
@@ -61,7 +64,7 @@ export default function Page() {
             <div className="mx-[20%] mb-[20px] animate__animated animate__fadeIn roundedFormOppositeShadow">
                 {notifications ? 
                     notifications.length > 0 ?
-                    notifications.map((notification: any, index: any) => 
+                    notifications.reverse().map((notification: any, index: any) => 
                         {
                             return convertNotificationData(notification);
                         } 

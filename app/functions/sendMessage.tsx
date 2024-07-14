@@ -15,13 +15,12 @@ export default async function sendMessage(conversationID : string, message : str
                 }
             );
             var data = await response.json();
-            console.log(data.users);
             if (data && data.users) {
-                data.users.forEach(async (user: string) => {
-                    if (user != cookie.username) {
+                await Promise.all(data.users.map(async (user: string) => {
+                    if (user !== cookie.username) {
                         await notifyUser(user, "m", conversationID);
                     }
-                });
+                }));
             }
 
         } else {
