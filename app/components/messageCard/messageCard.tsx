@@ -1,24 +1,27 @@
+'use client'
+
 import getProfileData from "@/app/functions/getProfileData";
 import ProfilePictureBubble from "../profilePictureBubble/profilePictureBubble";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import LoadingIcon from "../loadingIcon/loadingIcon";
+import { usePathname } from "next/navigation";
 
-export function MessageCard({userArray, conversationId} : {userArray: string[], conversationId: string}) {
+export function MessageCard({userArray, conversationId} : {userArray: any[], conversationId: string}) {
 
     const profileData = useContext(ProfileDataContext);
     const userName = profileData.username;
-    const [selected, setSelected] = useState<boolean>(false);
 
-    const [profilePicture, setProfilePicture] = useState<string>("");
+    const pathname = usePathname();
+    const selected = pathname.endsWith(conversationId);
 
-    userArray = userArray.filter((user) => user != userName); 
+    userArray = userArray.filter((user) => user.username != userName); 
 
     var userList = ""
     if (userArray.length > 1) {
         for (var i = 0; i < userArray.length; i++) {
-            userList += userArray[i];
+            userList += userArray[i].username;
             if (i < userArray.length - 2) {
                 userList += ", ";
             }
@@ -34,40 +37,20 @@ export function MessageCard({userArray, conversationId} : {userArray: string[], 
         }
     }
     else if (userArray.length == 1) {
+        userList = userArray[0].username;
+    }
+    else if (userArray.length == 1) {
         userList = userArray[0];
     }
 
-    useEffect(() => {
-        if (userArray.length > 1) {
-            getProfileData(userArray[0]).then((data) => {
-                setProfilePicture("/group_chat.png");
-            });
-        } else if (userArray.length == 1) {
-            getProfileData(userArray[0]).then((data) => {
-                if (data){
-                    setProfilePicture(data.profile_image);
-                }
-            });
-        }
-    }, [])
-
     return (
-        <Link href={`/messages/${conversationId}`} onClick={() => {setSelected(true)}} passHref legacyBehavior>
+        <Link href={`/messages/${conversationId}`} passHref legacyBehavior>
             <a>
-                <div className={`w-[300px] h-[60px] flex flex-row items-center ${selected ? "bg-green" : "bg-white"} border-black border-[2px] rounded-[13px] m-[8px]`}>
-                    {profilePicture == "" ? <LoadingIcon time={1} tileSize={40} color="#000000"></LoadingIcon> :
-                    <ProfilePictureBubble className="w-[40px] h-[40px]" backgroundColor="bg-black" profileImgSrc={profilePicture}/>}
+                <div className={`w-[300px] h-[60px] flex flex-row items-center ${selected ? "bg-neonGreen" : "bg-white"} border-black border-[2px] rounded-[13px] m-[8px]`}>
+                    <ProfilePictureBubble className="w-[40px] h-[40px]" backgroundColor="bg-black" profileImgSrc={userArray.length == 1 ? userArray[0].profile_image : "/group_chat.png"}/>
                     <p className="ml-[10px] text-sm">{userList}</p>
                 </div>
             </a>
         </Link>
-    )
-}
-
-export function BlankMessageCard() {
-    return (
-        <div className={`w-[300px] h-[60px] flex flex-col items-center justify-center bg-white border-grey border-[2px] rounded-[13px] m-[10px]`}>
-            <LoadingIcon time={1} tileSize={40} color="#A0A0A0"></LoadingIcon>
-        </div>
     )
 }

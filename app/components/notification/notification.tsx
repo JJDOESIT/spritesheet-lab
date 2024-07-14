@@ -14,7 +14,7 @@ export default function Notification({username, href, text, time, removeCallback
             setProfilePicture(data.profile_image);
         }
         });
-    }, []);
+    }, [username]);
 
     return (
         <div className={`w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md`} >
@@ -23,7 +23,7 @@ export default function Notification({username, href, text, time, removeCallback
                 <p>{time}</p>
                 <p >{text}</p>
             </Link>
-            <button onClick={removeCallback} className="text-2xl redBlackButton">X</button>
+            <button onClick={removeCallback} className="text-2xl px-[50px] redBlackButton">X</button>
         </div>
     )
 }
