@@ -1,4 +1,5 @@
 "use client";
+import Script from "next/script";
 
 import { redditMono } from "@/app/components/fonts/fonts";
 import styles from "@/app/home/home.module.css";

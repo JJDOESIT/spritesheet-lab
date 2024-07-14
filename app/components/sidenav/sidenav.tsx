@@ -15,6 +15,7 @@ import {
   QuestionMarkCircleIcon,
   DocumentTextIcon,
   EnvelopeIcon,
+  HandThumbUpIcon,
 } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
 import getProfileData from "@/app/functions/getProfileData";
@@ -92,14 +93,14 @@ export default function SideNav() {
 
       <Link
         href={"/gallery"}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <BuildingStorefrontIcon className={styles.sideNavButtonIcon} />
         Gallery
       </Link>
       <Link
         href={"/upload"}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <ArrowUpCircleIcon className={styles.sideNavButtonIcon} />
         Upload
@@ -109,7 +110,7 @@ export default function SideNav() {
 
       <Link
         href={"/notifications"}
-        className={`neonBlackButton ${styles.sideNavButton} `}
+        className={`neonBlackButton text-sm ${styles.sideNavButton} `}
         onClick={handleClick}
       >
         <BellIcon className={styles.sideNavButtonIcon} />
@@ -118,7 +119,7 @@ export default function SideNav() {
       <Link
         href={"/messages"}
         onClick={handleClick}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
@@ -129,19 +130,19 @@ export default function SideNav() {
       <Link
         href={"/licensing-tos"}
         onClick={handleClick}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
         Licensing & TOS
       </Link>
-      <Link href={"/"} className={`neonBlackButton ${styles.sideNavButton}`}>
+      <Link href={"/about"} className={`neonBlackButton text-sm ${styles.sideNavButton}`}>
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
         About us
       </Link>
       <Link
         href={"/contact"}
         onClick={handleClick}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <EnvelopeIcon className={styles.sideNavButtonIcon} />
         Contact us
@@ -152,14 +153,23 @@ export default function SideNav() {
       <Link
         href={"/settings"}
         onClick={handleClick}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
+      >
+        <HandThumbUpIcon className={styles.sideNavButtonIcon} />
+        Liked Sheets
+      </Link>
+
+      <Link
+        href={"/settings"}
+        onClick={handleClick}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <Cog6ToothIcon className={styles.sideNavButtonIcon} />
         Settings
       </Link>
       <a
         href={"#"}
-        className={`neonBlackButton ${styles.sideNavButton}`}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
         onClick={() => {
           handleClick();
           handleLogout();
