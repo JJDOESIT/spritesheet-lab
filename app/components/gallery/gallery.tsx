@@ -21,7 +21,7 @@ export default function Gallery(props: GalleryProps) {
   const [numberedPages, setNumberedPages] = useState([] as Array<number>);
   const [allowPaginationConstruct, setAllowPaginationConstruct] =
     useState(false);
-  const postsPerPage = 1;
+  const postsPerPage = 10;
   const paginationRadius = 3;
 
   // Fetch the gallery posts
@@ -103,89 +103,96 @@ export default function Gallery(props: GalleryProps) {
             <div
               className={`flex justify-center w-full h-full border-4 border-black rounded-xl ${styles.gridBorder}`}
             >
-              <div className={`${styles.gridContainer}`}>
-                {gallery
-                  .slice(
-                    Number(currentPage) * postsPerPage,
-                    Number(currentPage) * postsPerPage + postsPerPage
-                  )
-                  .map((item: any) => {
-                    return (
-                      <GalleryPortrait
-                        id={item._id}
-                        title={item.title}
-                        image={item.image}
-                        likes={item.likes}
-                      ></GalleryPortrait>
-                    );
-                  })}
-              </div>
+              {gallery.length > 0 ? (
+                <div className={`${styles.gridContainer}`}>
+                  {gallery
+                    .slice(
+                      Number(currentPage) * postsPerPage,
+                      Number(currentPage) * postsPerPage + postsPerPage
+                    )
+                    .map((item: any) => {
+                      return (
+                        <GalleryPortrait
+                          id={item._id}
+                          title={item.title}
+                          image={item.image}
+                          likes={item.likes}
+                        ></GalleryPortrait>
+                      );
+                    })}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center w-full h-full">
+                  <p className="font-bold">No Sheets Found</p>
+                </div>
+              )}
             </div>
           </div>
           <div className="flex">
-            {numberedPages.map((item, index) => {
-              if (index === 0) {
-                return (
-                  <p
-                    onClick={() => {
-                      router.replace(
-                        window.location.origin +
-                          window.location.pathname +
-                          "?page=" +
-                          (item - 1).toString()
-                      );
-                      setCurrentPage(item - 1);
-                    }}
-                    className={`text-cornFlowerBlue ${styles.pagination}`}
-                    style={item - 1 === currentPage ? { color: "black" } : {}}
-                  >
-                    {numberedPages.length === 1
-                      ? item.toString()
-                      : item.toString() + "..."}
-                  </p>
-                );
-              } else if (index === numberedPages.length - 1) {
-                return (
-                  <p
-                    onClick={() => {
-                      router.replace(
-                        window.location.origin +
-                          window.location.pathname +
-                          "?page=" +
-                          (item - 1).toString()
-                      );
-                      setCurrentPage(item - 1);
-                    }}
-                    className={`text-cornFlowerBlue ${styles.pagination}`}
-                    style={item - 1 === currentPage ? { color: "black" } : {}}
-                  >
-                    {"..." + item.toString()}
-                  </p>
-                );
-              } else {
-                return (
-                  <p
-                    onClick={() => {
-                      router.replace(
-                        window.location.origin +
-                          window.location.pathname +
-                          "?page=" +
-                          (item - 1).toString()
-                      );
-                      setCurrentPage(item - 1);
-                    }}
-                    className={`text-cornFlowerBlue ${styles.pagination}`}
-                    style={
-                      item - 1 === currentPage
-                        ? { textDecoration: "underline", color: "black" }
-                        : {}
-                    }
-                  >
-                    {item.toString()}
-                  </p>
-                );
-              }
-            })}
+            {gallery.length > 0 &&
+              numberedPages.map((item, index) => {
+                if (index === 0) {
+                  return (
+                    <p
+                      onClick={() => {
+                        router.replace(
+                          window.location.origin +
+                            window.location.pathname +
+                            "?page=" +
+                            (item - 1).toString()
+                        );
+                        setCurrentPage(item - 1);
+                      }}
+                      className={`text-cornFlowerBlue ${styles.pagination}`}
+                      style={item - 1 === currentPage ? { color: "black" } : {}}
+                    >
+                      {numberedPages.length === 1
+                        ? item.toString()
+                        : item.toString() + "..."}
+                    </p>
+                  );
+                } else if (index === numberedPages.length - 1) {
+                  return (
+                    <p
+                      onClick={() => {
+                        router.replace(
+                          window.location.origin +
+                            window.location.pathname +
+                            "?page=" +
+                            (item - 1).toString()
+                        );
+                        setCurrentPage(item - 1);
+                      }}
+                      className={`text-cornFlowerBlue ${styles.pagination}`}
+                      style={item - 1 === currentPage ? { color: "black" } : {}}
+                    >
+                      {"..." + item.toString()}
+                    </p>
+                  );
+                } else {
+                  return (
+                    <p
+                      onClick={() => {
+                        router.replace(
+                          window.location.origin +
+                            window.location.pathname +
+                            "?page=" +
+                            (item - 1).toString()
+                        );
+                        setCurrentPage(item - 1);
+                      }}
+                      className={`text-cornFlowerBlue ${styles.pagination}`}
+                      style={
+                        item - 1 === currentPage
+                          ? { textDecoration: "underline", color: "black" }
+                          : {}
+                      }
+                    >
+                      {item.toString()}
+                    </p>
+                  );
+                }
+              })}
           </div>
         </div>
       ) : (
