@@ -18,7 +18,7 @@ export default async function sendMessage(conversationID : string, message : str
             if (data && data.users) {
                 await Promise.all(data.users.map(async (user: string) => {
                     if (user !== cookie.username) {
-                        await notifyUser(user, "m", conversationID);
+                        await notifyUser(user, data.users.length == 2 ? "m" : "gc", conversationID);
                     }
                 }));
             }
