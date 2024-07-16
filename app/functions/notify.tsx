@@ -1,6 +1,5 @@
 "use server";
 import { cookieGet } from "./cookies";
-import { getYYMMDDHH, timeDifference } from "./timeFunctions";
 
 
 export async function getNotifications() {
@@ -30,7 +29,7 @@ export async function getNotifications() {
 }   
 
 
-export async function deleteNotification(notification: string) {
+export async function deleteNotification(notification: any) {
     var data;
     try {
         const cookie = await cookieGet(process.env.SESSION_NAME!);
@@ -39,7 +38,7 @@ export async function deleteNotification(notification: string) {
                 process.env.BASE_URL + "api/modify-notifications",
                 {
                 method: "POST",
-                body: JSON.stringify({ username: cookie.username,  notification: notification, remove: true }),
+                body: JSON.stringify({ username: cookie.username,  notification: JSON.stringify(notification), remove: true }),
                 }
             );
             data = await response.json();
@@ -60,13 +59,19 @@ export async function notifyUser(username: string, type: string, id: string) {
     try {
         const cookie = await cookieGet(process.env.SESSION_NAME!);
         if (cookie) {
-            var notification = cookie.username + "|" + type + "|" + getYYMMDDHH() + "|" + id ;
+            var notification = {
+                time: new Date().toISOString(),
+                sender: cookie.username,
+                type: type,
+                id: id,
+                stack: 1,
+            };
 
             const response = await fetch(
                 process.env.BASE_URL + "api/modify-notifications",
                 {
                 method: "POST",
-                body: JSON.stringify({ username: username, notification: notification, remove: false}),
+                body: JSON.stringify({ username: username, notification: JSON.stringify(notification), remove: false}),
                 }
             );
             data = await response.json();

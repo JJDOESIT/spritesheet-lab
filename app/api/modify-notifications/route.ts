@@ -9,9 +9,9 @@ export async function POST(request: Request) {
     const client = await clientPromise;
     const db = client.db(process.env.DB_NAME);
 
-    const notification = body.notification;
+    const notification = JSON.parse(body.notification);
+    console.log(body.notification, notification);
     const removal = body.remove;
-    console.log("Notification: " + notification, removal, body.username);
 
     const id = await db
       .collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!)
@@ -30,7 +30,12 @@ export async function POST(request: Request) {
         if (removal)
         {
             if (user_document.notifications && user_document.notifications.length > 0) {
-                user_document.notifications = user_document.notifications.filter((n: any) => n !== notification);
+                user_document.notifications = user_document.notifications.reduce((acc: any[], n: any) => {
+                  if (n.sender !== notification.sender || n.type !== notification.type || n.id !== notification.id) {
+                    acc.push(n);
+                  }
+                  return acc;
+                }, []);
                 await db.collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!).updateOne(
                     { _id: user_document._id },
                     { $set: { notifications: user_document.notifications } }
@@ -45,7 +50,19 @@ export async function POST(request: Request) {
             if (!user_document.notifications) {
                 user_document.notifications = [];
             }
+
+            for (const n of user_document.notifications) {
+              if (n.sender === notification.sender && n.type === notification.type && n.id === notification.id) {
+                notification.stack = n.stack + 1;
+
+                user_document.notifications = user_document.notifications.filter((n: any) => n.sender !== notification.sender || n.type !== notification.type || n.id !== notification.id);
+                
+                data = "Notification removed successfully";
+              }
+            }
+
             user_document.notifications.push(notification);
+
             await db.collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!).updateOne(
                 { _id: user_document._id },
                 { $set: { notifications: user_document.notifications } }
@@ -57,5 +74,6 @@ export async function POST(request: Request) {
     data = null;
     console.log(e);
   }
+  console.log(data);
   return new Response(JSON.stringify({ data: data }));
 }

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Notification from "../components/notification/notification";
 import { deleteNotification, getNotifications, notifyUser} from "../functions/notify";
-import { timeDifference } from "../functions/timeFunctions";
+import {timeDifference } from "../functions/timeFunctions";
 import LoadingIcon from "../components/loadingIcon/loadingIcon";
 
 
@@ -32,30 +32,29 @@ export default function Page() {
         });
     }
 
-    function convertNotificationData(string :string) {
-        const sections = string.split("|");
-        const username = sections[0];
-        const type = sections[1];
-        const date = sections[2];
-        const id = sections[3];
+    function convertNotificationData(notification: any) {
     
         var href: string
         var text: string
-        if (type == "m")
+        if (notification.type == "m")
         {
-            href = "/messages/" + id;
-            text = username + " sent you a message.";
+            href = "/messages/" + notification.id;
+            text = notification.sender + (notification.stack == 1 ? " sent you a message." : " sent you " + notification.stack as string + " messages.");
         }
-        else 
+        else if (notification.type == "l")
         {
-            href = "/notifications/" + id;
-            text = "You have a new notification.";
+            href = "/notifications/";
+            text = "Your post was liked by " + notification.sender + ".";
+        } 
+        else
+        {
+            href = "/notifications/";
+            text = "Test notification from " + notification.sender + ".";
         }
     
         return (
-            <Notification username={sections[0]} href={href} text={text} time={timeDifference(date)} removeCallback={() => {removeNotification(string)}}></Notification>
+            <Notification username={notification.sender} href={href} text={text} time={timeDifference(new Date(notification.time))} removeCallback={() => {removeNotification(notification)}}></Notification>
         )
-    
     }
 
     return (

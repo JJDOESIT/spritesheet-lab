@@ -23,7 +23,7 @@ export default function Notification({username, href, text, time, removeCallback
                 <p>{time}</p>
                 <p >{text}</p>
             </Link>
-            <button onClick={removeCallback} className="text-2xl px-[50px] redBlackButton">X</button>
+            <button onClick={removeCallback} className="text-2xl px-[20px] py-[15px] redBlackButton">X</button>
         </div>
     )
 }

@@ -44,8 +44,6 @@ export async function POST(request: Request) {
       })
     );
 
-    console.log(conversations[0].users);
-
     return new Response(JSON.stringify({ data: conversations }));
   } catch (e) {
     console.error(e);
