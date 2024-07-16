@@ -4,7 +4,6 @@ import styles from "../gallery/gallery.module.css";
 import LoadingIcon from "../loadingIcon/loadingIcon";
 import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
-import ProfileDataContext from "@/app/functions/profileDataContext";
 import { useRouter } from "next/navigation";
 
 interface GalleryProps {
@@ -13,6 +12,7 @@ interface GalleryProps {
 }
 
 export default function Gallery(props: GalleryProps) {
+  const [searchType, setSearchType] = useState(props.type);
   const [pageLoaded, setPageLoaded] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -26,8 +26,15 @@ export default function Gallery(props: GalleryProps) {
 
   // Fetch the gallery posts
   async function fetchGallery() {
-    return await fetchGalleryPosts(props.type, props.username);
+    return await fetchGalleryPosts(searchType, props.username);
   }
+
+  useEffect(() => {
+    if (props.type != searchType) {
+      setPageLoaded(false);
+      setSearchType(props.type);
+    }
+  }, [props.type]);
 
   // On page load, set the current page based on the url param
   // Note: If no querey is found, set current page to 0
@@ -62,7 +69,7 @@ export default function Gallery(props: GalleryProps) {
         }
       });
     }
-  }, [currentPage]);
+  }, [currentPage, searchType]);
 
   // Everytime the gallery or current page is updated, reset the pagination bar
   // Note: This should only be done once the gallery has been set, which is what

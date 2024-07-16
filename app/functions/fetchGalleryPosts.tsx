@@ -76,6 +76,19 @@ export default async function fetchGalleryPosts(
       );
       // Parse the response and set status
       gallery = await response.json();
+    } else if (type === "WORST") {
+      // API call to fetch gallery posts
+      const response = await fetch(
+        process.env.BASE_URL + "/api/fetch-gallery-posts",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            type: type,
+          }),
+        }
+      );
+      // Parse the response and set status
+      gallery = await response.json();
     } else {
       // Invalid type -> return null
       gallery = null;
