@@ -20,12 +20,15 @@ import {
 import { useRouter } from "next/navigation";
 import getProfileData from "@/app/functions/getProfileData";
 import ProfileDataContext from "@/app/functions/profileDataContext";
+import { getNotifications } from "@/app/functions/notify";
 
 export default function SideNav() {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null!);
 
   const profileData = useContext(ProfileDataContext);
+
+  const [notificationCount, setNotificationCount] = useState(0);
 
   const [translateX, setTranslateX] = useState("250px");
 
@@ -34,6 +37,35 @@ export default function SideNav() {
       return prev === "0px" ? "250px" : "0px";
     });
   };
+
+  const handleClickOutside = (event: any) => {
+    const navbarButton = document.getElementById("NavbarButton");
+    if (containerRef.current && !containerRef.current.contains(event.target) && navbarButton && !navbarButton.contains(event.target)) {
+      setTranslateX("250px");
+    }
+  };
+
+  // get notification count
+  useEffect(() => {
+    getNotifications().then((data) => {
+      if (data) {
+        console.log(data);
+        var sum = 0;
+        data.forEach((notification: any) => {
+          sum += notification.stack;
+        });
+        setNotificationCount(sum);
+      }
+    });
+  }, []);
+
+  // set up event listener for clicking outside of the sidenav
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   // Add event handler to navbar button
   useEffect(() => {
@@ -110,11 +142,16 @@ export default function SideNav() {
 
       <Link
         href={"/notifications"}
-        className={`neonBlackButton text-sm ${styles.sideNavButton} `}
-        onClick={handleClick}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
+        onClick={() => {handleClick(); setNotificationCount(0)}}
       >
-        <BellIcon className={styles.sideNavButtonIcon} />
-        Notifications
+        <div className="flex items-center">
+          <BellIcon className={styles.sideNavButtonIcon} />
+        </div>
+        <p className="w-[90%] ">Notifications</p>
+        {notificationCount > 0 && <div className="flex items-center justify-center px-2 py-1 text-xs text-white bg-black rounded-full">
+        {notificationCount}
+        </div>}
       </Link>
       <Link
         href={"/messages"}
@@ -169,7 +206,7 @@ export default function SideNav() {
       </Link>
       <a
         href={"#"}
-        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
+        className={`redBlackButton text-sm ${styles.sideNavButton}`}
         onClick={() => {
           handleClick();
           handleLogout();

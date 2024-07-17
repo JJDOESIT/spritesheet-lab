@@ -16,11 +16,11 @@ export default async function sendMessage(conversationID : string, message : str
             );
             var data = await response.json();
             if (data && data.users) {
-                await Promise.all(data.users.map(async (user: string) => {
+                data.users.forEach((user: string) => {
                     if (user !== cookie.username) {
-                        await notifyUser(user, data.users.length == 2 ? "m" : "gc", conversationID);
+                        notifyUser(user, data.users.length == 2 ? "m" : "gc", conversationID);
                     }
-                }));
+                });
             }
 
         } else {
