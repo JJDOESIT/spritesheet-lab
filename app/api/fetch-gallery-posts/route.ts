@@ -125,11 +125,13 @@ export async function POST(request: Request) {
               {
                 $lookup: {
                   from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
-                  localField: process.env.NEXT_PUBLIC_POSTS_DB_NAME!,
-                  foreignField: id.toHexString(),
+                  localField: "foreign_key",
+                  foreignField: "_id",
                   as: "posts",
                 },
               },
+              { $unwind: "$posts" },
+              { $match: { "posts._id": id } },
               { $sort: { likes: -1 } },
             ])
             .toArray();
@@ -141,12 +143,14 @@ export async function POST(request: Request) {
               {
                 $lookup: {
                   from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
-                  localField: process.env.NEXT_PUBLIC_POSTS_DB_NAME!,
-                  foreignField: id.toHexString(),
+                  localField: "foreign_key",
+                  foreignField: "_id",
                   as: "posts",
                 },
               },
-              { $sort: { likes: 1 } },
+              { $unwind: "$posts" },
+              { $match: { "posts._id": id } },
+              { $sort: { likes: -1 } },
             ])
             .toArray();
           gallery = posts;

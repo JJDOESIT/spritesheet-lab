@@ -10,6 +10,7 @@ export type ProfileData = {
   liked_posts: Array<string> | null;
 };
 
+// If username is passed in, fetch profile data of the username, else fetch the logged in user's data
 export default async function getProfileData(username: string | null = null) {
   var data;
   try {
@@ -20,8 +21,7 @@ export default async function getProfileData(username: string | null = null) {
         username = cookie.username as string;
       }
     }
-    const cookie = await cookieGet(process.env.SESSION_NAME!);
-    if (cookie) {
+    if (username) {
       // Fetch the profile data
       const response = await fetch(
         process.env.BASE_URL + "api/get-profile-data",
