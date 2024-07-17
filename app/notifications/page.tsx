@@ -22,7 +22,7 @@ export default function Page() {
         });
     }
 
-    function removeNotification(notification: string) {
+    function removeNotification(notification: string, frontendClear: boolean = true) {
         if (notifications) {
             setNotifications(notifications.filter((item) => item !== notification));
         }
@@ -46,14 +46,21 @@ export default function Page() {
             href = "/notifications/";
             text = "Your post was liked by " + notification.sender + ".";
         } 
+        else if (notification.type == "gc")
+        {
+            href = "/messages/" + notification.id;
+            text = notification.sender + (notification.stack == 1 ? " sent a message in a group chat." : " sent " + notification.stack as string + " messages in a group chat.");
+        }
         else
         {
             href = "/notifications/";
             text = "Test notification from " + notification.sender + ".";
         }
+
+        // text = notification.type;
     
         return (
-            <Notification username={notification.sender} href={href} text={text} time={timeDifference(new Date(notification.time))} removeCallback={() => {removeNotification(notification)}}></Notification>
+            <Notification username={notification.sender} href={href} text={text} time={timeDifference(new Date(notification.time))} removeCallback={(clear: boolean=true) => {removeNotification(notification, clear)}}></Notification>
         )
     }
 

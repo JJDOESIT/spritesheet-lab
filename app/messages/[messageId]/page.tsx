@@ -19,8 +19,6 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
     const [messagesArray, setMessagesArray] = useState<any[]|null>(null);
     const [isMd, setIsMd] = useState(window.innerWidth >= 768);
-    const [isSending, setIsSending] = useState(false);
-    const [shouldRefresh, setShouldRefresh] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -39,55 +37,46 @@ export default function Page({ params }: PageProps) {
 
     function getMessagesArray() {
         getMessages(params.messageId).then((data) => {
-            if (!messagesArray) {
-                setMessagesArray(data);
-            }
-            else if (data.length > messagesArray.length) {
-                setMessagesArray(data);
-            }
+            setMessagesArray((prev : any[]|null) => {
+
+                if (prev == null) {
+                    return data;
+                }
+                else if (data.length > prev.length) {
+                    return data;
+                }
+                return prev;
+            });
         });
     }
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setShouldRefresh(!shouldRefresh);
+            getMessagesArray();
         }, 1000);
 
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(() => {
-        if (isSending) {
-            return;
-        }
-        getMessagesArray();
-        setShouldRefresh(false);
-        console.log(messagesArray);
-    }, [shouldRefresh]);
-
     async function onSubmit() {
         const inputText = inputRef.current!.value as string | null;
-        console.log(messagesArray);
-        setMessagesArray((prev) =>
-        {
-            if (prev == null) {
-                return [{user: profileContext.username, message: inputText} as any];
-            }
-            return [{user: profileContext.username, message: inputText}, ...prev]
+        if (!inputText || inputText == "") {
+            return;
         }
+        setMessagesArray((prev) =>
+            {
+                if (prev == null) {
+                    return [{user: profileContext.username, message: inputText} as any];
+                }
+                return [{user: profileContext.username, message: inputText}, ...prev]
+            }
         );
-        console.log(messagesArray);
-        setIsSending(true);
         
         inputRef.current!.value = "";
         if (!inputText) {
             return;
         }
-        await sendMessage(params.messageId, inputText).then(() => {
-            getMessagesArray();
-            setIsSending(false);
-        });
-
+        sendMessage(params.messageId, inputText)
     }
     
     useEffect(() => {

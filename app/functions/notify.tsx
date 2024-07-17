@@ -3,7 +3,6 @@ import { cookieGet } from "./cookies";
 
 
 export async function getNotifications() {
-    console.log("Getting notifications");
     var data;
     try {
         const cookie = await cookieGet(process.env.SESSION_NAME!);

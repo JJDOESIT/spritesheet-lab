@@ -10,7 +10,6 @@ export async function POST(request: Request) {
     const db = client.db(process.env.DB_NAME);
 
     const notification = JSON.parse(body.notification);
-    console.log(body.notification, notification);
     const removal = body.remove;
 
     const id = await db
@@ -74,6 +73,5 @@ export async function POST(request: Request) {
     data = null;
     console.log(e);
   }
-  console.log(data);
   return new Response(JSON.stringify({ data: data }));
 }

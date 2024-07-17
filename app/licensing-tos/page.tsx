@@ -23,7 +23,7 @@ export default function Page() {
                 </ul>
                 <h3 className="m-1"><strong>Attribution</strong></h3>
                 <p className="m-1">When using our content, please include the following attribution:</p>
-                <p className="m-1">Content from [Your Website Name] is licensed under a Creative Commons Attribution 4.0 International License.</p>
+                <p className="m-1">Content from Spritsheet Lab is licensed under a Creative Commons Attribution 4.0 International License.</p>
                 <h3 className="m-1"><strong>License Details</strong></h3>
                 <p className="m-1">To view a copy of this license, visit <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">https://creativecommons.org/licenses/by/4.0/</a>.</p>
                 <h3 className="m-1"><strong>Exceptions</strong></h3>
