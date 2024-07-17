@@ -64,8 +64,10 @@ export default function Page({ params }: PageProps) {
           <p className="text-xl font-bold">Sheets</p>
         </div>
         <Gallery
-          type={"USERNAME_NO_AUTH"}
-          username={profileData.username}
+          searchInput={profileData.username}
+          searchRefresh={null}
+          searchType={"USER"}
+          sortType={"BEST"}
         ></Gallery>
       </div>
     </main>

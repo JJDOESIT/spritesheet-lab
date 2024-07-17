@@ -4,13 +4,14 @@ import { isAuthenticated } from "./cookies";
 
 // Types are USERNAME, BEST, WORST,
 export default async function fetchGalleryPosts(
-  type: string,
-  username: string | null
+  searchInput: string | null,
+  searchType: string,
+  sortType: string
 ) {
   var gallery;
   try {
     // Fetch gallery posts with authentication
-    if (type === "USERNAME_WITH_AUTH") {
+    if (sortType === "USERNAME_WITH_AUTH") {
       if (username) {
         // Fetch the current auth session
         var responseData: { auth: boolean; cookie: any } =
@@ -27,7 +28,9 @@ export default async function fetchGalleryPosts(
             {
               method: "POST",
               body: JSON.stringify({
-                type: type,
+                searchInput: searchInput,
+                searchType: searchType,
+                sortType: sortType,
                 username: username,
               }),
             }
@@ -42,56 +45,21 @@ export default async function fetchGalleryPosts(
         // Username undefined -> return null
         gallery = null;
       }
-    }
-    // Fetch gallery posts without authentication
-    else if (type == "USERNAME_NO_AUTH") {
-      if (username) {
-        // API call to fetch gallery posts
-        const response = await fetch(
-          process.env.BASE_URL + "/api/fetch-gallery-posts",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              type: type,
-              username: username,
-            }),
-          }
-        );
-        // Parse the response and set status
-        gallery = await response.json();
-      } else {
-        // Username undefined -> return null
-        gallery = null;
-      }
-    } else if (type === "BEST") {
-      // API call to fetch gallery posts
-      const response = await fetch(
-        process.env.BASE_URL + "/api/fetch-gallery-posts",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            type: type,
-          }),
-        }
-      );
-      // Parse the response and set status
-      gallery = await response.json();
-    } else if (type === "WORST") {
-      // API call to fetch gallery posts
-      const response = await fetch(
-        process.env.BASE_URL + "/api/fetch-gallery-posts",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            type: type,
-          }),
-        }
-      );
-      // Parse the response and set status
-      gallery = await response.json();
     } else {
-      // Invalid type -> return null
-      gallery = null;
+      // API call to fetch gallery posts
+      const response = await fetch(
+        process.env.BASE_URL + "/api/fetch-gallery-posts",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            searchInput: searchInput,
+            searchType: searchType,
+            sortType: sortType,
+          }),
+        }
+      );
+      // Parse the response and set status
+      gallery = await response.json();
     }
   } catch (e) {
     console.log(e);
