@@ -2,10 +2,13 @@
 
 import styles from "../gallery/gallery.module.css";
 import GallerySideBar from "../components/gallerySideBar/gallerySideBar";
+import ProfileDataContext from "../functions/profileDataContext";
 import Gallery from "../components/gallery/gallery";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 export default function Page() {
+  // Global profile data
+  const profileData = useContext(ProfileDataContext);
   // Search input
   const [searchInput, setSearchInput] = useState("");
   // Search refresh
@@ -26,6 +29,7 @@ export default function Page() {
 
   // A function to force refresh the search bar from within the gallery sidebar
   function searchRefreshCallback() {
+    profileData.refetchProfileCallback();
     setSearchRefresh((prev) => {
       return !prev;
     });
@@ -33,11 +37,13 @@ export default function Page() {
 
   // A function to update the sort type from within the gallery sidebar
   function sortTypeCallback(type: string) {
+    profileData.refetchProfileCallback();
     setSortType(type);
   }
 
   // A function to update the search type from within the gallery sidebar
   function searchTypeCallback(type: string) {
+    profileData.refetchProfileCallback();
     setSearchType(type);
   }
 
@@ -57,7 +63,6 @@ export default function Page() {
         searchRefresh={searchRefresh}
         sortType={sortType}
         searchType={searchType}
-        username={null}
       ></Gallery>
     </div>
   );

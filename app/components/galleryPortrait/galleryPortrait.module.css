@@ -6,3 +6,7 @@
     box-shadow: 5px 5px 10px black;
     position: relative;
 }
+
+.modifyPost:hover{
+    cursor: pointer;
+}

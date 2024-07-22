@@ -3,11 +3,11 @@
 import { cookieGet } from "./cookies";
 
 export type ProfileData = {
-  profile_image: any | null;
+  profile_image: string;
   username: string;
   name: string | null;
   bio: string | null;
-  liked_posts: Array<string> | null;
+  liked_posts: Array<string>;
 };
 
 // If username is passed in, fetch profile data of the username, else fetch the logged in user's data
@@ -36,9 +36,9 @@ export default async function getProfileData(username: string | null = null) {
         data = {
           profile_image: data.data.profile_image,
           username: username as string,
-          name: data.data.name,
-          bio: data.data.bio,
-          liked_posts: data.data.liked_posts,
+          name: data.data.name as string,
+          bio: data.data.bio as string,
+          liked_posts: data.data.liked_posts as Array<any>,
         } as ProfileData;
       } else {
         data = null;

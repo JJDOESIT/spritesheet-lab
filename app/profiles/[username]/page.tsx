@@ -16,10 +16,11 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
-    profile_image: "/blank-profile-picture.png",
-    username: "This user does not exist.",
-    name: null,
-    bio: " ",
+    profile_image: "/blank-profile-picture.png" as string,
+    username: "This user does not exist." as string,
+    name: null as string | null,
+    bio: " " as string | null,
+    liked_posts: [] as Array<string>,
   });
 
   useEffect(() => {

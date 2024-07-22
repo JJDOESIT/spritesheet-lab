@@ -61,6 +61,44 @@ export async function POST(request: Request) {
                   },
                 },
               },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "foreign_key",
+                  as: "posts",
+                },
+              },
+              { $unwind: "$posts" },
+              {
+                $addFields: {
+                  profile_image: "$posts.profile_image",
+                },
+              },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "_id",
+                  as: "users",
+                },
+              },
+              { $unwind: "$users" },
+              {
+                $addFields: {
+                  username: "$users.username",
+                },
+              },
+              {
+                $project: {
+                  image: 1,
+                  title: 1,
+                  likes: 1,
+                  profile_image: 1,
+                  username: 1,
+                },
+              },
+              { $sort: { likes: -1 } },
             ])
             .toArray();
           gallery = posts;
@@ -69,7 +107,47 @@ export async function POST(request: Request) {
         else {
           const posts = await db
             .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
-            .find({}, { sort: { likes: -1 } })
+            .aggregate([
+              { $match: {} },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "foreign_key",
+                  as: "posts",
+                },
+              },
+              { $unwind: "$posts" },
+              {
+                $addFields: {
+                  profile_image: "$posts.profile_image",
+                },
+              },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "_id",
+                  as: "users",
+                },
+              },
+              { $unwind: "$users" },
+              {
+                $addFields: {
+                  username: "$users.username",
+                },
+              },
+              {
+                $project: {
+                  image: 1,
+                  title: 1,
+                  likes: 1,
+                  profile_image: 1,
+                  username: 1,
+                },
+              },
+              { $sort: { likes: -1 } },
+            ])
             .toArray();
           gallery = posts;
         }
@@ -93,6 +171,44 @@ export async function POST(request: Request) {
                   },
                 },
               },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "foreign_key",
+                  as: "posts",
+                },
+              },
+              { $unwind: "$posts" },
+              {
+                $addFields: {
+                  profile_image: "$posts.profile_image",
+                },
+              },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "_id",
+                  as: "users",
+                },
+              },
+              { $unwind: "$users" },
+              {
+                $addFields: {
+                  username: "$users.username",
+                },
+              },
+              {
+                $project: {
+                  image: 1,
+                  title: 1,
+                  likes: 1,
+                  profile_image: 1,
+                  username: 1,
+                },
+              },
+              { $sort: { likes: 1 } },
             ])
             .toArray();
           gallery = posts;
@@ -101,7 +217,47 @@ export async function POST(request: Request) {
         else {
           const posts = await db
             .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
-            .find({}, { sort: { likes: 1 } })
+            .aggregate([
+              { $match: {} },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "foreign_key",
+                  as: "posts",
+                },
+              },
+              { $unwind: "$posts" },
+              {
+                $addFields: {
+                  profile_image: "$posts.profile_image",
+                },
+              },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "_id",
+                  as: "users",
+                },
+              },
+              { $unwind: "$users" },
+              {
+                $addFields: {
+                  username: "$users.username",
+                },
+              },
+              {
+                $project: {
+                  image: 1,
+                  title: 1,
+                  likes: 1,
+                  profile_image: 1,
+                  username: 1,
+                },
+              },
+              { $sort: { likes: 1 } },
+            ])
             .toArray();
           gallery = posts;
         }
@@ -113,44 +269,105 @@ export async function POST(request: Request) {
     }
     // Search by username
     else if (data.searchType === "USER") {
+      // Fetch the user's id based on given username
       const profile = await db
         .collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!)
         .findOne({ username: data.searchInput.toLowerCase() });
       const id = profile?._id;
+      // If the user exists
       if (id) {
+        // Sort by best
         if (data.sortType === "BEST") {
           const posts = await db
             .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
             .aggregate([
               {
                 $lookup: {
-                  from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
+                  from: process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
                   localField: "foreign_key",
-                  foreignField: "_id",
+                  foreignField: "foreign_key",
                   as: "posts",
                 },
               },
               { $unwind: "$posts" },
-              { $match: { "posts._id": id } },
-              { $sort: { likes: -1 } },
-            ])
-            .toArray();
-          gallery = posts;
-        } else if (data.sortType === "WORST") {
-          const posts = await db
-            .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
-            .aggregate([
+              { $match: { "posts.foreign_key": id } },
+              {
+                $addFields: {
+                  profile_image: "$posts.profile_image",
+                },
+              },
               {
                 $lookup: {
                   from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
                   localField: "foreign_key",
                   foreignField: "_id",
+                  as: "users",
+                },
+              },
+              { $unwind: "$users" },
+              {
+                $addFields: {
+                  username: "$users.username",
+                },
+              },
+              {
+                $project: {
+                  image: 1,
+                  title: 1,
+                  likes: 1,
+                  profile_image: 1,
+                  username: 1,
+                },
+              },
+              { $sort: { likes: -1 } },
+            ])
+            .toArray();
+          gallery = posts;
+        }
+        // Sort by worst
+        else if (data.sortType === "WORST") {
+          const posts = await db
+            .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
+            .aggregate([
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_PROFILES_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "foreign_key",
                   as: "posts",
                 },
               },
               { $unwind: "$posts" },
-              { $match: { "posts._id": id } },
-              { $sort: { likes: -1 } },
+              { $match: { "posts.foreign_key": id } },
+              {
+                $addFields: {
+                  profile_image: "$posts.profile_image",
+                },
+              },
+              {
+                $lookup: {
+                  from: process.env.NEXT_PUBLIC_USERS_DB_NAME!,
+                  localField: "foreign_key",
+                  foreignField: "_id",
+                  as: "users",
+                },
+              },
+              { $unwind: "$users" },
+              {
+                $addFields: {
+                  username: "$users.username",
+                },
+              },
+              {
+                $project: {
+                  image: 1,
+                  title: 1,
+                  likes: 1,
+                  profile_image: 1,
+                  username: 1,
+                },
+              },
+              { $sort: { likes: 1 } },
             ])
             .toArray();
           gallery = posts;

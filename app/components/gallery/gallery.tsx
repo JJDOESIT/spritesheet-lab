@@ -2,7 +2,8 @@ import GalleryPortrait from "../galleryPortrait/galleryPortrait";
 import fetchGalleryPosts from "@/app/functions/fetchGalleryPosts";
 import styles from "../gallery/gallery.module.css";
 import LoadingIcon from "../loadingIcon/loadingIcon";
-import { useState, useEffect } from "react";
+import ProfileDataContext from "@/app/functions/profileDataContext";
+import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
@@ -14,15 +15,25 @@ interface GalleryProps {
 }
 
 export default function Gallery(props: GalleryProps) {
+  // Global profile data
+  const profileData = useContext(ProfileDataContext);
+  // Searching
   const [searchInput, setSearchInput] = useState(props.searchInput);
-  const [searchRefresh, setSearchRefresh] = useState(props.searchRefresh);
-  const [sortType, setSortType] = useState(props.sortType);
   const [searchType, setSearchType] = useState(props.searchType);
+  const [searchRefresh, setSearchRefresh] = useState(props.searchRefresh);
+  // Sorting
+  const [sortType, setSortType] = useState(props.sortType);
+  // Page loaded
   const [pageLoaded, setPageLoaded] = useState(false);
+  // Url params
   const searchParams = useSearchParams();
+  // router
   const router = useRouter();
+  // Gallery that holds the posts
   const [gallery, setGallery] = useState([]);
+  // Current selected page
   const [currentPage, setCurrentPage] = useState(-1);
+  // Pagination
   const [numberedPages, setNumberedPages] = useState([] as Array<number>);
   const [allowPaginationConstruct, setAllowPaginationConstruct] =
     useState(false);
@@ -31,7 +42,8 @@ export default function Gallery(props: GalleryProps) {
 
   // Fetch the gallery posts
   async function fetchGallery() {
-    return await fetchGalleryPosts(searchInput, searchType, sortType);
+    const data = await fetchGalleryPosts(searchInput, searchType, sortType);
+    return data;
   }
 
   // Whenever the parent's search input text changes, change the internal search text as well
@@ -153,6 +165,9 @@ export default function Gallery(props: GalleryProps) {
                           title={item.title}
                           image={item.image}
                           likes={item.likes}
+                          username={item.username}
+                          profile_image={item.profile_image}
+                          modifiable={item.username === profileData.username}
                         ></GalleryPortrait>
                       );
                     })}

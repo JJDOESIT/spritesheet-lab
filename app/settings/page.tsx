@@ -12,7 +12,6 @@ import updateDBField from "../functions/updateDBField";
 
 export default function Settings() {
   const profileData = useContext(ProfileDataContext);
-  const [profileLoaded, setProfileLoaded] = useState(false);
   const [pageLoaded, setPageLoaded] = useState(false);
   const [imageAlertData, setImageAlertData] = useState({
     hidden: true,

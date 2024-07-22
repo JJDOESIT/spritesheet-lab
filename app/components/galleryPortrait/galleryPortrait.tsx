@@ -2,16 +2,26 @@
 
 import styles from "../galleryPortrait/galleryPortrait.module.css";
 import { likePost, unlikePost } from "./galleryPortrait.server";
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
-import { HandThumbUpIcon as HandThumbUpIconSolid } from "@heroicons/react/24/solid";
-import { HandThumbUpIcon as HandThumbUpIconOutline } from "@heroicons/react/24/outline";
+import {
+  HandThumbUpIcon as HandThumbUpIconSolid,
+  PencilSquareIcon as PencilSquareIconSolid,
+} from "@heroicons/react/24/solid";
+import {
+  HandThumbUpIcon as HandThumbUpIconOutline,
+  PencilSquareIcon as PencilSquareIconOutline,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 interface galleryPortraitPropTypes {
   title: string;
   image: any;
   id: string;
   likes: number;
+  username: string | null;
+  profile_image: string;
+  modifiable: boolean;
 }
 
 export default function GalleryPortrait(props: galleryPortraitPropTypes) {
@@ -19,6 +29,8 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
   const [tempLike, setTempLike] = useState(false);
   const [overideTempLike, setOverideTempLike] = useState(false);
   const likeCountRef = useRef<HTMLParagraphElement>(null);
+  const [isHoveringOverModify, setIsHoveringOverModify] = useState(false);
+  const modifyButtonRef = useRef(null);
 
   // Like a post
   async function likeAPost(id: string) {
@@ -58,7 +70,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
       <div className="flex justify-center">
         <p>{props.title}</p>
       </div>
-      <div className="flex h-[10%] justify-start">
+      <div className="flex h-[10%] justify-between">
         {
           // If a post has been liked or temp liked
           ((profileData.liked_posts &&
@@ -66,27 +78,69 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             profileData.liked_posts.includes(props.id)) ||
             tempLike) &&
           !overideTempLike ? (
-            <HandThumbUpIconSolid
-              className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
-              onClick={() => {
-                // Unlike the post and give temp feedback to the user
-                unlikeAPost(props.id);
-              }}
-            ></HandThumbUpIconSolid>
+            <div className="flex">
+              <HandThumbUpIconSolid
+                className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
+                onClick={() => {
+                  // Unlike the post and give temp feedback to the user
+                  unlikeAPost(props.id);
+                }}
+              ></HandThumbUpIconSolid>
+              <p className="pl-[5px]" ref={likeCountRef}>
+                {props.likes}
+              </p>
+            </div>
           ) : (
-            <HandThumbUpIconOutline
-              className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
-              onClick={() => {
-                // Like a post and give temp feedback to the user
-                likeAPost(props.id);
-              }}
-            ></HandThumbUpIconOutline>
+            <div className="flex">
+              <HandThumbUpIconOutline
+                className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
+                onClick={() => {
+                  // Like a post and give temp feedback to the user
+                  likeAPost(props.id);
+                }}
+              ></HandThumbUpIconOutline>
+              <p className="pl-[5px]" ref={likeCountRef}>
+                {props.likes}
+              </p>
+            </div>
           )
         }
-
-        <p className="pl-[5px]" ref={likeCountRef}>
-          {props.likes}
-        </p>
+        <div className={`flex h-full}`}>
+          {props.modifiable ? (
+            isHoveringOverModify ? (
+              <PencilSquareIconSolid
+                ref={modifyButtonRef}
+                className={`h-full pr-[5px] ${styles.modifyPost}`}
+                onMouseLeave={() => {
+                  setIsHoveringOverModify(false);
+                }}
+              ></PencilSquareIconSolid>
+            ) : (
+              <PencilSquareIconOutline
+                ref={modifyButtonRef}
+                className={`h-full pr-[5px] ${styles.modifyPost}`}
+                onMouseEnter={() => {
+                  setIsHoveringOverModify(true);
+                }}
+              ></PencilSquareIconOutline>
+            )
+          ) : (
+            <></>
+          )}
+          <Link
+            className="flex pr-[5px]"
+            href={props.username ? "/profiles/" + props.username : "/gallery/"}
+          >
+            <img
+              src={
+                props.profile_image
+                  ? props.profile_image
+                  : "/blank-profile-picture.png"
+              }
+              className="w-full h-full rounded-[3em]"
+            ></img>
+          </Link>
+        </div>
       </div>
     </div>
   );
