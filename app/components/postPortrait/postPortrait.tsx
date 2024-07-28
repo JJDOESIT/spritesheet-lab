@@ -1,27 +1,39 @@
 "use client";
 
-import styles from "../galleryPortrait/galleryPortrait.module.css";
-import { likePost, unlikePost } from "./galleryPortrait.server";
+import styles from "../postPortrait/postPortrait.module.css";
+import {
+  likePost,
+  unlikePost,
+} from "../galleryPortrait/galleryPortrait.server";
 import { useState, useRef, useContext, useEffect } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
-import { HandThumbUpIcon as HandThumbUpIconSolid } from "@heroicons/react/24/solid";
-import { HandThumbUpIcon as HandThumbUpIconOutline } from "@heroicons/react/24/outline";
+import {
+  HandThumbUpIcon as HandThumbUpIconSolid,
+  PencilSquareIcon as PencilSquareIconSolid,
+} from "@heroicons/react/24/solid";
+import {
+  HandThumbUpIcon as HandThumbUpIconOutline,
+  PencilSquareIcon as PencilSquareIconOutline,
+} from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-interface galleryPortraitPropTypes {
+interface postPortraitPropTypes {
   title: string;
   image: any;
   id: string;
   likes: number;
   username: string | null;
   profile_image: string;
+  modifiable: boolean;
 }
 
-export default function GalleryPortrait(props: galleryPortraitPropTypes) {
+export default function PostPortrait(props: postPortraitPropTypes) {
   const profileData = useContext(ProfileDataContext);
   const [tempLike, setTempLike] = useState(false);
   const [overideTempLike, setOverideTempLike] = useState(false);
   const likeCountRef = useRef<HTMLParagraphElement>(null);
+  const [isHoveringOverModify, setIsHoveringOverModify] = useState(false);
+  const modifyButtonRef = useRef(null);
 
   // Like a post
   async function likeAPost(id: string) {
@@ -52,18 +64,18 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
       className={`w-full h-full bg-white border-2 border-black ${styles.container}`}
       id={props.id}
     >
-      <div className="w-full h-[80%]">
+      <div className="w-full h-[70%]">
         <a href={"post?post=" + props.id}>
           <img
             src={props.image ? props.image : "/jjdoesit.png"}
-            className="object-cover w-full h-full"
+            className="w-full h-full"
           ></img>
         </a>
       </div>
       <div className="flex justify-center max-h-[10%] items-center">
         <p>{props.title}</p>
       </div>
-      <div className="flex h-[10%] justify-between">
+      <div className="flex h-[5%] justify-between">
         {
           // If a post has been liked or temp liked
           ((profileData.liked_posts &&
@@ -99,6 +111,27 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
           )
         }
         <div className={`flex h-full}`}>
+          {props.modifiable ? (
+            isHoveringOverModify ? (
+              <PencilSquareIconSolid
+                ref={modifyButtonRef}
+                className={`h-full pr-[5px] ${styles.modifyPost}`}
+                onMouseLeave={() => {
+                  setIsHoveringOverModify(false);
+                }}
+              ></PencilSquareIconSolid>
+            ) : (
+              <PencilSquareIconOutline
+                ref={modifyButtonRef}
+                className={`h-full pr-[5px] ${styles.modifyPost}`}
+                onMouseEnter={() => {
+                  setIsHoveringOverModify(true);
+                }}
+              ></PencilSquareIconOutline>
+            )
+          ) : (
+            <></>
+          )}
           <Link
             className="flex pr-[5px]"
             href={props.username ? "/profiles/" + props.username : "/gallery/"}
@@ -113,6 +146,9 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             ></img>
           </Link>
         </div>
+      </div>
+      <div className="flex h-[15%] justify-center">
+        <input type="button" value="Download"></input>
       </div>
     </div>
   );

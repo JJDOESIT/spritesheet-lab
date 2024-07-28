@@ -2,7 +2,6 @@ import GalleryPortrait from "../galleryPortrait/galleryPortrait";
 import fetchGalleryPosts from "@/app/functions/fetchGalleryPosts";
 import styles from "../gallery/gallery.module.css";
 import LoadingIcon from "../loadingIcon/loadingIcon";
-import ProfileDataContext from "@/app/functions/profileDataContext";
 import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
@@ -15,8 +14,6 @@ interface GalleryProps {
 }
 
 export default function Gallery(props: GalleryProps) {
-  // Global profile data
-  const profileData = useContext(ProfileDataContext);
   // Searching
   const [searchInput, setSearchInput] = useState(props.searchInput);
   const [searchType, setSearchType] = useState(props.searchType);
@@ -167,7 +164,6 @@ export default function Gallery(props: GalleryProps) {
                           likes={item.likes}
                           username={item.username}
                           profile_image={item.profile_image}
-                          modifiable={item.username === profileData.username}
                         ></GalleryPortrait>
                       );
                     })}
