@@ -57,7 +57,7 @@ export default function Post() {
     <>
       {pageLoaded ? (
         <div className="flex items-center justify-center w-full h-full">
-          <div className="flex w-[90%] h-[90%]">
+          <div className="flex justify-center w-full h-full">
             <PostPortrait
               title={postData.title}
               image={postData.image}
