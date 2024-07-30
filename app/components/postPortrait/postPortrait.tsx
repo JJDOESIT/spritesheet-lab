@@ -89,7 +89,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
           ></img>
           <input
             type="button"
-            value="x"
+            value="X"
             className={`${styles.exitImageButton}`}
             onClick={() => {
               if (postBackgroundRef && postBackgroundRef.current) {
@@ -109,7 +109,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             <a>
               <img
                 src={props.image ? props.image : "/jjdoesit.png"}
-                className="w-full max-h-[100%]"
+                className={`w-full max-h-[100%] ${styles.postImage}`}
                 onClick={() => {
                   if (postBackgroundRef && postBackgroundRef.current) {
                     postBackgroundRef.current.style.width = "100%";

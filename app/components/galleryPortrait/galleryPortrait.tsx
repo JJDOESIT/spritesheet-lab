@@ -53,7 +53,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
       id={props.id}
     >
       <div className="w-full h-[80%]">
-        <a href={"post?post=" + props.id}>
+        <a href={"/post?post=" + props.id}>
           <img
             src={props.image ? props.image : "/jjdoesit.png"}
             className="object-cover w-full h-full"

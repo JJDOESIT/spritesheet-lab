@@ -56,8 +56,8 @@ export default function Post() {
   return (
     <>
       {pageLoaded ? (
-        <div className="flex items-center justify-center w-full h-full">
-          <div className="flex justify-center w-full h-full">
+        <div className="flex w-full h-full">
+          <div className="flex items-center justify-center w-full h-full">
             <PostPortrait
               title={postData.title}
               image={postData.image}
