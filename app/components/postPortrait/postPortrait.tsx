@@ -73,7 +73,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
   return (
     <div className="flex h-[90%] w-[90%]" ref={postBackgroundRef}>
       {fullscreenImageVisible ? (
-        <div className="relative w-full h-full overflow-scroll">
+        <div className={`relative w-full h-full overflow-scroll`}>
           <div
             className="absolute w-full h-full blur-2xl"
             style={{
@@ -84,7 +84,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             }}
           ></div>
           <img
-            className="absolute transform -translate-x-1/2 left-1/2"
+            className={`absolute transform -translate-x-1/2 left-1/2 ${styles.imagePopupContainer}`}
             src={props.image}
           ></img>
           <input

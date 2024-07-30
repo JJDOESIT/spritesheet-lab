@@ -21,12 +21,29 @@
     background-color: #4eff9d;
 }
 
+.searchTypeChild:hover{
+    border: 2px solid #4eff9d;
+    color: #4eff9d;
+}
+
 .sortTypeSelection:hover{
     cursor: pointer;
 }
 
 .sortTypeChild{
     background-color: #4eff9d;
+}
+
+.sortTypeChild:hover{
+    border: 2px solid #4eff9d;
+    color: #4eff9d;
+}
+
+.searchInput{
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 3rem;
+    padding: 5px;
 }
 
 .menuToggle{

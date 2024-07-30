@@ -26,6 +26,7 @@ export default function Post() {
     profile_image: "",
   });
 
+  // Fetch the post ID from the url params
   useEffect(() => {
     const id = searchParams.get("post");
     if (id) {
@@ -41,10 +42,6 @@ export default function Post() {
       setPageLoaded(true);
     }
   }
-
-  useEffect(() => {
-    console.log(postData);
-  }, [postData]);
 
   // Fetch the post once the postID has been set from the URL params
   useEffect(() => {

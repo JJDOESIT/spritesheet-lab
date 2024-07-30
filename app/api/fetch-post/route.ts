@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     // Connect to the database 'db'
     const client = await clientPromise;
     const db = client.db("db");
+    // Fetch the post
     var tempPost = await db
       .collection(process.env.NEXT_PUBLIC_POSTS_DB_NAME!)
       .aggregate([

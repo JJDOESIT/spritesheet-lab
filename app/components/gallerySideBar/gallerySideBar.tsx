@@ -77,8 +77,10 @@ export default function GallerySideBar(props: GallerySideBarProps) {
             : `${styles.container} ${styles.isActive}`
         }
       >
-        <div className="w-[90%]">
+        <div className="w-[90%] flex flex-col items-center">
+          <p className="text-white">Search Gallery</p>
           <input
+            placeholder="Search"
             type="input"
             onChange={(e) => {
               props.searchInputCallback(e.currentTarget.value);
@@ -88,6 +90,7 @@ export default function GallerySideBar(props: GallerySideBarProps) {
                 props.searchRefreshCallback();
               }
             }}
+            className={`${styles.searchInput}`}
           ></input>
           <div
             className="relative min-w-full h-fit"
@@ -95,6 +98,9 @@ export default function GallerySideBar(props: GallerySideBarProps) {
               setSearchTypeSelectionVisible((prev) => {
                 return !prev;
               });
+              if (sortTypeSelectionVisible) {
+                setSortTypeSelectionVisible(false);
+              }
             }}
           >
             <div
@@ -137,6 +143,9 @@ export default function GallerySideBar(props: GallerySideBarProps) {
               setSortTypeSelectionVisible((prev) => {
                 return !prev;
               });
+              if (searchTypeSelectionVisible) {
+                setSearchTypeSelectionVisible(false);
+              }
             }}
           >
             <div

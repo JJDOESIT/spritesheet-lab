@@ -15,6 +15,19 @@
     cursor: pointer;
 }
 
+.imagePopupContainer {
+    animation: imagePopupFadein 500ms ease-in forwards;
+}
+
+@keyframes imagePopupFadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .downloadButton{
     width: fit-content;
     height: fit-content;

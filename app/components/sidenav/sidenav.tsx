@@ -40,7 +40,12 @@ export default function SideNav() {
 
   const handleClickOutside = (event: any) => {
     const navbarButton = document.getElementById("NavbarButton");
-    if (containerRef.current && !containerRef.current.contains(event.target) && navbarButton && !navbarButton.contains(event.target)) {
+    if (
+      containerRef.current &&
+      !containerRef.current.contains(event.target) &&
+      navbarButton &&
+      !navbarButton.contains(event.target)
+    ) {
       setTranslateX("250px");
     }
   };
@@ -49,7 +54,6 @@ export default function SideNav() {
   useEffect(() => {
     getNotifications().then((data) => {
       if (data) {
-        console.log(data);
         var sum = 0;
         data.forEach((notification: any) => {
           sum += notification.stack;
@@ -61,9 +65,9 @@ export default function SideNav() {
 
   // set up event listener for clicking outside of the sidenav
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -143,15 +147,20 @@ export default function SideNav() {
       <Link
         href={"/notifications"}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
-        onClick={() => {handleClick(); setNotificationCount(0)}}
+        onClick={() => {
+          handleClick();
+          setNotificationCount(0);
+        }}
       >
         <div className="flex items-center">
           <BellIcon className={styles.sideNavButtonIcon} />
         </div>
         <p className="w-[90%] ">Notifications</p>
-        {notificationCount > 0 && <div className="flex items-center justify-center px-2 py-1 text-xs text-white bg-black rounded-full">
-        {notificationCount}
-        </div>}
+        {notificationCount > 0 && (
+          <div className="flex items-center justify-center px-2 py-1 text-xs text-white bg-black rounded-full">
+            {notificationCount}
+          </div>
+        )}
       </Link>
       <Link
         href={"/messages"}
@@ -172,7 +181,10 @@ export default function SideNav() {
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
         Licensing & TOS
       </Link>
-      <Link href={"/about"} className={`neonBlackButton text-sm ${styles.sideNavButton}`}>
+      <Link
+        href={"/about"}
+        className={`neonBlackButton text-sm ${styles.sideNavButton}`}
+      >
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
         About us
       </Link>
