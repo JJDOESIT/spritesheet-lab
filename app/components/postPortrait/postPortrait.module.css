@@ -1,0 +1,64 @@
+.thumbsUpIcon:hover{
+    cursor: pointer;
+}
+
+.container{
+    box-shadow: 5px 5px 10px black;
+    position: relative;
+}
+
+.modifyPost:hover{
+    cursor: pointer;
+}
+
+.postImage:hover{
+    cursor: pointer;
+}
+
+.imagePopupContainer {
+    animation: imagePopupFadein 500ms ease-in forwards;
+}
+
+@keyframes imagePopupFadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.downloadButton{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 30px 10px 30px;
+    border-radius: 2.5em;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(201, 121, 232);
+    border: 3px solid rgb(0, 0, 0);
+    transition: all 200ms ease-in-out;
+}
+
+.downloadButton:hover{
+    border: 3px solid rgb(201, 121, 232);
+    background-color: black;
+    color: rgb(201, 121, 232);
+    cursor: pointer;
+}
+
+.exitImageButton{
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    background-color: white;
+    border-radius: 50%;
+    font-size: 35px;
+    height: 50px;
+    width: 50px;
+    border: 3px solid black;
+}
+
+.exitImageButton:hover{
+    cursor: pointer;
+}

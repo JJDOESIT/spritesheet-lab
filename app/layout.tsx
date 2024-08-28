@@ -3,7 +3,7 @@
 import "@/app/global.css";
 import "animate.css/animate.min.css";
 import { redditMono } from "@/app/components/fonts/fonts";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import getProfileData from "./functions/getProfileData";
 import ProfileDataContext from "./functions/profileDataContext";
 import Navbar from "./components/navbar/navbar";
@@ -18,19 +18,40 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [profileData, setProfileData] = useState({
-    profile_image: "/blank-profile-picture.png",
-    username: "",
-    name: "",
-    bio: "",
-    liked_posts: [],
+    profile_image: "/blank-profile-picture.png" as string,
+    username: "" as string,
+    name: "" as string | null,
+    bio: "" as string | null,
+    liked_posts: [] as Array<string>,
+    refetchProfileCallback: () => {
+      console.log("Error: Refetch Profile Function Not Implemented ...");
+    },
   });
   const [profileLoaded, setProfileLoaded] = useState(false);
+  const [refetchProfile, setRefetchProfile] = useState(false);
+
+  // Trigger refresh of the profile data
+  function fetchProfile() {
+    setRefetchProfile((prev) => {
+      return !prev;
+    });
+  }
 
   // Fetch the profile data
   async function getProfile() {
     const data = await getProfileData();
     if (data) {
-      setProfileData(data);
+      // Include refetchProfileCallback in the new data to ensure it's not lost
+      setProfileData((prevData) => ({
+        ...prevData,
+        ...data,
+        refetchProfileCallback: fetchProfile,
+      }));
+    } else {
+      setProfileData((prevData) => ({
+        ...prevData,
+        refetchProfileCallback: fetchProfile,
+      }));
     }
     setProfileLoaded(true);
   }
@@ -38,7 +59,7 @@ export default function RootLayout({
   // Fetch the profile data each refresh
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [refetchProfile]);
 
   return (
     <html lang="en" className="overflow-x-hidden">

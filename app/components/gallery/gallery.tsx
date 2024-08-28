@@ -7,17 +7,30 @@ import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 interface GalleryProps {
-  type: string;
-  username: string | null;
+  searchInput: string | null;
+  searchRefresh: boolean | null;
+  sortType: string;
+  searchType: string;
 }
 
 export default function Gallery(props: GalleryProps) {
-  const [searchType, setSearchType] = useState(props.type);
+  // Searching
+  const [searchInput, setSearchInput] = useState(props.searchInput);
+  const [searchType, setSearchType] = useState(props.searchType);
+  const [searchRefresh, setSearchRefresh] = useState(props.searchRefresh);
+  // Sorting
+  const [sortType, setSortType] = useState(props.sortType);
+  // Page loaded
   const [pageLoaded, setPageLoaded] = useState(false);
+  // Url params
   const searchParams = useSearchParams();
+  // router
   const router = useRouter();
+  // Gallery that holds the posts
   const [gallery, setGallery] = useState([]);
+  // Current selected page
   const [currentPage, setCurrentPage] = useState(-1);
+  // Pagination
   const [numberedPages, setNumberedPages] = useState([] as Array<number>);
   const [allowPaginationConstruct, setAllowPaginationConstruct] =
     useState(false);
@@ -26,15 +39,40 @@ export default function Gallery(props: GalleryProps) {
 
   // Fetch the gallery posts
   async function fetchGallery() {
-    return await fetchGalleryPosts(searchType, props.username);
+    const data = await fetchGalleryPosts(searchInput, searchType, sortType);
+    return data;
   }
 
+  // Whenever the parent's search input text changes, change the internal search text as well
   useEffect(() => {
-    if (props.type != searchType) {
-      setPageLoaded(false);
-      setSearchType(props.type);
+    if (props.searchInput != searchInput) {
+      setSearchInput(props.searchInput);
     }
-  }, [props.type]);
+  }, [props.searchInput]);
+
+  // Whenever the parent forces a search refresh
+  useEffect(() => {
+    if (props.searchRefresh != searchRefresh) {
+      setPageLoaded(false);
+      setSearchRefresh(props.searchRefresh);
+    }
+  }, [props.searchRefresh]);
+
+  // Whenever the parent's search type changes, change the internal search type as well
+  useEffect(() => {
+    if (props.searchType != searchType) {
+      setPageLoaded(false);
+      setSearchType(props.searchType);
+    }
+  }, [props.searchType]);
+
+  // Whenever the parent's sort type changes, change the internal sort type as well
+  useEffect(() => {
+    if (props.sortType != sortType) {
+      setPageLoaded(false);
+      setSortType(props.sortType);
+    }
+  }, [props.sortType]);
 
   // On page load, set the current page based on the url param
   // Note: If no querey is found, set current page to 0
@@ -69,7 +107,7 @@ export default function Gallery(props: GalleryProps) {
         }
       });
     }
-  }, [currentPage, searchType]);
+  }, [currentPage, sortType, searchType, searchRefresh]);
 
   // Everytime the gallery or current page is updated, reset the pagination bar
   // Note: This should only be done once the gallery has been set, which is what
@@ -124,6 +162,8 @@ export default function Gallery(props: GalleryProps) {
                           title={item.title}
                           image={item.image}
                           likes={item.likes}
+                          username={item.username}
+                          profile_image={item.profile_image}
                         ></GalleryPortrait>
                       );
                     })}

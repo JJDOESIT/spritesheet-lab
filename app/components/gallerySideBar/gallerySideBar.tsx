@@ -2,27 +2,50 @@ import styles from "../gallerySideBar/gallerySideBar.module.css";
 import { useEffect, useState } from "react";
 
 interface GallerySideBarProps {
+  sortType: string;
+  sortTypeCallback: Function;
   searchType: string;
   searchTypeCallback: Function;
+  searchInputCallback: Function;
+  searchRefreshCallback: Function;
 }
 
-type Visibility = "visible" | "hidden" | "collapse" | "inherit";
-
 export default function GallerySideBar(props: GallerySideBarProps) {
+  // Sorting
+  const [sortType, setSortType] = useState(props.sortType);
+  const [sortTypeText, setSortTypeText] = useState(convertSortTypeToText);
+  const [sortTypeSelectionVisible, setSortTypeSelectionVisible] =
+    useState(false);
+  // Searching
   const [searchType, setSearchType] = useState(props.searchType);
   const [searchTypeText, setSearchTypeText] = useState(convertSearchTypeToText);
-  const [menuToggle, setMenuToggle] = useState(true);
   const [searchTypeSelectionVisible, setSearchTypeSelectionVisible] =
-    useState<Visibility>("hidden");
+    useState(false);
+  // Sidebar menu toggle
+  const [menuToggle, setMenuToggle] = useState(true);
 
   // Convert a search type into readable text
-  function convertSearchTypeToText() {
-    if (searchType === "BEST") {
+  function convertSortTypeToText() {
+    if (sortType === "BEST") {
       return "Most Liked";
-    } else if (searchType === "WORST") {
+    } else if (sortType === "WORST") {
       return "Least Liked";
     }
   }
+
+  // Convert a search type into readable text
+  function convertSearchTypeToText() {
+    if (searchType === "USER") {
+      return "Username";
+    } else if (searchType === "TITLE") {
+      return "Title";
+    }
+  }
+
+  // Whenever the sort type changes, update the visible text accordingly
+  useEffect(() => {
+    setSortTypeText(convertSortTypeToText);
+  }, [sortType]);
 
   // Whenever the search type changes, update the visible text accordingly
   useEffect(() => {
@@ -54,42 +77,106 @@ export default function GallerySideBar(props: GallerySideBarProps) {
             : `${styles.container} ${styles.isActive}`
         }
       >
-        <div className="w-[90%]">
+        <div className="w-[90%] flex flex-col items-center">
+          <p className="text-white">Search Gallery</p>
+          <input
+            placeholder="Search"
+            type="input"
+            onChange={(e) => {
+              props.searchInputCallback(e.currentTarget.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.keyCode === 13) {
+                props.searchRefreshCallback();
+              }
+            }}
+            className={`${styles.searchInput}`}
+          ></input>
           <div
             className="relative min-w-full h-fit"
             onClick={() => {
               setSearchTypeSelectionVisible((prev) => {
-                if (prev === "hidden") {
-                  return "visible";
-                } else {
-                  return "hidden";
-                }
+                return !prev;
               });
+              if (sortTypeSelectionVisible) {
+                setSortTypeSelectionVisible(false);
+              }
             }}
           >
-            <div className={`w-full bg-white ${styles.searchTypeSelection}`}>
-              <p>Sort By {searchTypeText} &#8595;</p>
+            <div
+              className={`w-full bg-white ${styles.searchTypeSelection} neonBlackButton`}
+            >
+              <p>&#8595; Search By {searchTypeText}</p>
             </div>
             <div
               className="absolute w-full"
-              style={{ visibility: searchTypeSelectionVisible }}
+              style={
+                searchTypeSelectionVisible
+                  ? { visibility: "visible", zIndex: 1 }
+                  : { visibility: "hidden" }
+              }
+            >
+              <input
+                type="button"
+                value="Username"
+                className={`w-full bg-white ${styles.searchTypeSelection} ${styles.searchTypeChild} neonBlackButton`}
+                onClick={() => {
+                  setSearchType("USER");
+                  props.searchTypeCallback("USER");
+                }}
+              ></input>
+              <input
+                type="button"
+                value="Title"
+                className={`w-full bg-white ${styles.searchTypeSelection} ${styles.searchTypeChild} neonBlackButton`}
+                onClick={() => {
+                  setSearchType("TITLE");
+                  props.searchTypeCallback("TITLE");
+                }}
+              ></input>
+            </div>
+          </div>
+
+          <div
+            className="relative min-w-full h-fit"
+            onClick={() => {
+              setSortTypeSelectionVisible((prev) => {
+                return !prev;
+              });
+              if (searchTypeSelectionVisible) {
+                setSearchTypeSelectionVisible(false);
+              }
+            }}
+          >
+            <div
+              className={`w-full bg-white ${styles.sortTypeSelection} neonBlackButton`}
+            >
+              <p>&#8595; Sort By {sortTypeText}</p>
+            </div>
+            <div
+              className="absolute w-full"
+              style={
+                sortTypeSelectionVisible
+                  ? { visibility: "visible", zIndex: 1 }
+                  : { visibility: "hidden" }
+              }
             >
               <input
                 type="button"
                 value="Least Liked"
-                className={`w-full bg-white ${styles.searchTypeSelection}`}
+                className={`w-full bg-white ${styles.sortTypeSelection} ${styles.sortTypeChild} neonBlackButton`}
                 onClick={() => {
-                  setSearchType("WORST");
-                  props.searchTypeCallback("WORST");
+                  setSortType("WORST");
+                  props.sortTypeCallback("WORST");
                 }}
               ></input>
               <input
                 type="button"
                 value="Most Liked"
-                className={`w-full bg-white ${styles.searchTypeSelection}`}
+                className={`w-full bg-white ${styles.sortTypeSelection} ${styles.sortTypeChild} neonBlackButton`}
                 onClick={() => {
-                  setSearchType("BEST");
-                  props.searchTypeCallback("BEST");
+                  setSortType("BEST");
+                  props.sortTypeCallback("BEST");
                 }}
               ></input>
             </div>

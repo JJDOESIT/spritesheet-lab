@@ -54,7 +54,7 @@ html, body {
 .redBlackButton {
     padding: 5px;
     border: 2px solid black;
-    background-color: black;
+    background-color: rgb(250, 85, 85);
     color: white;
     border-radius: 6px;
     border-color: white;
@@ -66,10 +66,10 @@ html, body {
 
 .redBlackButton:hover {
     background-color: white;
-    color: red;
-    border: 2px solid red;
+    color: rgb(250, 85, 85);
+    border: 2px solid rgb(250, 85, 85);
     cursor: pointer;
-    border-color: red;
+    border-color: rgb(250, 85, 85);
 }
 
 .roundedForm {

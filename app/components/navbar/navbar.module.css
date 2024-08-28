@@ -1,0 +1,21 @@
+.galleryLink{
+    position: relative;
+    opacity: 0.8;
+    font-size: 1.25em;
+}
+
+.galleryLink:hover{
+    opacity: 1;
+}
+
+/*
+.galleryLink::after{
+    position: absolute;
+    content: "";
+    bottom: -2px;
+    width: 100%;
+    background-color: #00FF80;
+    height: 2px;
+    left: 0;
+    border-radius: 3rem;
+} */

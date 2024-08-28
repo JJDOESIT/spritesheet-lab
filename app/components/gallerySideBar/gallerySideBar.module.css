@@ -2,9 +2,9 @@
     display: flex;
     justify-content: center;
     height: 100%;
-    background: linear-gradient(0deg, rgba(213,219,219,1) 0%, rgba(0,0,0,1) 90%);
+    background: black;
     min-width: 225px;
-    box-shadow: #00FF80 5px 0px 20px;
+    box-shadow: #00FF80 1px 0px 5px;
     min-height: 100px;
     transition: all 500ms ease-in-out;
 }
@@ -15,7 +15,35 @@
 
 .searchTypeSelection:hover{
     cursor: pointer;
-    opacity: 0.8;
+}
+
+.searchTypeChild{
+    background-color: #4eff9d;
+}
+
+.searchTypeChild:hover{
+    border: 2px solid #4eff9d;
+    color: #4eff9d;
+}
+
+.sortTypeSelection:hover{
+    cursor: pointer;
+}
+
+.sortTypeChild{
+    background-color: #4eff9d;
+}
+
+.sortTypeChild:hover{
+    border: 2px solid #4eff9d;
+    color: #4eff9d;
+}
+
+.searchInput{
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 3rem;
+    padding: 5px;
 }
 
 .menuToggle{
