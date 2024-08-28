@@ -45,11 +45,18 @@ export default function SideNav() {
     }
   };
 
+  // set up event listener for clicking outside of the sidenav
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // get notification count
   useEffect(() => {
     getNotifications().then((data) => {
       if (data) {
-        console.log(data);
         var sum = 0;
         data.forEach((notification: any) => {
           sum += notification.stack;
@@ -57,14 +64,6 @@ export default function SideNav() {
         setNotificationCount(sum);
       }
     });
-  }, []);
-
-  // set up event listener for clicking outside of the sidenav
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
   }, []);
 
   // Add event handler to navbar button

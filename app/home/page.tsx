@@ -11,7 +11,6 @@ import { useContext } from "react";
 
 export default function Page() {
   const profileData = useContext(ProfileDataContext);
-
   
   return (
     <main className={`h-[100%]`}>

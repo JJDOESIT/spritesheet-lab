@@ -9,6 +9,8 @@ import sendMessage from "@/app/functions/sendMessage";
 import LoadingIcon from "@/app/components/loadingIcon/loadingIcon";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { IDstringTodate, timeDifference } from "@/app/functions/timeFunctions";
+import deleteMessage from "@/app/functions/deleteMessage";
 
 interface PageProps {
     params: {
@@ -105,8 +107,28 @@ export default function Page({ params }: PageProps) {
             }
             <div className={`flex flex-col-reverse items-center ${messagesArray === null ? "justify-center" : "justify-start"} w-full md:h-[92%] h-[88%] p-[20px] overflow-y-auto`}>
                 {messagesArray === null ? <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon> : 
-                messagesArray.map((message : any) => {
-                    return <MessageBox sender={message.user} message={message.message} sent={message.user == profileContext.username} />
+                messagesArray.filter((message: any) => {
+                    return message != null;
+                }).map((message : any, index: number) => {
+                    const previousMessage = messagesArray[index + 1];
+                    const usernameNeeded = !(previousMessage && previousMessage.user === message.user);
+                    var time = "just now";
+                    if (message._id) {
+                        time = timeDifference(IDstringTodate(message._id));
+                    }
+                    return <MessageBox 
+                            sender={message.user} 
+                            message={message.message} 
+                            sent={message.user == profileContext.username} 
+                            usernameNeeded={usernameNeeded} 
+                            time={time} 
+                            deleteFunction={() => {
+                                deleteMessage(params.messageId, message._id);
+                                getMessages(params.messageId).then((data) => {
+                                    setMessagesArray(data);
+                                });
+                            }}
+                        />
                 })}
             </div>
             <div className="flex items-center justify-center w-full h-[8%] px-[10px] border-t-2 border-black">
