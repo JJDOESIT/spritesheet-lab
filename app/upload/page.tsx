@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import UploadImage from "../components/uploadImage/uploadImage";
 import createAlert from "../functions/createAlert";
 import Alert from "../components/alert/alert";
+import styles from "../upload/upload.module.css";
 
 export default function Upload() {
+  const [animated, setAnimated] = useState(false);
+  const [images, setImages] = useState([]);
   const [imageAlertData, setImageAlertData] = useState({
     hidden: true,
     message: "",
@@ -14,10 +17,73 @@ export default function Upload() {
     fontColor: "",
     maxWidth: 0,
   });
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // Function to shift images left or right in the array
+  function shiftImage(direction: string) {
+    if (direction === "left") {
+      const image = images[selectedImageIndex];
+      if (selectedImageIndex != 0) {
+        setImages((prev) => {
+          let data = [...prev];
+          data.splice(selectedImageIndex, 1);
+          data.splice(selectedImageIndex - 1, 0, image);
+          return data;
+        });
+        setSelectedImageIndex(selectedImageIndex - 1);
+      } else {
+        setImages((prev) => {
+          let data = [...prev];
+          data.splice(selectedImageIndex, 1);
+          data.splice(images.length - 1, 0, image);
+          return data;
+        });
+        setSelectedImageIndex(images.length - 1);
+      }
+    } else if (direction === "right") {
+      const image = images[selectedImageIndex];
+      if (selectedImageIndex != images.length - 1) {
+        setImages((prev) => {
+          let data = [...prev];
+          data.splice(selectedImageIndex, 1);
+          data.splice(selectedImageIndex + 1, 0, image);
+          return data;
+        });
+        setSelectedImageIndex(selectedImageIndex + 1);
+      } else {
+        setImages((prev) => {
+          let data = [...prev];
+          data.splice(selectedImageIndex, 1);
+          data.splice(0, 0, image);
+          return data;
+        });
+        setSelectedImageIndex(0);
+      }
+    }
+  }
+
+  // Set the selected image index to 0 once an image has been uploaded
+  useEffect(() => {
+    if (images) {
+      console.log(images);
+      if (images.length === 0) {
+        setSelectedImageIndex(-1);
+      } else {
+        setSelectedImageIndex(0);
+      }
+    }
+  }, [images]);
+
+  // Image callback to fetch the images when they're uploaded for display purposes
+  function fetchImages(images: any) {
+    setImages(images);
+  }
 
   // Image alert callback
-  function uploadAlertCallback(status: number) {
-    if (status == 200) {
+  function uploadAlertCallback(info: any) {
+    console.log(info);
+    if (info.status == 200) {
+      setImages(info.images);
       setImageAlertData(
         createAlert({
           type: "success",
@@ -26,7 +92,7 @@ export default function Upload() {
           maxWidth: 300,
         })
       );
-    } else if (status == 420) {
+    } else if (info.status == 420) {
       setImageAlertData(
         createAlert({
           type: "error",
@@ -47,37 +113,140 @@ export default function Upload() {
     }
   }
   const titleRef = useRef(null);
+  const speedRef = useRef(null);
 
   return (
-    <div>
-      <UploadImage
-        collection={process.env.NEXT_PUBLIC_POSTS_DB_NAME!}
-        field="image"
-        type="upload"
-        refs={[titleRef]}
-        callback={uploadAlertCallback}
-      ></UploadImage>
-      <input
-        type="text"
-        name="title"
-        minLength={1}
-        maxLength={50}
-        ref={titleRef}
-        placeholder="Title"
-      ></input>
-      <Alert
-        hidden={imageAlertData["hidden"]}
-        message={imageAlertData["message"]}
-        borderColor={imageAlertData["borderColor"]}
-        backgroundColor={imageAlertData["backgroundColor"]}
-        fontColor={imageAlertData["fontColor"]}
-        maxWidth={imageAlertData["maxWidth"]}
-        toggleHidden={() =>
-          setImageAlertData((prev) => {
-            return { ...prev, hidden: true };
-          })
-        }
-      ></Alert>
+    <div className="flex flex-col items-center w-full overflow-x-hidden overflow-y-scroll p-[10px]">
+      <div className={`${styles.imageContainer} w-full max-h-[70%]`}>
+        <div className={`${styles.imageGrid}`}>
+          {images &&
+            images.length > 0 &&
+            images.map((item, index) => {
+              return (
+                <img
+                  id={index.toString()}
+                  src={item}
+                  className={
+                    selectedImageIndex === index
+                      ? `${styles.selectedImage} w-full`
+                      : "w-full"
+                  }
+                  onClick={() => {
+                    setSelectedImageIndex(index);
+                  }}
+                ></img>
+              );
+            })}
+        </div>
+      </div>
+      <div className={`${styles.shiftImage}`}>
+        <div>
+          <input
+            type="button"
+            value="Shift Left"
+            onClick={() => {
+              shiftImage("left");
+            }}
+          ></input>
+        </div>
+
+        <div>
+          <input
+            type="button"
+            value="Shift Right"
+            onClick={() => {
+              shiftImage("right");
+            }}
+          ></input>
+        </div>
+      </div>
+
+      <div className={`${styles.uploadInfoContainer}`}>
+        <table className="">
+          <tr>
+            <td>
+              <label className="text-xl pl=[100px]">Title: </label>
+            </td>
+            <td>
+              <input
+                className={`${styles.title}`}
+                type="text"
+                name="title"
+                minLength={1}
+                maxLength={50}
+                ref={titleRef}
+                placeholder="Title"
+              ></input>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label className="text-xl">Animated: </label>
+            </td>
+            <td>
+              <div className={`${styles.checkboxWrapper}`}>
+                <label className={`${styles.toggleButton}`}>
+                  <input
+                    type="checkbox"
+                    onClick={() => {
+                      setAnimated((prev) => {
+                        return !prev;
+                      });
+                    }}
+                  ></input>
+                  <div>
+                    <svg viewBox="0 0 44 44">
+                      <path
+                        d="M14,24 L21,31 L39.7428882,11.5937758 C35.2809627,6.53125861 30.0333333,4 24,4 C12.95,4 4,12.95 4,24 C4,35.05 12.95,44 24,44 C35.05,44 44,35.05 44,24 C44,19.3 42.5809627,15.1645919 39.7428882,11.5937758"
+                        transform="translate(-2.000000, -2.000000)"
+                      ></path>
+                    </svg>
+                  </div>
+                </label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label className="text-xl">Speed: </label>
+            </td>
+            <td>
+              <input
+                name="speed"
+                type="number"
+                ref={speedRef}
+                defaultValue={animated ? 1 : 0}
+                disabled={!animated}
+                className={`${styles.speed}`}
+              ></input>
+            </td>
+          </tr>
+        </table>
+        <div className="mt-[10px]">
+          <UploadImage
+            collection={process.env.NEXT_PUBLIC_POSTS_DB_NAME!}
+            field="image"
+            type="upload"
+            refs={[titleRef, speedRef]}
+            multiple={animated}
+            callback={uploadAlertCallback}
+            onUpload={fetchImages}
+          ></UploadImage>
+          <Alert
+            hidden={imageAlertData["hidden"]}
+            message={imageAlertData["message"]}
+            borderColor={imageAlertData["borderColor"]}
+            backgroundColor={imageAlertData["backgroundColor"]}
+            fontColor={imageAlertData["fontColor"]}
+            maxWidth={imageAlertData["maxWidth"]}
+            toggleHidden={() =>
+              setImageAlertData((prev) => {
+                return { ...prev, hidden: true };
+              })
+            }
+          ></Alert>
+        </div>
+      </div>
     </div>
   );
 }

@@ -12,7 +12,6 @@ import { useContext } from "react";
 export default function Page() {
   const profileData = useContext(ProfileDataContext);
 
-  
   return (
     <main className={`h-[100%]`}>
       <div
@@ -43,10 +42,13 @@ export default function Page() {
             href={profileData.username ? "/upload" : "/create-account"}
             className={`neonBlackButton inline-block m-6`}
           >
-            {profileData.username ?  "Upload Artwork" : "Make account"}
+            {profileData.username ? "Upload Artwork" : "Create account"}
             <ArrowRightIcon className="h-[20px] w-[30px] inline" />
           </Link>
-          <Link href={"/gallery"} className={`neonBlackButton inline-block m-6`}>
+          <Link
+            href={"/gallery"}
+            className={`neonBlackButton inline-block m-6`}
+          >
             Browse gallery
             <ArrowDownIcon className="h-[20px] w-[30px] inline" />
           </Link>

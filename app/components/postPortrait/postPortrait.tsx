@@ -9,22 +9,24 @@ import { useState, useRef, useContext, useEffect } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import {
   HandThumbUpIcon as HandThumbUpIconSolid,
-  PencilSquareIcon as PencilSquareIconSolid,
+  TrashIcon as TrashIconSolid,
 } from "@heroicons/react/24/solid";
 import {
   HandThumbUpIcon as HandThumbUpIconOutline,
-  PencilSquareIcon as PencilSquareIconOutline,
+  TrashIcon as TrashIconOutline,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import deletePost from "@/app/functions/deletePost";
 
 interface postPortraitPropTypes {
   title: string;
-  image: any;
+  images: any;
   id: string;
   likes: number;
   username: string | null;
   profile_image: string;
   modifiable: boolean;
+  speed: number;
 }
 
 export default function PostPortrait(props: postPortraitPropTypes) {
@@ -32,18 +34,23 @@ export default function PostPortrait(props: postPortraitPropTypes) {
   const [tempLike, setTempLike] = useState(false);
   const [overideTempLike, setOverideTempLike] = useState(false);
   const likeCountRef = useRef<HTMLParagraphElement>(null);
-  const [isHoveringOverModify, setIsHoveringOverModify] = useState(false);
+  const [isHoveringOverDelete, setisHoveringOverDelete] = useState(false);
   const modifyButtonRef = useRef(null);
   const [fullscreenImageVisible, setFullscreenImageVisible] = useState(false);
   const postBackgroundRef = useRef<HTMLDivElement>(null);
+  const [currentImage, setCurrentImage] = useState(null);
+  const [deletePostConfirmation, setDeletePostConfirmation] = useState(false);
 
+  // Function to download an image
   async function downloadImage() {
-    const a = document.createElement("a");
-    a.href = props.image;
-    a.download = props.title;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    for (let index = 0; index < props.images.length; index++) {
+      const a = document.createElement("a");
+      a.href = props.images[index];
+      a.download = props.title + index;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   }
 
   // Like a post
@@ -70,6 +77,18 @@ export default function PostPortrait(props: postPortraitPropTypes) {
     await unlikePost(id);
   }
 
+  // Set the current image on load
+  useEffect(() => {
+    setCurrentImage(props.images[0]);
+    if (props.speed && props.speed != 0) {
+      var imageIndex = 0;
+      setInterval(() => {
+        imageIndex = (imageIndex + 1) % props.images.length;
+        setCurrentImage(props.images[imageIndex]);
+      }, props.speed * 1000);
+    }
+  }, []);
+
   return (
     <div className="flex h-[90%] w-[90%]" ref={postBackgroundRef}>
       {fullscreenImageVisible ? (
@@ -77,7 +96,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
           <div
             className="absolute w-full h-full blur-2xl"
             style={{
-              background: `url(${props.image})`,
+              background: `url(${props.images})`,
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
@@ -85,7 +104,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
           ></div>
           <img
             className={`absolute transform -translate-x-1/2 left-1/2 ${styles.imagePopupContainer}`}
-            src={props.image}
+            src={currentImage!}
           ></img>
           <input
             type="button"
@@ -108,7 +127,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
           <div className="w-full h-[70%]">
             <a>
               <img
-                src={props.image ? props.image : "/jjdoesit.png"}
+                src={currentImage ? currentImage : "/jjdoesit.png"}
                 className={`w-full max-h-[100%] ${styles.postImage}`}
                 onClick={() => {
                   if (postBackgroundRef && postBackgroundRef.current) {
@@ -160,22 +179,25 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             }
             <div className={`flex h-full}`}>
               {props.modifiable ? (
-                isHoveringOverModify ? (
-                  <PencilSquareIconSolid
+                isHoveringOverDelete ? (
+                  <TrashIconSolid
                     ref={modifyButtonRef}
                     className={`h-full pr-[5px] ${styles.modifyPost}`}
                     onMouseLeave={() => {
-                      setIsHoveringOverModify(false);
+                      setisHoveringOverDelete(false);
                     }}
-                  ></PencilSquareIconSolid>
+                    onClick={() => {
+                      setDeletePostConfirmation(true);
+                    }}
+                  ></TrashIconSolid>
                 ) : (
-                  <PencilSquareIconOutline
+                  <TrashIconOutline
                     ref={modifyButtonRef}
                     className={`h-full pr-[5px] ${styles.modifyPost}`}
                     onMouseEnter={() => {
-                      setIsHoveringOverModify(true);
+                      setisHoveringOverDelete(true);
                     }}
-                  ></PencilSquareIconOutline>
+                  ></TrashIconOutline>
                 )
               ) : (
                 <></>
@@ -209,6 +231,29 @@ export default function PostPortrait(props: postPortraitPropTypes) {
           </div>
         </div>
       )}
+      <div
+        className={`${styles.deletePostConfirmation}`}
+        style={deletePostConfirmation ? {} : { opacity: 0 }}
+      >
+        <p className="font-bold">Delete this post?</p>
+        <div className="flex justify-around">
+          <div
+            onClick={() => {
+              setDeletePostConfirmation(false);
+            }}
+          >
+            No
+          </div>
+          <div
+            onClick={async () => {
+              await deletePost(props.username!, props.id);
+              window.location.reload();
+            }}
+          >
+            Yes
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

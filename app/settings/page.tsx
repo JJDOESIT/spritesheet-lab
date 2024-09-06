@@ -41,8 +41,8 @@ export default function Settings() {
   let maxBioLength = 150; // The max number of characters the bio can be
 
   // Image alert callback
-  function imageAlertCallback(status: number) {
-    if (status == 200) {
+  function imageAlertCallback(info: any) {
+    if (info.status == 200) {
       setImageAlertData(
         createAlert({
           type: "success",
@@ -180,7 +180,9 @@ export default function Settings() {
                 collection="profiles"
                 field="profile_image"
                 type="update"
+                multiple={false}
                 callback={imageAlertCallback}
+                onUpload={null}
               ></UploadImage>
               <Alert
                 hidden={imageAlertData["hidden"]}

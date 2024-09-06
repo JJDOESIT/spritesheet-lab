@@ -10,11 +10,12 @@ import Link from "next/link";
 
 interface galleryPortraitPropTypes {
   title: string;
-  image: any;
+  images: any;
   id: string;
   likes: number;
   username: string | null;
   profile_image: string;
+  speed: number;
 }
 
 export default function GalleryPortrait(props: galleryPortraitPropTypes) {
@@ -22,6 +23,19 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
   const [tempLike, setTempLike] = useState(false);
   const [overideTempLike, setOverideTempLike] = useState(false);
   const likeCountRef = useRef<HTMLParagraphElement>(null);
+  const [currentImage, setCurrentImage] = useState(null);
+
+  // Set the current image on load
+  useEffect(() => {
+    setCurrentImage(props.images[0]);
+    if (props.speed && props.speed != 0) {
+      var imageIndex = 0;
+      setInterval(() => {
+        imageIndex = (imageIndex + 1) % props.images.length;
+        setCurrentImage(props.images[imageIndex]);
+      }, props.speed * 1000);
+    }
+  }, []);
 
   // Like a post
   async function likeAPost(id: string) {
@@ -55,7 +69,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
       <div className="w-full h-[80%]">
         <a href={"/post?post=" + props.id}>
           <img
-            src={props.image ? props.image : "/jjdoesit.png"}
+            src={currentImage ? currentImage : "/jjdoesit.png"}
             className="object-cover w-full h-full"
           ></img>
         </a>

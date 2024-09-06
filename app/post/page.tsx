@@ -24,6 +24,7 @@ export default function Post() {
     likes: 0,
     username: "",
     profile_image: "",
+    speed: 0,
   });
 
   // Fetch the post ID from the url params
@@ -40,6 +41,8 @@ export default function Post() {
     if (data) {
       setPostData(data);
       setPageLoaded(true);
+    } else {
+      setPageLoaded(true);
     }
   }
 
@@ -52,21 +55,28 @@ export default function Post() {
 
   return (
     <>
-      {pageLoaded ? (
+      {pageLoaded && postData._id && (
         <div className="flex w-full h-full">
           <div className="flex items-center justify-center w-full h-full">
             <PostPortrait
               title={postData.title}
-              image={postData.image}
+              images={postData.image}
               id={postData._id}
               likes={postData.likes}
               username={postData.username}
               profile_image={postData.profile_image}
               modifiable={postData.username === profileData.username}
+              speed={postData.speed}
             ></PostPortrait>
           </div>
         </div>
-      ) : (
+      )}
+      {pageLoaded && !postData._id && (
+        <div className="flex items-center justify-center w-full">
+          <p className="font-bold">No Post Found</p>
+        </div>
+      )}
+      {!pageLoaded && (
         <div className="flex items-center justify-center w-full h-full">
           <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon>
         </div>

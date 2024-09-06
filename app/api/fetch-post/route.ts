@@ -42,6 +42,7 @@ export async function POST(request: Request) {
             title: 1,
             likes: 1,
             username: 1,
+            speed: 1,
           },
         },
       ])

@@ -1,0 +1,293 @@
+.imageGrid{
+    display: grid;
+    width: 100%;
+    justify-content: center;
+    height: fit-content;
+    min-height: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 100%;
+    grid-template-columns: repeat(auto-fill, 300px);
+    grid-template-rows: repeat(auto-fill, 300px);
+    grid-auto-rows: 300px;
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+}
+
+.shiftImage > div > input{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 30px 10px 30px;
+    border-radius: 2.5em;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(201, 121, 232);
+    border: 3px solid rgb(0, 0, 0);
+    transition: all 200ms ease-in-out;
+}
+
+.shiftImage{
+    display: flex;
+    margin-top: 10px;
+}
+
+.shiftImage > div{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.shiftImage > div > input:hover{
+    border: 3px solid rgb(201, 121, 232);
+    background-color: black;
+    color: rgb(201, 121, 232);
+    cursor: pointer;
+}
+
+.selectedImage{
+    border: 4px solid rgb(201, 121, 232);
+    box-shadow: 0 5px 20px rgb(201, 121, 232);;
+}
+
+.imageContainer{
+    border: 4px solid black;
+    border-radius: 1rem;
+    box-shadow: 5px 5px;
+    background-color: white;
+}
+
+.title{
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 0.5rem;
+    padding: 5px;
+    border: 1px solid black;
+    margin-left: 10px;
+}
+
+.speed{
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-radius: 0.5rem;
+    padding: 5px;
+    border: 1px solid black;
+    margin-left: 10px;
+}
+
+.uploadInfoContainer{
+    padding: 10px 0px 10px 0px;
+    margin-top: 10px;
+    border: 4px solid black;
+    border-radius: 1rem;
+    background-color: white;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Checkbox */
+.checkboxWrapper input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+
+  .checkboxWrapper *,
+  .checkboxWrapper *::before,
+  .checkboxWrapper *::after {
+    box-sizing: border-box;
+  }
+
+  .checkboxWrapper .toggleButton {
+    cursor: pointer;
+    display: block;
+    transform-origin: 50% 50%;
+    transform-style: preserve-3d;
+    transition: transform 0.14s ease;
+  }
+  .checkboxWrapper .toggleButton:active {
+    transform: rotateX(30deg);
+  }
+  .checkboxWrapper .toggleButton input + div {
+    border: 3px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    position: relative;
+    width: 35px;
+    height: 35px;
+    margin: 10px;
+  }
+  .checkboxWrapper .toggleButton input + div svg {
+    fill: none;
+    stroke-width: 3.6;
+    stroke: #000;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    width: 35px;
+    height: 35px;
+    display: block;
+    position: absolute;
+    left: -3px;
+    top: -3px;
+    right: -3px;
+    bottom: -3px;
+    z-index: 1;
+    stroke-dashoffset: 124.6;
+    stroke-dasharray: 0 162.6 133 29.6;
+    transition: all 0.4s ease 0s;
+  }
+  .checkboxWrapper .toggleButton input + div:before,
+  .checkboxWrapper .toggleButton input + div:after {
+    content: "";
+    width: 3px;
+    height: 16px;
+    background: #000;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 5px;
+  }
+  .checkboxWrapper .toggleButton input + div:before {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+    -webkit-animation: bounceInBefore-44 0.3s linear forwards 0.3s;
+            animation: bounceInBefore-44 0.3s linear forwards 0.3s;
+  }
+  .checkboxWrapper .toggleButton input + div:after {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+    -webkit-animation: bounceInAfter-44 0.3s linear forwards 0.3s;
+            animation: bounceInAfter-44 0.3s linear forwards 0.3s;
+  }
+  .checkboxWrapper .toggleButton input:checked + div svg {
+    stroke-dashoffset: 162.6;
+    stroke-dasharray: 0 162.6 28 134.6;
+    transition: all 0.4s ease 0.2s;
+  }
+  .checkboxWrapper .toggleButton input:checked + div:before {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+    -webkit-animation: bounceInBeforeDont-44 0.3s linear forwards 0s;
+            animation: bounceInBeforeDont-44 0.3s linear forwards 0s;
+  }
+  .checkboxWrapper .toggleButton input:checked + div:after {
+    opacity: 0;
+    transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+    -webkit-animation: bounceInAfterDont-44 0.3s linear forwards 0s;
+            animation: bounceInAfterDont-44 0.3s linear forwards 0s;
+  }
+
+  @-webkit-keyframes bounceInBefore-44 {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.1) translate(-50%, -50%) rotate(45deg);
+    }
+    80% {
+      opacity: 1;
+      transform: scale(0.89) translate(-50%, -50%) rotate(45deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(45deg);
+    }
+  }
+
+  @keyframes bounceInBefore-44 {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.1) translate(-50%, -50%) rotate(45deg);
+    }
+    80% {
+      opacity: 1;
+      transform: scale(0.89) translate(-50%, -50%) rotate(45deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(45deg);
+    }
+  }
+  @-webkit-keyframes bounceInAfter-44 {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.1) translate(-50%, -50%) rotate(-45deg);
+    }
+    80% {
+      opacity: 1;
+      transform: scale(0.89) translate(-50%, -50%) rotate(-45deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+  @keyframes bounceInAfter-44 {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.1) translate(-50%, -50%) rotate(-45deg);
+    }
+    80% {
+      opacity: 1;
+      transform: scale(0.89) translate(-50%, -50%) rotate(-45deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+  @-webkit-keyframes bounceInBeforeDont-44 {
+    0% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+    }
+  }
+  @keyframes bounceInBeforeDont-44 {
+    0% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(45deg);
+    }
+  }
+  @-webkit-keyframes bounceInAfterDont-44 {
+    0% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(-45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+  @keyframes bounceInAfterDont-44 {
+    0% {
+      opacity: 1;
+      transform: scale(1) translate(-50%, -50%) rotate(-45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.3) translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+/* Checkbox */

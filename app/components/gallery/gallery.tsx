@@ -103,6 +103,7 @@ export default function Gallery(props: GalleryProps) {
             setCurrentPage(0);
           }
           setAllowPaginationConstruct(true);
+          console.log(posts);
           setGallery(posts);
         }
       });
@@ -160,10 +161,11 @@ export default function Gallery(props: GalleryProps) {
                         <GalleryPortrait
                           id={item._id}
                           title={item.title}
-                          image={item.image}
+                          images={item.image}
                           likes={item.likes}
                           username={item.username}
                           profile_image={item.profile_image}
+                          speed={item.speed}
                         ></GalleryPortrait>
                       );
                     })}

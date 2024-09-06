@@ -35,7 +35,16 @@ export default async function handleImage(
             return 420;
           } else {
             transformedInputs[key] = value;
+            // Set default values for likes and speed for posts
             transformedInputs["likes"] = 0;
+            transformedInputs["speed"] = null;
+          }
+        }
+        // If the input is speed
+        else if ((key as string) === "speed") {
+          // If the input is a number
+          if (typeof Number(value) == "number") {
+            transformedInputs[key] = Number(value);
           }
         }
         // The input type isn't valid -> return 400
