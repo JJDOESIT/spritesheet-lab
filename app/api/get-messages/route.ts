@@ -27,13 +27,20 @@ export async function POST(request: Request) {
     }));
 
     await Promise.all(messages.map(async (message: any) => {
+      if (!message) {
+        return null;
+      }
       var user = await db.collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!).findOne({ _id: message.user });
-      if (!user)
+      if (user == null)
       {
         throw new Error("No sender found");
       }
       message.user = user.username;
     }));
+
+    messages.filter((message: any) => {
+      return message != null;
+    });
 
     return new Response(JSON.stringify({ data: messages }));
   } catch (e) {

@@ -1,3 +1,4 @@
+import exp from "constants";
 
 
 export function timeDifference(date: Date) {
@@ -35,10 +36,15 @@ export function timeDifference(date: Date) {
     }
 
     // Determine the most significant difference
-    if (years > 0) return `${years} years ago`;
-    if (months > 0) return `${months} months ago`;
-    if (days > 0) return `${days} days ago`;
-    if (hours > 0) return `${hours} hours ago`;
-    if (minutes > 0) return `${minutes} minutes ago`;
+    if (years > 0) return `${years} year${years == 1 ? "" : "s"} ago`;
+    if (months > 0) return `${months} month${months == 1 ? "" : "s"} ago`;
+    if (days > 0) return `${days} day${days == 1 ? "" : "s"} ago`;
+    if (hours > 0) return `${hours} hour${hours == 1 ? "" : "s"} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes == 1 ? "" : "s"} ago`;
     return `${seconds} seconds ago`;
+}
+
+
+export function IDstringTodate(id: string) {
+    return new Date(parseInt(id.substring(0, 8), 16) * 1000);
 }

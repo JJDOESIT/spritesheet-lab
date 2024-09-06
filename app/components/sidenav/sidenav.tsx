@@ -50,6 +50,14 @@ export default function SideNav() {
     }
   };
 
+  // set up event listener for clicking outside of the sidenav
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   // get notification count
   useEffect(() => {
     getNotifications().then((data) => {
