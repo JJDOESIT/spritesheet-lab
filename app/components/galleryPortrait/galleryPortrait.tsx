@@ -3,6 +3,7 @@
 import styles from "../galleryPortrait/galleryPortrait.module.css";
 import { likePost, unlikePost } from "./galleryPortrait.server";
 import { useState, useRef, useContext, useEffect } from "react";
+import getTimestampFromObjectId from "@/app/functions/getDateFromID";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import { HandThumbUpIcon as HandThumbUpIconSolid } from "@heroicons/react/24/solid";
 import { HandThumbUpIcon as HandThumbUpIconOutline } from "@heroicons/react/24/outline";
@@ -75,7 +76,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
         </a>
       </div>
       <div className="flex justify-center max-h-[10%] items-center">
-        <p>{props.title}</p>
+        <p className="font-bold">{props.title}</p>
       </div>
       <div className="flex h-[10%] justify-between">
         {
@@ -91,6 +92,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
                 onClick={() => {
                   // Unlike the post and give temp feedback to the user
                   unlikeAPost(props.id);
+                  profileData.refetchProfileCallback();
                 }}
               ></HandThumbUpIconSolid>
               <p className="pl-[5px]" ref={likeCountRef}>
@@ -104,6 +106,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
                 onClick={() => {
                   // Like a post and give temp feedback to the user
                   likeAPost(props.id);
+                  profileData.refetchProfileCallback();
                 }}
               ></HandThumbUpIconOutline>
               <p className="pl-[5px]" ref={likeCountRef}>
@@ -113,8 +116,11 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
           )
         }
         <div className={`flex h-full}`}>
+          <p className="flex items-center">
+            {getTimestampFromObjectId(props.id)}
+          </p>
           <Link
-            className="flex pr-[5px]"
+            className="flex pr-[5px] pl-[5px]"
             href={props.username ? "/profiles/" + props.username : "/gallery/"}
           >
             <img

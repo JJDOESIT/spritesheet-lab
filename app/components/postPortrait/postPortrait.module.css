@@ -11,6 +11,10 @@
     cursor: pointer;
 }
 
+.postImage{
+    object-fit: contain;
+}
+
 .postImage:hover{
     cursor: pointer;
 }

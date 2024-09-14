@@ -9,15 +9,14 @@ import { usePathname } from "next/navigation";
 export function MessageCard({
   userArray,
   conversationId,
+  selected,
 }: {
   userArray: any[];
   conversationId: string;
+  selected: boolean;
 }) {
   const profileData = useContext(ProfileDataContext);
   const userName = profileData.username;
-
-  const pathname = usePathname();
-  const selected = pathname.endsWith(conversationId);
 
   userArray = userArray.filter((user) => user.username != userName);
 

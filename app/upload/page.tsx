@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import UploadImage from "../components/uploadImage/uploadImage";
 import createAlert from "../functions/createAlert";
 import Alert from "../components/alert/alert";
@@ -18,6 +19,7 @@ export default function Upload() {
     maxWidth: 0,
   });
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
 
   // Function to shift images left or right in the array
   function shiftImage(direction: string) {
@@ -65,10 +67,7 @@ export default function Upload() {
   // Set the selected image index to 0 once an image has been uploaded
   useEffect(() => {
     if (images) {
-      console.log(images);
       if (images.length === 0) {
-        setSelectedImageIndex(-1);
-      } else {
         setSelectedImageIndex(0);
       }
     }
@@ -81,13 +80,21 @@ export default function Upload() {
 
   // Image alert callback
   function uploadAlertCallback(info: any) {
-    console.log(info);
     if (info.status == 200) {
       setImages(info.images);
       setImageAlertData(
         createAlert({
           type: "success",
           message: "Image Uploaded. Please refresh.",
+          hidden: false,
+          maxWidth: 300,
+        })
+      );
+    } else if (info.status == 404) {
+      setImageAlertData(
+        createAlert({
+          type: "error",
+          message: "Please select an image ...",
           hidden: false,
           maxWidth: 300,
         })
@@ -118,46 +125,83 @@ export default function Upload() {
   return (
     <div className="flex flex-col items-center w-full overflow-x-hidden overflow-y-scroll p-[10px]">
       <div className={`${styles.imageContainer} w-full max-h-[70%]`}>
-        <div className={`${styles.imageGrid}`}>
+        <div className={`${styles.imageGrid} relative`}>
+          <input
+            type="file"
+            id="externalUpload"
+            accept="image/png, image/jpg, image/jpeg"
+            className="absolute w-full h-full z-[2] hover:cursor-pointer"
+            style={{ opacity: "0" }}
+            onChange={(event) => {
+              if (event.target.files) {
+                setUploadedImages(Array.from(event.target.files));
+              }
+            }}
+            multiple={animated}
+          ></input>
+          <div className={`${styles.uploadIconContainer}`}>
+            <ArrowUpIcon></ArrowUpIcon>
+            <p className="font-bold">Drag & drop any file here</p>
+            <p>
+              or <span className="text-[#C979E8]">browse</span> file from device
+            </p>
+          </div>
           {images &&
             images.length > 0 &&
             images.map((item, index) => {
-              return (
-                <img
-                  id={index.toString()}
-                  src={item}
-                  className={
-                    selectedImageIndex === index
-                      ? `${styles.selectedImage} w-full`
-                      : "w-full"
-                  }
-                  onClick={() => {
-                    setSelectedImageIndex(index);
-                  }}
-                ></img>
-              );
+              if (item) {
+                return (
+                  <img
+                    id={index.toString()}
+                    src={item}
+                    className={
+                      selectedImageIndex === index
+                        ? `${styles.selectedImage} w-full`
+                        : "w-full z-[2]"
+                    }
+                    onClick={() => {
+                      setSelectedImageIndex(index);
+                    }}
+                  ></img>
+                );
+              }
             })}
         </div>
       </div>
-      <div className={`${styles.shiftImage}`}>
-        <div>
-          <input
-            type="button"
-            value="Shift Left"
-            onClick={() => {
-              shiftImage("left");
-            }}
-          ></input>
+      <div className="flex items-center justify-center w-full mt-[10px]">
+        <div
+          className={`${styles.clearButton}`}
+          onClick={() => {
+            const inputElement = document.getElementById(
+              "externalUpload"
+            ) as HTMLInputElement;
+            inputElement.value = "";
+            setImages([]);
+            setUploadedImages([]);
+          }}
+        >
+          Clear
         </div>
+        <div className={`${styles.shiftImage}`}>
+          <div>
+            <input
+              type="button"
+              value="Shift Left"
+              onClick={() => {
+                shiftImage("left");
+              }}
+            ></input>
+          </div>
 
-        <div>
-          <input
-            type="button"
-            value="Shift Right"
-            onClick={() => {
-              shiftImage("right");
-            }}
-          ></input>
+          <div>
+            <input
+              type="button"
+              value="Shift Right"
+              onClick={() => {
+                shiftImage("right");
+              }}
+            ></input>
+          </div>
         </div>
       </div>
 
@@ -231,6 +275,8 @@ export default function Upload() {
             multiple={animated}
             callback={uploadAlertCallback}
             onUpload={fetchImages}
+            externalImages={uploadedImages}
+            uploadExternally={true}
           ></UploadImage>
           <Alert
             hidden={imageAlertData["hidden"]}

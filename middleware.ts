@@ -31,12 +31,21 @@ export async function middleware(request: NextRequest) {
   if (
     request.nextUrl.pathname.startsWith("/settings") ||
     request.nextUrl.pathname.startsWith("/messages") ||
-    request.nextUrl.pathname.startsWith("/upload")
+    request.nextUrl.pathname.startsWith("/upload") ||
+    request.nextUrl.pathname.startsWith("/liked-sheets") ||
+    request.nextUrl.pathname.startsWith("/notifications")
   ) {
     return await cookieAuth(request, process.env.SESSION_NAME!, "/login");
   }
 }
 
 export const config = {
-  matcher: ["/messages", "/settings", "/upload"],
+  matcher: [
+    "/messages",
+    "/settings",
+    "/upload",
+    "/upload",
+    "/liked-sheets",
+    "/notifications",
+  ],
 };

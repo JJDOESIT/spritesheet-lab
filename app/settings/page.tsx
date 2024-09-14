@@ -46,11 +46,12 @@ export default function Settings() {
       setImageAlertData(
         createAlert({
           type: "success",
-          message: "Image Uploaded. Please refresh.",
+          message: "Image Uploaded.",
           hidden: false,
           maxWidth: 400,
         })
       );
+      profileData.refetchProfileCallback();
     } else {
       setImageAlertData(
         createAlert({
@@ -77,11 +78,14 @@ export default function Settings() {
           setNameAlertData(
             createAlert({
               type: "success",
-              message: "Name updated. Please refresh.",
+              message: "Name updated.",
               hidden: false,
               maxWidth: 400,
             })
           );
+          const element = document.getElementById("name") as HTMLInputElement;
+          element.value = "";
+          profileData.refetchProfileCallback();
         } else {
           setNameAlertData(
             createAlert({
@@ -122,11 +126,14 @@ export default function Settings() {
           setBioAlertData(
             createAlert({
               type: "success",
-              message: "Bio updated. Please refresh.",
+              message: "Bio updated.",
               hidden: false,
               maxWidth: 400,
             })
           );
+          const element = document.getElementById("bio") as HTMLInputElement;
+          element.value = "";
+          profileData.refetchProfileCallback();
         } else {
           setBioAlertData(
             createAlert({
@@ -183,6 +190,8 @@ export default function Settings() {
                 multiple={false}
                 callback={imageAlertCallback}
                 onUpload={null}
+                externalImages={null}
+                uploadExternally={false}
               ></UploadImage>
               <Alert
                 hidden={imageAlertData["hidden"]}

@@ -30,6 +30,10 @@ export default function GallerySideBar(props: GallerySideBarProps) {
       return "Most Liked";
     } else if (sortType === "WORST") {
       return "Least Liked";
+    } else if (sortType === "RECENT") {
+      return "Recent";
+    } else if (sortType === "OLDEST") {
+      return "Oldest";
     }
   }
 
@@ -177,6 +181,24 @@ export default function GallerySideBar(props: GallerySideBarProps) {
                 onClick={() => {
                   setSortType("BEST");
                   props.sortTypeCallback("BEST");
+                }}
+              ></input>
+              <input
+                type="button"
+                value="Recent"
+                className={`w-full bg-white ${styles.sortTypeSelection} ${styles.sortTypeChild} neonBlackButton`}
+                onClick={() => {
+                  setSortType("RECENT");
+                  props.sortTypeCallback("RECENT");
+                }}
+              ></input>
+              <input
+                type="button"
+                value="Oldest"
+                className={`w-full bg-white ${styles.sortTypeSelection} ${styles.sortTypeChild} neonBlackButton`}
+                onClick={() => {
+                  setSortType("OLDEST");
+                  props.sortTypeCallback("OLDEST");
                 }}
               ></input>
             </div>

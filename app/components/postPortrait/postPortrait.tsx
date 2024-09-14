@@ -17,6 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import deletePost from "@/app/functions/deletePost";
+import getTimestampFromObjectId from "@/app/functions/getDateFromID";
 
 interface postPortraitPropTypes {
   title: string;
@@ -140,7 +141,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             </a>
           </div>
           <div className="flex justify-center max-h-[10%] items-center">
-            <p>{props.title}</p>
+            <p className="font-bold">{props.title}</p>
           </div>
           <div className="flex h-[5%] justify-between">
             {
@@ -202,8 +203,11 @@ export default function PostPortrait(props: postPortraitPropTypes) {
               ) : (
                 <></>
               )}
+              <p className="flex items-center">
+                {getTimestampFromObjectId(props.id)}
+              </p>
               <Link
-                className="flex pr-[5px]"
+                className="flex pr-[5px] pl-[5px]"
                 href={
                   props.username ? "/profiles/" + props.username : "/gallery/"
                 }

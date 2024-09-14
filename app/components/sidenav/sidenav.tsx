@@ -52,9 +52,9 @@ export default function SideNav() {
 
   // set up event listener for clicking outside of the sidenav
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -123,7 +123,7 @@ export default function SideNav() {
     <div
       ref={containerRef}
       style={{ transform: `translateX(${translateX})` }}
-      className={`p-4 h-[100%] flex-none w-[250px] bg-black block absolute right-0 overflow-y-scroll ${styles.noScrollbar} ${styles.sideNav}`}
+      className={`p-4 h-[100%] flex-none w-[250px] bg-black block absolute right-0 overflow-y-scroll z-[5] ${styles.noScrollbar} ${styles.sideNav}`}
     >
       <a href={`/profiles/${profileData.username}`}>
         <ProfilePicture
@@ -137,12 +137,14 @@ export default function SideNav() {
 
       <Link
         href={"/gallery"}
+        onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <BuildingStorefrontIcon className={styles.sideNavButtonIcon} />
         Gallery
       </Link>
       <Link
+        onClick={handleClick}
         href={"/upload"}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
@@ -191,6 +193,7 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/about"}
+        onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
@@ -208,7 +211,7 @@ export default function SideNav() {
       <div className={styles.sideNavBar}>Account</div>
 
       <Link
-        href={"/settings"}
+        href={"/liked-sheets"}
         onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >

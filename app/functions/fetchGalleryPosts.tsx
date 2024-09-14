@@ -11,38 +11,34 @@ export default async function fetchGalleryPosts(
   var gallery;
   try {
     // Fetch gallery posts with authentication
-    if (sortType === "USERNAME_WITH_AUTH") {
-      if (username) {
-        // Fetch the current auth session
-        var responseData: { auth: boolean; cookie: any } =
-          await isAuthenticated(process.env.SESSION_NAME!);
-        // If the user is authenticated
-        if (
-          responseData.auth &&
-          responseData.cookie &&
-          responseData.cookie.username === username
-        ) {
-          // API call to fetch gallery posts
-          const response = await fetch(
-            process.env.BASE_URL + "/api/fetch-gallery-posts",
-            {
-              method: "POST",
-              body: JSON.stringify({
-                searchInput: searchInput,
-                searchType: searchType,
-                sortType: sortType,
-                username: username,
-              }),
-            }
-          );
-          // Parse the response and set status
-          gallery = await response.json();
-        } else {
-          // User is not authenticated -> return null
-          gallery = null;
-        }
+    if (sortType === "LIKED") {
+      // Fetch the current auth session
+      var responseData: { auth: boolean; cookie: any } = await isAuthenticated(
+        process.env.SESSION_NAME!
+      );
+      // If the user is authenticated
+      if (
+        responseData.auth &&
+        responseData.cookie &&
+        responseData.cookie.username
+      ) {
+        // API call to fetch gallery posts
+        const response = await fetch(
+          process.env.BASE_URL + "/api/fetch-gallery-posts",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              searchInput: searchInput,
+              searchType: searchType,
+              sortType: sortType,
+              username: responseData.cookie.username,
+            }),
+          }
+        );
+        // Parse the response and set status
+        gallery = await response.json();
       } else {
-        // Username undefined -> return null
+        // User is not authenticated -> return null
         gallery = null;
       }
     } else {
