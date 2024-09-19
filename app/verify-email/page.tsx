@@ -106,7 +106,7 @@ export default function VerifyEmail() {
             onClick={async () => {
               const data = await sendEmailAuth();
               if (data) {
-                //sendEmail(data.email, data.username, data.token);
+                sendEmail(data.email, data.username, data.token);
               } else {
                 setAlertData(
                   createAlert({
