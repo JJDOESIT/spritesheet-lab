@@ -9,6 +9,7 @@ import userExists from "../functions/userExists";
 import Alert from "../components/alert/alert";
 import createAlert from "../functions/createAlert";
 import createConversation from "../functions/createConversation";
+import path from "path";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [conversations, setConversations] = useState([]);
@@ -16,6 +17,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
+
+  const [loadingMessages, setLoadingMessages] = useState(false);
+  const messageAreaRef = React.useRef<HTMLDivElement>(null);
 
   const [newUsers, setNewUsers] = useState<string[]>([]);
 
@@ -30,8 +34,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setIsLoadingMessages(false);
-    console.log("hey");
   }, [children]);
+
+
+  useEffect(() => {
+    if (messageAreaRef.current) {
+      messageAreaRef.current.addEventListener("click", () => {
+        setLoadingMessages(true);
+      });
+    }
+  })
+
+  // this is a hacky solution to play a loading animation before the messages load
+  useEffect(() => {
+    const handlePathChange = () => {
+      setLoadingMessages(false);
+    };
+
+    handlePathChange(); 
+
+    return () => {};
+  }, [pathName]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -187,13 +210,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <LoadingIcon time={1} tileSize={90} color="#000000"></LoadingIcon>
             </div>
           ) : (
-            getConversationCards()
+            <div ref={messageAreaRef}>
+              {getConversationCards()}
+            </div>
           )}
         </div>
       ) : (
         <></>
       )}
-      {isLoadingMessages ? (
+      {loadingMessages ? (
         <div className="h-full md:w-full border-black border-[2px] rounded-[13px] bg-white">
           <div className="flex flex-col items-center justify-center w-full h-full p-[10px]">
             <div className="flex flex-col items-center justify-center h-[90%] w-[300px] m-[10px]">
@@ -202,7 +227,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       ) : (
-        children
+        isLoadingMessages ? (
+        <>
+          <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon>
+        </>
+        
+      ) : (children)
       )}
     </main>
   );
