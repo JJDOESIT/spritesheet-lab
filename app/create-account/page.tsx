@@ -2,6 +2,8 @@
 import LoadingIcon from "../components/loadingIcon/loadingIcon";
 import Alert from "../components/alert/alert";
 import createAlert from "../functions/createAlert";
+import sendEmailAuth from "../functions/sendEmailAuth";
+import { sendVerificationEmail } from "../functions/sendVerificationEmail";
 import { useState, useRef, useEffect } from "react";
 
 export default function CreateAccount() {
@@ -196,6 +198,11 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
+        const data = await sendEmailAuth(username);
+        console.log(data);
+        if (data) {
+          sendVerificationEmail(data.email, data.username, data.token, null);
+        }
       }
       setPasswordValidation("");
       setUsernameValidation("");

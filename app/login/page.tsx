@@ -33,6 +33,10 @@ export default function Login() {
         await router.refresh();
         await router.push("/gallery");
         await location.replace("/gallery");
+      } else if (data.status === 210) {
+        await router.refresh();
+        await router.push("/verify-email");
+        await location.replace("/verify-email");
       } else if (data.status == 404) {
         setAlertData(
           createAlert({

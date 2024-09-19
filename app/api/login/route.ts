@@ -41,7 +41,14 @@ export async function POST(request: Request) {
           expires: cookieExpires,
           httpOnly: true,
         });
-        status = 200;
+        // If the user has their email verified -> return 200
+        if (users["email_verified"]) {
+          status = 200;
+        }
+        // Else they have not verified their email -> return 210
+        else {
+          status = 210;
+        }
       } else {
         // Password didn't match the hashed password -> return 404
         status = 404;
@@ -51,7 +58,7 @@ export async function POST(request: Request) {
       status = 404;
     }
   } catch (e) {
-    console.error(e)
+    console.error(e);
     // Couldn't connect to database -> return 500
     status = 500;
   }
