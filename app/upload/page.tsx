@@ -139,7 +139,10 @@ export default function Upload() {
             }}
             multiple={animated}
           ></input>
-          <div className={`${styles.uploadIconContainer}`}>
+          <div
+            className={`${styles.uploadIconContainer}`}
+            style={{ display: images.length === 0 ? "" : "none" }}
+          >
             <ArrowUpIcon></ArrowUpIcon>
             <p className="font-bold">Drag & drop any file here</p>
             <p>

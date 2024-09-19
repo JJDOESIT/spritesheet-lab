@@ -69,19 +69,22 @@ export default function UploadImage(props: UploadImageProps) {
 
   // Whenever the external image array is updated, convert
   // the images to base64 format and send them back
-  useEffect(() => {
-    async function fetchImages() {
-      try {
-        const images = await convertImagesExternal();
-        if (props.onUpload) {
-          props.onUpload(images);
-        }
-      } catch (error) {
-        console.error("Error fetching images:", error);
+  async function fetchImages() {
+    try {
+      const images = await convertImagesExternal();
+      if (props.onUpload) {
+        props.onUpload(images);
       }
+    } catch (error) {
+      console.error("Error fetching images:", error);
     }
+  }
 
-    if (props.externalImages) {
+  // Whenever the external image array is updated, convert
+  // the images to base64 format and send them back
+  useEffect(() => {
+    // If the external image array exists and the length is not 0
+    if (props.externalImages && props.externalImages.length != 0) {
       fetchImages();
     }
   }, [props.externalImages]);
