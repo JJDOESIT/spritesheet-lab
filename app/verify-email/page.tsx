@@ -100,7 +100,7 @@ export default function VerifyEmail() {
                 setAlertData(
                   createAlert({
                     type: "error",
-                    message: "Server Error!",
+                    message: "Server Error - Please Refresh",
                     hidden: false,
                     maxWidth: 350,
                   })
