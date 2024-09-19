@@ -3,12 +3,12 @@
 import verifyEmailAuth from "../functions/verifyEmailAuth";
 import sendEmailAuth from "../functions/sendEmailAuth";
 import ProfileDataContext from "../functions/profileDataContext";
-import emailjs from "@emailjs/browser";
 import styles from "../verify-email/verify-email.module.css";
 import Alert from "../components/alert/alert";
 import createAlert from "../functions/createAlert";
 import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
+import { sendVerificationEmail } from "../functions/sendVerificationEmail";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 export default function VerifyEmail() {
@@ -28,43 +28,27 @@ export default function VerifyEmail() {
   });
   const [verified, setVerified] = useState<Boolean | null>(null);
 
-  // Function to send email
-  const sendEmail = (email: string, username: string, token: string) => {
-    emailjs
-      .send(
-        process.env.NEXT_PUBLIC_EMAIL_AUTH_SERVICE_KEY!, // Service ID
-        process.env.NEXT_PUBLIC_EMAIL_AUTH_TEMPLATE_KEY!, // Template ID
-        {
-          email: email,
-          username: username,
-          token:
-            process.env.NEXT_PUBLIC_BASE_URL! + "verify-email?token=" + token, // Template parameters
-        },
-        process.env.NEXT_PUBLIC_EMAIL_AUTH_PUBLIC_KEY! // Public key
-      )
-      .then(
-        () => {
-          setAlertData(
-            createAlert({
-              type: "success",
-              message: "Email Verification Sent",
-              hidden: false,
-              maxWidth: 350,
-            })
-          );
-        },
-        (error) => {
-          setAlertData(
-            createAlert({
-              type: "error",
-              message: "Please try again",
-              hidden: false,
-              maxWidth: 350,
-            })
-          );
-        }
+  function emailCallback(success: boolean) {
+    if (success) {
+      setAlertData(
+        createAlert({
+          type: "success",
+          message: "Email Verification Sent",
+          hidden: false,
+          maxWidth: 350,
+        })
       );
-  };
+    } else {
+      setAlertData(
+        createAlert({
+          type: "error",
+          message: "Please try again",
+          hidden: false,
+          maxWidth: 350,
+        })
+      );
+    }
+  }
 
   // On page load, set the token from the url param
   useEffect(() => {
@@ -104,14 +88,19 @@ export default function VerifyEmail() {
           <input
             className={`neonBlackButton mb-[20px] ${styles.sendEmailButton}`}
             onClick={async () => {
-              const data = await sendEmailAuth();
+              const data = await sendEmailAuth(null);
               if (data) {
-                //sendEmail(data.email, data.username, data.token);
+                sendVerificationEmail(
+                  data.email,
+                  data.username,
+                  data.token,
+                  emailCallback
+                );
               } else {
                 setAlertData(
                   createAlert({
                     type: "error",
-                    message: "Please log in",
+                    message: "Server Error!",
                     hidden: false,
                     maxWidth: 350,
                   })
@@ -158,9 +147,14 @@ export default function VerifyEmail() {
               <input
                 className={`neonBlackButton mb-[20px] ${styles.sendEmailButton}`}
                 onClick={async () => {
-                  const data = await sendEmailAuth();
+                  const data = await sendEmailAuth(null);
                   if (data) {
-                    sendEmail(data.email, data.username, data.token);
+                    sendVerificationEmail(
+                      data.email,
+                      data.username,
+                      data.token,
+                      emailCallback
+                    );
                   }
                 }}
                 type="button"
