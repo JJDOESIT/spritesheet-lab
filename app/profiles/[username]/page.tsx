@@ -16,7 +16,7 @@ interface PageProps {
 export default function Page({ params }: PageProps) {
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [profileData, setProfileData] = useState<ProfileData>({
-    profile_image: "/blank-profile-picture.png" as string,
+    profile_image: "" as string,
     username: "This user does not exist." as string,
     name: null as string | null,
     bio: " " as string | null,
@@ -42,7 +42,11 @@ export default function Page({ params }: PageProps) {
         >
           <ProfilePictureBubble
             backgroundColor="bg-black"
-            profileImgSrc={profileData.profile_image}
+            profileImgSrc={
+              profileData.profile_image
+                ? profileData.profile_image
+                : "/blank-profile-picture.png"
+            }
             className="w-[250px] h-[250px]"
           ></ProfilePictureBubble>
           <div className="flex flex-col items-start justify-startw-[90%] md:w-[50%] flex-grow p-[20px]">

@@ -177,7 +177,11 @@ export default function Settings() {
                 Edit Profile Picture
               </p>
               <ProfilePicture
-                profileImgSrc={profileData["profile_image"]}
+                profileImgSrc={
+                  profileData.profile_image
+                    ? profileData.profile_image
+                    : "/blank-profile-picture.png"
+                }
                 username={profileData["username"]}
                 className="m-4"
                 backgroundColor="bg-black"

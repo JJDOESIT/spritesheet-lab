@@ -127,7 +127,11 @@ export default function SideNav() {
     >
       <a href={`/profiles/${profileData.username}`}>
         <ProfilePicture
-          profileImgSrc={profileData.profile_image}
+          profileImgSrc={
+            profileData.profile_image
+              ? profileData.profile_image
+              : "/blank-profile-picture.png"
+          }
           username={profileData.username}
           className="m-4"
         />
