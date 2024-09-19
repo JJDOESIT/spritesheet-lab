@@ -15,6 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMd, setIsMd] = useState(window.innerWidth >= 768);
   const pathName = usePathname();
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
 
   const [newUsers, setNewUsers] = useState<string[]>([]);
 
@@ -26,6 +27,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     fontColor: "",
     maxWidth: 0,
   });
+
+  useEffect(() => {
+    setIsLoadingMessages(false);
+    console.log("hey");
+  }, [children]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -68,6 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div
         onClick={() => {
           setSelectedIndex(index);
+          //setIsLoadingMessages(true);
         }}
       >
         <MessageCard
@@ -186,7 +193,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       ) : (
         <></>
       )}
-      {children}
+      {isLoadingMessages ? (
+        <div className="h-full md:w-full border-black border-[2px] rounded-[13px] bg-white">
+          <div className="flex flex-col items-center justify-center w-full h-full p-[10px]">
+            <div className="flex flex-col items-center justify-center h-[90%] w-[300px] m-[10px]">
+              <LoadingIcon time={1} tileSize={90} color="#000000"></LoadingIcon>
+            </div>
+          </div>
+        </div>
+      ) : (
+        children
+      )}
     </main>
   );
 }

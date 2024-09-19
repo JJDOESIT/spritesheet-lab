@@ -1,8 +1,7 @@
 "use client";
+
 import MessageBox from "@/app/components/messageBox/messageBox";
 import getMessages from "@/app/functions/getMessages";
-import { get } from "http";
-import { ObjectId } from "mongodb";
 import { useContext, useEffect, useRef, useState } from "react";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import sendMessage from "@/app/functions/sendMessage";

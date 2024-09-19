@@ -19,7 +19,7 @@ export default async function updateDBField(
     if (responseData.auth && responseData.cookie) {
       // Post to the db-update-field endpoint
       const response = await fetch(
-        process.env.BASE_URL + "/api/db-update-field",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/db-update-field",
         {
           method: "POST",
           body: JSON.stringify({

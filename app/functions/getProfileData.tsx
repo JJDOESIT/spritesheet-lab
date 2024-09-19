@@ -24,7 +24,7 @@ export default async function getProfileData(username: string | null = null) {
     if (username) {
       // Fetch the profile data
       const response = await fetch(
-        process.env.BASE_URL + "api/get-profile-data",
+        process.env.NEXT_PUBLIC_BASE_URL + "api/get-profile-data",
         {
           method: "POST",
           body: JSON.stringify({ username: username }),

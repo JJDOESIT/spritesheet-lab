@@ -1,7 +1,8 @@
+/* eslint-disable */
 import clientPromise from "../../../lib/mongodb";
 
 export async function POST(request: Request) {
-  var gallery;
+  var gallery = null;
   try {
     // Fetch data from POST request
     var data = await request.json();

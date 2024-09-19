@@ -2,7 +2,7 @@
 
 import { isAuthenticated } from "@/app/functions/cookies";
 
-export default async function uploadToDB(collection: string, data: any) {
+export default async function verifyEmailAuth(token: string) {
   var status;
   try {
     // Fetch the current auth session
@@ -13,13 +13,12 @@ export default async function uploadToDB(collection: string, data: any) {
     if (responseData.auth && responseData.cookie) {
       // API POST request to upload data into database
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/upload-to-db",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/verify-email-auth",
         {
           method: "POST",
           body: JSON.stringify({
-            collection: collection,
             user: responseData.cookie.username,
-            data: data,
+            token: token,
           }),
         }
       );

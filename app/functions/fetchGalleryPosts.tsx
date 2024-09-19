@@ -24,7 +24,7 @@ export default async function fetchGalleryPosts(
       ) {
         // API call to fetch gallery posts
         const response = await fetch(
-          process.env.BASE_URL + "/api/fetch-gallery-posts",
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/fetch-gallery-posts",
           {
             method: "POST",
             body: JSON.stringify({
@@ -44,7 +44,7 @@ export default async function fetchGalleryPosts(
     } else {
       // API call to fetch gallery posts
       const response = await fetch(
-        process.env.BASE_URL + "/api/fetch-gallery-posts",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/fetch-gallery-posts",
         {
           method: "POST",
           body: JSON.stringify({

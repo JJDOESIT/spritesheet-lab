@@ -2,8 +2,8 @@
 
 import { isAuthenticated } from "@/app/functions/cookies";
 
-export default async function uploadToDB(collection: string, data: any) {
-  var status;
+export default async function sendEmailAuth() {
+  var data;
   try {
     // Fetch the current auth session
     var responseData: { auth: boolean; cookie: any } = await isAuthenticated(
@@ -11,28 +11,26 @@ export default async function uploadToDB(collection: string, data: any) {
     );
     // If the user is authenticated
     if (responseData.auth && responseData.cookie) {
-      // API POST request to upload data into database
+      // API POST request to send email token to user
       const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/upload-to-db",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/send-email-auth",
         {
           method: "POST",
           body: JSON.stringify({
-            collection: collection,
             user: responseData.cookie.username,
-            data: data,
           }),
         }
       );
       // Parse the response and set status
-      status = await response.json();
+      data = await response.json();
     } else {
-      // User is not authenticated -> return 400
-      status = 400;
+      // User is not authenticated -> return null
+      data = null;
     }
   } catch (e) {
-    // Failed to insert data -> return 500
+    // Failed to send email -> return null
     console.log(e);
-    status = 500;
+    data = null;
   }
-  return status;
+  return data;
 }

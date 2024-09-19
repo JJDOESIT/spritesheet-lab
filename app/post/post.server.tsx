@@ -5,12 +5,15 @@ export async function fetchPost(postID: string) {
   try {
     if (postID) {
       // API POST request to fetch post from database
-      const response = await fetch(process.env.BASE_URL + "/api/fetch-post", {
-        method: "POST",
-        body: JSON.stringify({
-          postID: postID,
-        }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/fetch-post",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            postID: postID,
+          }),
+        }
+      );
       // Parse the response and set status
       post = await response.json();
     } else {

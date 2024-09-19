@@ -15,7 +15,7 @@ export default async function deletePost(postAuthor: string, postID: string) {
       if (postAuthor === responseData.cookie.username) {
         // API POST request to delete post from thedatabase
         const response = await fetch(
-          process.env.BASE_URL + "/api/delete-from-db",
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/delete-from-db",
           {
             method: "POST",
             body: JSON.stringify({

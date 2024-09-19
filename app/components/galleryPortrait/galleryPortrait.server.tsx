@@ -13,14 +13,17 @@ export async function likePost(postID: string) {
     // If the user is authenticated
     if (responseData.auth && responseData.cookie) {
       // API POST request to upload data into database
-      const response = await fetch(process.env.BASE_URL + "/api/post-likes", {
-        method: "POST",
-        body: JSON.stringify({
-          type: "like",
-          user: responseData.cookie.username,
-          data: postID,
-        }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/post-likes",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            type: "like",
+            user: responseData.cookie.username,
+            data: postID,
+          }),
+        }
+      );
       // Parse the response and set status
       status = await response.json();
     }
@@ -42,14 +45,17 @@ export async function unlikePost(postID: string) {
     // If the user is authenticated
     if (responseData.auth && responseData.cookie) {
       // API POST request to upload data into database
-      const response = await fetch(process.env.BASE_URL + "/api/post-likes", {
-        method: "POST",
-        body: JSON.stringify({
-          type: "unlike",
-          user: responseData.cookie.username,
-          data: postID,
-        }),
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/post-likes",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            type: "unlike",
+            user: responseData.cookie.username,
+            data: postID,
+          }),
+        }
+      );
       // Parse the response and set status
       status = await response.json();
     }

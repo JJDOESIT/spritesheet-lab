@@ -6,10 +6,14 @@ import { useState, useRef, useEffect } from "react";
 
 export default function CreateAccount() {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loadingPage, setLoadingPage] = useState(false);
-  const [passwordValidation, setPasswordValidation] = useState("");
+  // Front end text-input validation
   const [usernameValidation, setUsernameValidation] = useState("");
+  const [emailValidation, setEmailValidation] = useState("");
+  const [passwordValidation, setPasswordValidation] = useState("");
+
   const [alertData, setAlertData] = useState({
     hidden: true,
     message: "",
@@ -22,7 +26,7 @@ export default function CreateAccount() {
   useEffect(() => {
     const usernameLengthRequirement = 2;
     const passwordLengthRequirement = 8;
-    const usernameRegex = /^[a-z0-9._]*$/;
+    const usernameRegex = /^[a-zA-Z0-9._]*$/;
     const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()\-_=+[\]{};':"\\|,.<>/?]*$/;
 
     if (username) {
@@ -39,7 +43,7 @@ export default function CreateAccount() {
         );
       }
       // Username must contain at least one letter
-      else if (!/^(?=.*[a-z]).*$/.test(username)) {
+      else if (!/^(?=.*[a-zA-Z]).*$/.test(username)) {
         setUsernameValidation(
           "\u2022Username must contain at least one letter"
         );
@@ -78,7 +82,17 @@ export default function CreateAccount() {
         setPasswordValidation("");
       }
     }
-  }, [password, username]);
+    if (email) {
+      // Email doesn't contain an @ symbol
+      if (!email.includes("@")) {
+        setEmailValidation("\u2022Email must contain an @");
+      }
+      // Else looks good
+      else {
+        setEmailValidation("");
+      }
+    }
+  }, [username, email, password]);
 
   async function handleSubmit(info: { [key: string]: string }) {
     try {
@@ -153,6 +167,15 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
+      } else if (data.status == 470) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Email missing an @",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
       } else if (data.status === 500) {
         setAlertData(
           createAlert({
@@ -214,22 +237,37 @@ export default function CreateAccount() {
               }}
             ></input>
             <input
+              id="email"
+              placeholder="Email"
+              type="email"
+              className="p-1 mt-1 border-2 rounded-3xl border-slate-300"
+              maxLength={100}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            ></input>
+            <input
               id="password"
               type="password"
               placeholder="Password"
-              className="p-1 mt-2 border-2 rounded-3xl border-slate-300 mb-[15px]"
+              className="p-1 mt-1 border-2 rounded-3xl border-slate-300 mb-[15px]"
               maxLength={128}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             ></input>
             <div>
-              <p className="text-xs text-red-600 max-w-[210px]">
+              <p className="text-[12px] text-red-600 max-w-[210px]">
                 {usernameValidation}
               </p>
             </div>
             <div>
-              <p className="text-xs text-red-600 max-w-[210px]">
+              <p className="text-[12px] text-red-600 max-w-[210px]">
+                {emailValidation}
+              </p>
+            </div>
+            <div>
+              <p className="text-[12px] text-red-600 max-w-[210px]">
                 {passwordValidation}
               </p>
             </div>
@@ -251,7 +289,11 @@ export default function CreateAccount() {
               value="Submit"
               className={`border-2 mt-5 border-slate-300 neonBlackButton`}
               onClick={() =>
-                handleSubmit({ username: username, password: password })
+                handleSubmit({
+                  username: username,
+                  email: email,
+                  password: password,
+                })
               }
             ></input>
             <a href="/login" className="w-fit">

@@ -11,8 +11,9 @@ export async function POST(request: Request) {
   try {
     // Fetch data from POST request
     var data = await request.json();
-    // Convert the username to lowercase
+    // Convert the username and email to lowercase
     data.username = data.username.toLowerCase();
+    data.email = data.email.toLowerCase();
   } catch (e) {
     // Internal server error -> return 500
     status = 500;
@@ -52,6 +53,11 @@ export async function POST(request: Request) {
     status = 460;
     return new Response(JSON.stringify({ status: status }));
   }
+  // If the email doesn't contain an @ symbol
+  else if (!data.email.includes("@")) {
+    status = 470;
+    return new Response(JSON.stringify({ status: status }));
+  }
 
   try {
     // Connect to the database 'db'
@@ -68,7 +74,9 @@ export async function POST(request: Request) {
       // Attempt to insert the password into the 'users' database
       await db.collection(process.env.NEXT_PUBLIC_USERS_DB_NAME!).insertOne({
         username: data.username,
+        email: data.email,
         password: hash,
+        email_verified: false,
       });
       // Fetch the id from the newly created account
       const id = await db
