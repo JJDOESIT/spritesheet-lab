@@ -54,6 +54,8 @@ export function MessageCard({
             profileImgSrc={
               userArray.length == 1
                 ? userArray[0].profile_image
+                  ? userArray[0].profile_image
+                  : "/blank-profile-picture.png"
                 : "/group_chat.png"
             }
           />

@@ -23,6 +23,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const [newUsers, setNewUsers] = useState<string[]>([]);
 
+  const [pageRefreshed, setPageRefreshed] = useState(false);
+
   const [userMissingAlert, setUserMissingAlert] = useState({
     hidden: true,
     message: "",
@@ -36,22 +38,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setIsLoadingMessages(false);
   }, [children]);
 
-
   useEffect(() => {
     if (messageAreaRef.current) {
       messageAreaRef.current.addEventListener("click", () => {
         setLoadingMessages(true);
       });
     }
-  })
+  });
 
-  // this is a hacky solution to play a loading animation before the messages load
+  // This is a hacky solution to play a loading animation before the messages load
   useEffect(() => {
     const handlePathChange = () => {
       setLoadingMessages(false);
     };
 
-    handlePathChange(); 
+    handlePathChange();
 
     return () => {};
   }, [pathName]);
@@ -210,9 +211,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <LoadingIcon time={1} tileSize={90} color="#000000"></LoadingIcon>
             </div>
           ) : (
-            <div ref={messageAreaRef}>
-              {getConversationCards()}
-            </div>
+            <div ref={messageAreaRef}>{getConversationCards()}</div>
           )}
         </div>
       ) : (
@@ -226,13 +225,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </div>
-      ) : (
-        isLoadingMessages ? (
+      ) : isLoadingMessages ? (
         <>
           <LoadingIcon time={1} tileSize={100} color="#000000"></LoadingIcon>
         </>
-        
-      ) : (children)
+      ) : (
+        children
       )}
     </main>
   );

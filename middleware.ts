@@ -95,6 +95,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/messages",
+    "/messages/:messageId*",
     "/settings",
     "/upload",
     "/upload",
