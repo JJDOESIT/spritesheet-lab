@@ -10,6 +10,8 @@ import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
 import { sendVerificationEmail } from "../functions/sendVerificationEmail";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
+import canSendEmail from "../functions/canSendEmail";
 
 export default function VerifyEmail() {
   // Profile data
@@ -88,19 +90,34 @@ export default function VerifyEmail() {
           <input
             className={`neonBlackButton mb-[20px] ${styles.sendEmailButton}`}
             onClick={async () => {
-              const data = await sendEmailAuth(null);
-              if (data) {
-                sendVerificationEmail(
-                  data.email,
-                  data.username,
-                  data.token,
-                  emailCallback
-                );
+              const canSendData = await canSendEmail();
+              if (canSendData && canSendData["status"] === 200) {
+                const data = await sendEmailAuth(null);
+                if (data) {
+                  /* sendVerificationEmail(
+                    data.email,
+                    data.username,
+                    data.token,
+                    emailCallback
+                  ); */
+                } else {
+                  setAlertData(
+                    createAlert({
+                      type: "error",
+                      message: "Server Error - Please Refresh",
+                      hidden: false,
+                      maxWidth: 350,
+                    })
+                  );
+                }
               } else {
                 setAlertData(
                   createAlert({
                     type: "error",
-                    message: "Server Error - Please Refresh",
+                    message:
+                      "Please wait " +
+                      Math.round(canSendData["waitTime"]) +
+                      " seconds",
                     hidden: false,
                     maxWidth: 350,
                   })
@@ -128,11 +145,14 @@ export default function VerifyEmail() {
         <>
           {verified === null && <p>Please wait while we verify ...</p>}
           {verified && (
-            <div>
+            <div className="flex flex-col items-center justify-center">
               <CheckCircleIcon></CheckCircleIcon>
-              <p className="text-xl text-center">
+              <p className="text-xl text-center mb-[20px]">
                 Thank you for verifying your email!
               </p>
+              <Link href="/gallery" className="neonBlackButton">
+                Go to Gallery
+              </Link>
             </div>
           )}
           {!verified && verified != null && (

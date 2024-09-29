@@ -1,14 +1,18 @@
 "use client";
 
 import Logo from "../logo/logo";
-import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/solid";
+import {
+  AdjustmentsHorizontalIcon,
+  AdjustmentsVerticalIcon,
+} from "@heroicons/react/24/solid";
 import Link from "next/link";
 import ProfileDataContext from "@/app/functions/profileDataContext";
 import styles from "../navbar/navbar.module.css";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 
 export default function Navbar() {
   const profileData = useContext(ProfileDataContext);
+  const [sideBarOpen, setSidebarOpen] = useState(false);
 
   const loginButton = (
     <Link className="text-lg blackButton" href="/login">
@@ -27,9 +31,25 @@ export default function Navbar() {
         </Link>
         {profileData.username ? (
           <>
-            <button id="NavbarButton">
-              <AdjustmentsHorizontalIcon className="h-[40px] w-[40px]" />
-            </button>
+            {!sideBarOpen ? (
+              <button id="NavbarButton">
+                <AdjustmentsHorizontalIcon
+                  className="h-[40px] w-[40px]"
+                  onClick={() => {
+                    setSidebarOpen(true);
+                  }}
+                />
+              </button>
+            ) : (
+              <button id="NavbarButton">
+                <AdjustmentsVerticalIcon
+                  className="h-[40px] w-[40px]"
+                  onClick={() => {
+                    setSidebarOpen(false);
+                  }}
+                ></AdjustmentsVerticalIcon>
+              </button>
+            )}
           </>
         ) : (
           loginButton

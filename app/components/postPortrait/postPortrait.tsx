@@ -10,10 +10,12 @@ import ProfileDataContext from "@/app/functions/profileDataContext";
 import {
   HandThumbUpIcon as HandThumbUpIconSolid,
   TrashIcon as TrashIconSolid,
+  ArrowLeftCircleIcon as ArrowLeftSolid,
 } from "@heroicons/react/24/solid";
 import {
   HandThumbUpIcon as HandThumbUpIconOutline,
   TrashIcon as TrashIconOutline,
+  ArrowLeftCircleIcon as ArrowLeftOutline,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import deletePost from "@/app/functions/deletePost";
@@ -36,6 +38,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
   const [overideTempLike, setOverideTempLike] = useState(false);
   const likeCountRef = useRef<HTMLParagraphElement>(null);
   const [isHoveringOverDelete, setisHoveringOverDelete] = useState(false);
+  const [isHoveringOverBack, setisHoveringOverBack] = useState(false);
   const modifyButtonRef = useRef(null);
   const [fullscreenImageVisible, setFullscreenImageVisible] = useState(false);
   const postBackgroundRef = useRef<HTMLDivElement>(null);
@@ -107,18 +110,29 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             className={`absolute transform -translate-x-1/2 left-1/2 ${styles.imagePopupContainer}`}
             src={currentImage!}
           ></img>
-          <input
-            type="button"
-            value="X"
-            className={`${styles.exitImageButton}`}
-            onClick={() => {
-              if (postBackgroundRef && postBackgroundRef.current) {
-                postBackgroundRef.current.style.width = "90%";
-                postBackgroundRef.current.style.height = "90%";
-                setFullscreenImageVisible(false);
-              }
-            }}
-          ></input>
+          {isHoveringOverBack ? (
+            <ArrowLeftSolid
+              className={`${styles.exitImageButton}`}
+              onClick={() => {
+                if (postBackgroundRef && postBackgroundRef.current) {
+                  postBackgroundRef.current.style.width = "90%";
+                  postBackgroundRef.current.style.height = "90%";
+                  setFullscreenImageVisible(false);
+                  setisHoveringOverBack(false);
+                }
+              }}
+              onMouseLeave={() => {
+                setisHoveringOverBack(false);
+              }}
+            ></ArrowLeftSolid>
+          ) : (
+            <ArrowLeftOutline
+              className={`${styles.exitImageButton}`}
+              onMouseEnter={() => {
+                setisHoveringOverBack(true);
+              }}
+            ></ArrowLeftOutline>
+          )}
         </div>
       ) : (
         <div
@@ -144,7 +158,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             <p className="font-bold">{props.title}</p>
           </div>
           <div className="flex h-[5%] justify-between">
-            {
+            {profileData.username && profileData.username != "" ? (
               // If a post has been liked or temp liked
               ((profileData.liked_posts &&
                 props.id &&
@@ -177,7 +191,9 @@ export default function PostPortrait(props: postPortraitPropTypes) {
                   </p>
                 </div>
               )
-            }
+            ) : (
+              <div></div>
+            )}
             <div className={`flex h-full}`}>
               {props.modifiable ? (
                 isHoveringOverDelete ? (

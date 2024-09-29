@@ -79,7 +79,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
         <p className="font-bold">{props.title}</p>
       </div>
       <div className="flex h-[10%] justify-between">
-        {
+        {profileData.username && profileData.username != "" ? (
           // If a post has been liked or temp liked
           ((profileData.liked_posts &&
             props.id &&
@@ -114,7 +114,9 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
               </p>
             </div>
           )
-        }
+        ) : (
+          <div></div>
+        )}
         <div className={`flex h-full}`}>
           <p className="flex items-center">
             {getTimestampFromObjectId(props.id)}

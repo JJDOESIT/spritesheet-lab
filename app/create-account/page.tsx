@@ -178,6 +178,33 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
+      } else if (data.status === 480) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Password too long",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status === 490) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Username too long",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
+      } else if (data.status === 510) {
+        setAlertData(
+          createAlert({
+            type: "error",
+            message: "Email too long",
+            hidden: false,
+            maxWidth: 225,
+          })
+        );
       } else if (data.status === 500) {
         setAlertData(
           createAlert({
@@ -201,7 +228,7 @@ export default function CreateAccount() {
         const data = await sendEmailAuth(username);
         console.log(data);
         if (data) {
-          sendVerificationEmail(data.email, data.username, data.token, null);
+          //sendVerificationEmail(data.email, data.username, data.token, null);
         }
       }
       setPasswordValidation("");

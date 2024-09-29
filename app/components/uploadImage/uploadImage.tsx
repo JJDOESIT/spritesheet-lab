@@ -83,9 +83,13 @@ export default function UploadImage(props: UploadImageProps) {
   // Whenever the external image array is updated, convert
   // the images to base64 format and send them back
   useEffect(() => {
+    console.log("\n\n\nhey");
     // If the external image array exists and the length is not 0
     if (props.externalImages && props.externalImages.length != 0) {
       fetchImages();
+    } else {
+      // Else the cancel button was clicked or images were cleared somehow
+      props.onUpload([]);
     }
   }, [props.externalImages]);
 

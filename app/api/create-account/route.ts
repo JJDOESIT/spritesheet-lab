@@ -5,6 +5,9 @@ export async function POST(request: Request) {
   var status = 500;
   const usernameLengthRequirement = 2;
   const passwordLengthRequirement = 8;
+  const passwordMaxLength = 128;
+  const usernameMaxLength = 15;
+  const emailMaxLength = 100;
   const usernameRegex = /^[a-z0-9._]*$/;
   const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()\-_=+[\]{};':"\\|,.<>/?]*$/;
 
@@ -56,6 +59,21 @@ export async function POST(request: Request) {
   // If the email doesn't contain an @ symbol
   else if (!data.email.includes("@")) {
     status = 470;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Password too long -> return 480
+  else if (data.password.length > passwordMaxLength) {
+    status = 480;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Username too long -> return 490
+  else if (data.username.length > usernameMaxLength) {
+    status = 490;
+    return new Response(JSON.stringify({ status: status }));
+  }
+  // Email too long -> return 490
+  else if (data.email.length > emailMaxLength) {
+    status = 510;
     return new Response(JSON.stringify({ status: status }));
   }
 

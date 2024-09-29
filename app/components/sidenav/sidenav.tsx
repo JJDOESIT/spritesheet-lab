@@ -50,13 +50,13 @@ export default function SideNav() {
     }
   };
 
-  // set up event listener for clicking outside of the sidenav
+  /* // set up event listener for clicking outside of the sidenav
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []); */
 
   // get notification count
   useEffect(() => {
@@ -71,13 +71,13 @@ export default function SideNav() {
     });
   }, []);
 
-  // set up event listener for clicking outside of the sidenav
+  /* // set up event listener for clicking outside of the sidenav
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, []); */
 
   // Add event handler to navbar button
   useEffect(() => {
@@ -141,14 +141,14 @@ export default function SideNav() {
 
       <Link
         href={"/gallery"}
-        onClick={handleClick}
+        //onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <BuildingStorefrontIcon className={styles.sideNavButtonIcon} />
         Gallery
       </Link>
       <Link
-        onClick={handleClick}
+        //onClick={handleClick}
         href={"/upload"}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
@@ -156,8 +156,8 @@ export default function SideNav() {
         Upload
       </Link>
 
+      {/* 
       <div className={styles.sideNavBar}>Social</div>
-
       <Link
         href={"/notifications"}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
@@ -175,21 +175,21 @@ export default function SideNav() {
             {notificationCount}
           </div>
         )}
-      </Link>
-      <Link
+      </Link> */}
+      {/* <Link
         href={"/messages"}
         onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
-      </Link>
+      </Link> */}
 
       <div className={styles.sideNavBar}>Info</div>
 
       <Link
         href={"/licensing-tos"}
-        onClick={handleClick}
+        //onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
@@ -197,7 +197,7 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/about"}
-        onClick={handleClick}
+        //onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
@@ -205,7 +205,7 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/contact"}
-        onClick={handleClick}
+        //onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <EnvelopeIcon className={styles.sideNavButtonIcon} />
@@ -216,7 +216,7 @@ export default function SideNav() {
 
       <Link
         href={"/liked-sheets"}
-        onClick={handleClick}
+        //onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <HandThumbUpIcon className={styles.sideNavButtonIcon} />
@@ -225,7 +225,7 @@ export default function SideNav() {
 
       <Link
         href={"/settings"}
-        onClick={handleClick}
+        //onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <Cog6ToothIcon className={styles.sideNavButtonIcon} />

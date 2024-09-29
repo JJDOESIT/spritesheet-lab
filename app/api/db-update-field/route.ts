@@ -22,10 +22,16 @@ export async function POST(request: Request) {
     // If the user account exists
     if (id && id._id) {
       // Insert data into the collection with the associated user
-      db.collection(collection).updateOne(
-        { foreign_key: id._id },
-        { $set: { [field]: data } }
-      );
+      if (collection != "users") {
+        await db
+          .collection(collection)
+          .updateOne({ foreign_key: id._id }, { $set: { [field]: data } });
+      } else {
+        await db
+          .collection(collection)
+          .updateOne({ _id: id._id }, { $set: { [field]: data } });
+      }
+
       // Success -> return 200
       status = 200;
     } else {

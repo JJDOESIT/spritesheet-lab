@@ -35,7 +35,7 @@
     ".next/types/**/*.ts",
     "**/**/**/*.tsx",
     "app/componetns/**/*.tsx"
-, "app/profiles/[username]/page.tsx"  ],
+, "app/profiles/[username]/page.tsx", "app/not-found.js"  ],
   "exclude": [
     "node_modules"
   ]
