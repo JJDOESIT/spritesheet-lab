@@ -1,5 +1,6 @@
 "use server";
 import { cookieGet } from "./cookies";
+import { isAuthenticated } from "./cookies";
 
 export async function getNotifications() {
   var data;
@@ -56,11 +57,16 @@ export async function deleteNotification(notification: any) {
 export async function notifyUser(username: string, type: string, id: string) {
   var data;
   try {
-    const cookie = await cookieGet(process.env.SESSION_NAME!);
-    if (cookie) {
+    // Fetch the current auth session
+    var responseData: { auth: boolean; cookie: any } = await isAuthenticated(
+      process.env.SESSION_NAME!
+    );
+
+    // If the user is authenticated
+    if (responseData.auth && responseData.cookie) {
       var notification = {
         time: new Date().toISOString(),
-        sender: cookie.username,
+        sender: responseData.cookie.username,
         type: type,
         id: id,
         stack: 1,
@@ -78,6 +84,7 @@ export async function notifyUser(username: string, type: string, id: string) {
         }
       );
       data = await response.json();
+      console.log(data);
 
       return data.data;
     } else {

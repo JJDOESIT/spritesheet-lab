@@ -26,48 +26,68 @@ export async function POST(request: Request) {
 
     // If the account exists
     if (user_document) {
-        if (removal)
-        {
-            if (user_document.notifications && user_document.notifications.length > 0) {
-                user_document.notifications = user_document.notifications.reduce((acc: any[], n: any) => {
-                  if (n.sender !== notification.sender || n.type !== notification.type || n.id !== notification.id) {
-                    acc.push(n);
-                  }
-                  return acc;
-                }, []);
-                await db.collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!).updateOne(
-                    { _id: user_document._id },
-                    { $set: { notifications: user_document.notifications } }
-                );
-                data = "Notification removed successfully";
-            } else {
-                data = "No notifications found";
-            }
-        }
-        else
-        {
-            if (!user_document.notifications) {
-                user_document.notifications = [];
-            }
-
-            for (const n of user_document.notifications) {
-              if (n.sender === notification.sender && n.type === notification.type && n.id === notification.id) {
-                notification.stack = n.stack + 1;
-
-                user_document.notifications = user_document.notifications.filter((n: any) => n.sender !== notification.sender || n.type !== notification.type || n.id !== notification.id);
-                
-                data = "Notification removed successfully";
+      if (removal) {
+        if (
+          user_document.notifications &&
+          user_document.notifications.length > 0
+        ) {
+          user_document.notifications = user_document.notifications.reduce(
+            (acc: any[], n: any) => {
+              if (
+                n.sender !== notification.sender ||
+                n.type !== notification.type ||
+                n.id !== notification.id
+              ) {
+                acc.push(n);
               }
-            }
-
-            user_document.notifications.push(notification);
-
-            await db.collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!).updateOne(
-                { _id: user_document._id },
-                { $set: { notifications: user_document.notifications } }
+              return acc;
+            },
+            []
+          );
+          await db
+            .collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!)
+            .updateOne(
+              { _id: user_document._id },
+              { $set: { notifications: user_document.notifications } }
             );
-            data = "Notification added successfully";
+          data = "Notification removed successfully";
+        } else {
+          data = "No notifications found";
         }
+      } else {
+        if (!user_document.notifications) {
+          user_document.notifications = [];
+        }
+
+        for (const n of user_document.notifications) {
+          if (
+            n.sender === notification.sender &&
+            n.type === notification.type &&
+            n.id === notification.id
+          ) {
+            notification.stack = n.stack + 1;
+
+            user_document.notifications = user_document.notifications.filter(
+              (n: any) =>
+                n.sender !== notification.sender ||
+                n.type !== notification.type ||
+                n.id !== notification.id
+            );
+
+            data = "Notification removed successfully";
+          }
+        }
+
+        user_document.notifications.push(notification);
+
+        await db
+          .collection(process.env.NEXT_PUBLIC_PROFILES_DB_NAME!)
+          .updateOne(
+            { _id: user_document._id },
+            { $set: { notifications: user_document.notifications } }
+          );
+        data = "Notification added successfully";
+      }
     }
   } catch (e) {
     data = null;

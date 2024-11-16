@@ -39,7 +39,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
   }, []);
 
   // Like a post
-  async function likeAPost(id: string) {
+  async function likeAPost(id: string, author: string) {
     setTempLike(true);
     setOverideTempLike(false);
     if (likeCountRef.current) {
@@ -47,7 +47,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
         parseInt(likeCountRef.current.innerHTML) + 1
       ).toString();
     }
-    await likePost(id);
+    await likePost(id, author);
   }
 
   // Unlike a post
@@ -105,7 +105,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
                 className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
                 onClick={() => {
                   // Like a post and give temp feedback to the user
-                  likeAPost(props.id);
+                  likeAPost(props.id, props.username);
                   profileData.refetchProfileCallback();
                 }}
               ></HandThumbUpIconOutline>

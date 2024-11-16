@@ -1,8 +1,9 @@
 "use server";
 
 import { isAuthenticated } from "@/app/functions/cookies";
+import { notifyUser } from "@/app/functions/notify";
 
-export async function likePost(postID: string) {
+export async function likePost(postID: string, author: string) {
   var status;
 
   try {
@@ -20,12 +21,14 @@ export async function likePost(postID: string) {
           body: JSON.stringify({
             type: "like",
             user: responseData.cookie.username,
-            data: postID,
+            data: { postID: postID, author: author },
           }),
         }
       );
       // Parse the response and set status
       status = await response.json();
+      // Notify the user
+      await notifyUser(author, "l", postID);
     }
   } catch (e) {
     // Internal server error -> return 500
@@ -52,7 +55,7 @@ export async function unlikePost(postID: string) {
           body: JSON.stringify({
             type: "unlike",
             user: responseData.cookie.username,
-            data: postID,
+            data: { postID: postID, author: null },
           }),
         }
       );

@@ -1,3 +1,4 @@
+import { notifyUser } from "@/app/functions/notify";
 import clientPromise from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
@@ -18,7 +19,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     const type = body.type;
     const user = body.user;
-    var postID = body.data;
+    var postID = body.data.postID;
+    var author = body.data.author;
     postID = ObjectId.createFromHexString(postID);
 
     // Connect to the database 'db'

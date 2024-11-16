@@ -71,7 +71,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/messages") ||
     request.nextUrl.pathname.startsWith("/notifications")
   ) {
-    return NextResponse.redirect(new URL("/page-not-found", request.url));
+    //return NextResponse.redirect(new URL("/page-not-found", request.url));
   } else if (
     request.nextUrl.pathname.startsWith("/settings") ||
     request.nextUrl.pathname.startsWith("/upload") ||

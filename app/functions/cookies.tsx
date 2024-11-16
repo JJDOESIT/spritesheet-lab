@@ -102,4 +102,3 @@ export async function isAuthenticated(sessionName: string) {
   }
   return { auth: auth, cookie: cookie };
 }
-

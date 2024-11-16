@@ -40,6 +40,7 @@ export default function Post() {
     const data = await fetchPost(postID);
     if (data) {
       setPostData(data);
+      console.log(data);
       setPageLoaded(true);
     } else {
       setPageLoaded(true);
