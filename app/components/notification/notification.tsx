@@ -51,15 +51,9 @@ export default function Notification({
         <div
           className={`w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md justify-between`}
         >
-          <ProfilePictureBubble
-            className="w-[70px] h-[70px]"
-            backgroundColor="bg-black"
-            profileImgSrc={""}
-          ></ProfilePictureBubble>
+          <div className="w-[69px] h-[69px] border border-black overflow-hidden bg-white rounded-full"></div>
           <div>
-            <button className="text-2xl w-[50px] px-[20px] py-[15px] redBlackButton">
-              X
-            </button>
+            <button className="text-2xl w-[50px] h-[50px] px-[20px] py-[15px] border border-black"></button>
           </div>
         </div>
       ) : (
@@ -85,7 +79,7 @@ export default function Notification({
             onClick={() => {
               removeCallback(false);
             }}
-            className="text-2xl px-[20px] py-[15px] redBlackButton w-[50px]"
+            className="text-2xl px-[20px] py-[15px] redBlackButton w-[50px] h-[50px]"
           >
             X
           </button>

@@ -34,8 +34,8 @@ export default function Gallery(props: GalleryProps) {
   const [numberedPages, setNumberedPages] = useState([] as Array<number>);
   const [allowPaginationConstruct, setAllowPaginationConstruct] =
     useState(false);
-  const postsPerPage = 10;
-  const paginationRadius = 3;
+  const postsPerPage = 8;
+  const paginationRadius = 2;
 
   // Fetch the gallery posts
   async function fetchGallery() {
@@ -103,7 +103,6 @@ export default function Gallery(props: GalleryProps) {
             setCurrentPage(0);
           }
           setAllowPaginationConstruct(true);
-          console.log(posts);
           setGallery(posts);
         }
       });
@@ -118,18 +117,23 @@ export default function Gallery(props: GalleryProps) {
       const pageLength = Math.ceil(gallery.length / postsPerPage);
       const pages = [];
       pages.push(1);
-      for (
-        let num = Number(currentPage) - paginationRadius;
-        num < Number(currentPage) + paginationRadius + 1;
-        num++
-      ) {
-        if (num > 0 && num < pageLength - 1) {
-          pages.push(num + 1);
+      if (pageLength === 2) {
+        pages.push(2);
+      } else {
+        for (
+          let num = Number(currentPage) - paginationRadius;
+          num < Number(currentPage) + paginationRadius + 1;
+          num++
+        ) {
+          if (num > 0 && num < pageLength - 1) {
+            pages.push(num + 1);
+          }
+        }
+        if (pageLength > 2) {
+          pages.push(pageLength);
         }
       }
-      if (pageLength > 2) {
-        pages.push(pageLength);
-      }
+
       setNumberedPages(pages);
     }
   }, [gallery, currentPage]);
