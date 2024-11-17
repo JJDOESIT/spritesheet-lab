@@ -11,15 +11,21 @@ import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { IDstringTodate, timeDifference } from "@/app/functions/timeFunctions";
 import deleteMessage from "@/app/functions/deleteMessage";
 
-interface PageProps {
-  params: {
-    messageId: string;
-  };
+
+interface ConversationBoxProps
+{
+  messageID : string
+  users: Array<String>
 }
 
-export default function Page({ params }: PageProps) {
+export default function ConversationBox(props: ConversationBoxProps) {
   const [messagesArray, setMessagesArray] = useState<any[] | null>(null);
+  const [prevUser, setPrevUser] = useState(null);
   const [isMd, setIsMd] = useState(window.innerWidth >= 768);
+
+  // Use a ref to hold the latest state values
+  const messagesRef = useRef(messagesArray);
+  const prevUserRef = useRef(prevUser);
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,16 +42,41 @@ export default function Page({ params }: PageProps) {
 
   const profileContext = useContext(ProfileDataContext);
 
+   // Update the refs whenever state changes
+   useEffect(() => {
+    messagesRef.current = messagesArray;
+  }, [messagesArray]);
+
+  useEffect(() => {
+    prevUserRef.current = prevUser;
+  }, [prevUser]);
+
   function getMessagesArray() {
-    getMessages(params.messageId).then((data) => {
-      setMessagesArray((prev: any[] | null) => {
-        if (prev == null) {
+    getMessages(props.messageID).then((data) => {
+      setMessagesArray((prev) => {
+        if (prev === null) {
           return data;
-        } else if (data.length > prev.length) {
-          return data;
+        } else {
+          if (!prevUserRef.current) {
+            return data;
+          }
+          if (props.users !== prevUserRef.current) {
+            return data;
+          } else {
+            console.log(typeof messagesRef.current, typeof data);
+            if (
+              messagesRef.current &&
+              Object.keys(messagesRef.current).length > data.length
+            ) {
+              console.log("return messages");
+              return messagesRef.current;
+            } else {
+              return data;
+            }
+          }
         }
-        return prev;
       });
+      setPrevUser(props.users);
     });
   }
 
@@ -54,8 +85,9 @@ export default function Page({ params }: PageProps) {
       getMessagesArray();
     }, 1000);
 
+    // Cleanup the interval on unmount
     return () => clearInterval(interval);
-  }, []);
+  }, [props.messageID, props.users]);
 
   async function onSubmit() {
     const inputText = inputRef.current!.value as string | null;
@@ -64,16 +96,20 @@ export default function Page({ params }: PageProps) {
     }
     setMessagesArray((prev) => {
       if (prev == null) {
-        return [{ user: profileContext.username, message: inputText } as any];
+        // If prev is null, initialize it as an array with the new message object.
+        return [{ user: profileContext.username, message: inputText }];
       }
+    
+      // Return a new array with the previous messages and the new message appended.
       return [{ user: profileContext.username, message: inputText }, ...prev];
     });
+    
 
     inputRef.current!.value = "";
     if (!inputText) {
       return;
     }
-    sendMessage(params.messageId, inputText);
+    sendMessage(props.messageID, inputText);
   }
 
   useEffect(() => {
@@ -138,8 +174,8 @@ export default function Page({ params }: PageProps) {
                   usernameNeeded={usernameNeeded}
                   time={time}
                   deleteFunction={() => {
-                    deleteMessage(params.messageId, message._id);
-                    getMessages(params.messageId).then((data) => {
+                    deleteMessage(props.messageID, message._id);
+                    getMessages(props.messageID).then((data) => {
                       setMessagesArray(data);
                     });
                   }}

@@ -8,12 +8,12 @@ import { usePathname } from "next/navigation";
 
 export function MessageCard({
   userArray,
-  conversationId,
   selected,
+  runFunction
 }: {
   userArray: any[];
-  conversationId: string;
   selected: boolean;
+  runFunction: () => void
 }) {
   const profileData = useContext(ProfileDataContext);
   const userName = profileData.username;
@@ -41,8 +41,7 @@ export function MessageCard({
   }
 
   return (
-    <Link href={`/messages/${conversationId}`} passHref legacyBehavior>
-      <a>
+    <button onClick={runFunction}>
         <div
           className={`w-[300px] h-[60px] flex flex-row items-center ${
             selected ? "bg-neonGreen" : "bg-white"
@@ -61,7 +60,6 @@ export function MessageCard({
           />
           <p className="ml-[10px] text-sm">{userList}</p>
         </div>
-      </a>
-    </Link>
+      </button>
   );
 }

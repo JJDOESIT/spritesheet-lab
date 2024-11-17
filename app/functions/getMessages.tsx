@@ -2,6 +2,7 @@
 import { cookieGet } from "./cookies";
 
 export default async function getMessages(conversationID: string) {
+  console.log(conversationID)
   try {
     const cookie = await cookieGet(process.env.SESSION_NAME!);
     if (cookie) {

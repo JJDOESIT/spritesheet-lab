@@ -176,14 +176,14 @@ export default function SideNav() {
           </div>
         )}
       </Link> */}
-      {/* <Link
+      <Link
         href={"/messages"}
         onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
-      </Link> */}
+      </Link> 
 
       <div className={styles.sideNavBar}>Info</div>
 
