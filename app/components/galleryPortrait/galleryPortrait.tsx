@@ -31,12 +31,16 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
     setCurrentImage(props.images[0]);
     if (props.speed && props.speed != 0) {
       var imageIndex = 0;
-      setInterval(() => {
+      const interval = setInterval(() => {
         imageIndex = (imageIndex + 1) % props.images.length;
         setCurrentImage(props.images[imageIndex]);
       }, props.speed * 1000);
+      // Cleanup the interval when images change or component unmounts
+      return () => clearInterval(interval);
     }
-  }, []);
+    // Cleanup function when effect dependencies change or component unmounts
+    return () => {};
+  }, [props.images, props.speed]);
 
   // Like a post
   async function likeAPost(id: string, author: string) {

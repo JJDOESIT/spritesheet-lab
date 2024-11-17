@@ -62,11 +62,7 @@ export default function SideNav() {
   useEffect(() => {
     getNotifications().then((data) => {
       if (data) {
-        var sum = 0;
-        data.forEach((notification: any) => {
-          sum += notification.stack;
-        });
-        setNotificationCount(sum);
+        setNotificationCount(data.length);
       }
     });
   }, []);
@@ -148,7 +144,6 @@ export default function SideNav() {
         Gallery
       </Link>
       <Link
-        //onClick={handleClick}
         href={"/upload"}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
@@ -156,15 +151,10 @@ export default function SideNav() {
         Upload
       </Link>
 
-      {/* 
       <div className={styles.sideNavBar}>Social</div>
       <Link
         href={"/notifications"}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
-        onClick={() => {
-          handleClick();
-          setNotificationCount(0);
-        }}
       >
         <div className="flex items-center">
           <BellIcon className={styles.sideNavButtonIcon} />
@@ -184,6 +174,17 @@ export default function SideNav() {
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
       </Link> 
+      </Link>
+      {
+        <Link
+          href={"/messages"}
+          onClick={handleClick}
+          className={`neonBlackButton text-sm ${styles.sideNavButton}`}
+        >
+          <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
+          Messages
+        </Link>
+      }
 
       <div className={styles.sideNavBar}>Info</div>
 
