@@ -82,7 +82,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
       <div className="flex justify-center max-h-[10%] items-center">
         <p className="font-bold">{props.title}</p>
       </div>
-      <div className="flex h-[10%] justify-between">
+      <div className="flex h-[10%] w-full justify-between">
         {profileData.username && profileData.username != "" ? (
           // If a post has been liked or temp liked
           ((profileData.liked_posts &&
@@ -90,7 +90,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             profileData.liked_posts.includes(props.id)) ||
             tempLike) &&
           !overideTempLike ? (
-            <div className="flex items-center">
+            <div className="flex items-center w-[50%] justify-start">
               <HandThumbUpIconSolid
                 className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
                 onClick={() => {
@@ -104,7 +104,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
               </p>
             </div>
           ) : (
-            <div className="flex items-center">
+            <div className="flex items-center w-[50%] justify-start">
               <HandThumbUpIconOutline
                 className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
                 onClick={() => {
@@ -121,7 +121,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
         ) : (
           <div></div>
         )}
-        <div className={`flex h-full`}>
+        <div className={`flex h-full w-[50%] justify-end`}>
           <p className="flex items-center">
             {getTimestampFromObjectId(props.id)}
           </p>
