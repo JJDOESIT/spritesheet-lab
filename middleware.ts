@@ -52,7 +52,7 @@ async function cookieAuth(
     );
     // Parse the response and set status
     status = await status.json();
-    if (status == 200) {
+    if (status === 200) {
       // Redirect
       return NextResponse.redirect(new URL("/gallery", request.url));
     }

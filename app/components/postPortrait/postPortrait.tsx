@@ -194,7 +194,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             ) : (
               <div></div>
             )}
-            <div className={`flex h-full}`}>
+            <div className={`flex h-full`}>
               {props.modifiable ? (
                 isHoveringOverDelete ? (
                   <TrashIconSolid

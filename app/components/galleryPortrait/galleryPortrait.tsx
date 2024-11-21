@@ -121,7 +121,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
         ) : (
           <div></div>
         )}
-        <div className={`flex h-full}`}>
+        <div className={`flex h-full`}>
           <p className="flex items-center">
             {getTimestampFromObjectId(props.id)}
           </p>

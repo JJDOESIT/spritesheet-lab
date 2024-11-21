@@ -34,7 +34,9 @@ export default function Gallery(props: GalleryProps) {
   const [numberedPages, setNumberedPages] = useState([] as Array<number>);
   const [allowPaginationConstruct, setAllowPaginationConstruct] =
     useState(false);
-  const postsPerPage = 6;
+  // Number of posts per page
+  const [postsPerPage, setPostsPerPage] = useState(6);
+  // The radius for the page selection bar
   const paginationRadius = 2;
 
   // Fetch the gallery posts
@@ -77,6 +79,18 @@ export default function Gallery(props: GalleryProps) {
   // On page load, set the current page based on the url param
   // Note: If no querey is found, set current page to 0
   useEffect(() => {
+    // Set the posts per page based on screen size
+    let width = screen.width;
+    if (width >= 1893) {
+      setPostsPerPage(10);
+    } else if (width >= 1573) {
+      setPostsPerPage(8);
+    } else if (width >= 1253) {
+      setPostsPerPage(6);
+    } else {
+      setPostsPerPage(8);
+    }
+
     const page = parseInt(searchParams.get("page")!);
     if (page != null && page > 0) {
       setCurrentPage(page);
