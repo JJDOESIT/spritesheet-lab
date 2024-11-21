@@ -135,7 +135,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
                   ? props.profile_image
                   : "/blank-profile-picture.png"
               }
-              className="w-full h-full rounded-[3em] aspect-square"
+              className="w-full h-full rounded-[3em]"
             ></img>
           </Link>
         </div>
