@@ -126,7 +126,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             {getTimestampFromObjectId(props.id)}
           </p>
           <Link
-            className="flex pr-[5px] pl-[5px] h-full items-start justify-start"
+            className="flex pr-[5px] pl-[5px] h-full"
             href={props.username ? "/profiles/" + props.username : "/gallery/"}
           >
             <img
@@ -135,9 +135,8 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
                   ? props.profile_image
                   : "/blank-profile-picture.png"
               }
-              className="w-auto h-full rounded-[3em] object-cover"
-              style={{ aspectRatio: 1 }} // Explicit aspect ratio if needed
-            />
+              className="w-auto h-full rounded-[3em]"
+            ></img>
           </Link>
         </div>
       </div>
