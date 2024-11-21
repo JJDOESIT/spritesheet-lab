@@ -126,7 +126,7 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
             {getTimestampFromObjectId(props.id)}
           </p>
           <Link
-            className="flex pr-[5px] pl-[5px]"
+            className="flex pr-[5px] pl-[5px] h-full"
             href={props.username ? "/profiles/" + props.username : "/gallery/"}
           >
             <img
