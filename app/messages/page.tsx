@@ -22,7 +22,7 @@ export default function Page() {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [selectedUser, setSelectedUser] = useState(null);
   const [newUsers, setNewUsers] = useState<string[]>([]);
-  const [selectedID, setSelectedID] = useState(null)
+  const [selectedID, setSelectedID] = useState(null);
   const [userMissingAlert, setUserMissingAlert] = useState({
     hidden: true,
     message: "",
@@ -32,7 +32,6 @@ export default function Page() {
     maxWidth: 0,
   });
 
-  
   useEffect(() => {
     const handleResize = () => {
       setIsMd(window.innerWidth >= 768);
@@ -69,27 +68,29 @@ export default function Page() {
     }
   }
 
-
   function getConversationCards() {
     return conversations.map((conversation: any, index: any) => (
-      <div onClick={()=>{
-        let tempUsers = []
-        for (let i = 0; i < conversation.users.length; i++){
-          if (conversation.users[i].username != profileContext.username){{
-            tempUsers.push(conversation.users[i].username)
-          }}
-        }
-        setSelectedUser(tempUsers);
-      }}>
+      <div
+        onClick={() => {
+          // We filter out the logged in user from the selected users array
+          let tempUsers = [];
+          for (let i = 0; i < conversation.users.length; i++) {
+            if (conversation.users[i].username != profileContext.username) {
+              {
+                tempUsers.push(conversation.users[i].username);
+              }
+            }
+          }
+          setSelectedUser(tempUsers);
+        }}
+      >
         <MessageCard
           key={index}
           userArray={conversation.users}
           selected={index === selectedIndex}
-          runFunction={() =>
-            {
-              setSelectedID(conversation._id)
-            }
-            }
+          runFunction={() => {
+            setSelectedID(conversation._id);
+          }}
         />
       </div>
     ));
@@ -202,17 +203,18 @@ export default function Page() {
         <></>
       )}
       {
-      <>
-        {
-          selectedID == null ?
-          <NoConversations></NoConversations>
-          :
-          <>
-            {console.log(selectedID)}
-            <ConversationBox messageID={selectedID} users={selectedUser}></ConversationBox>
-          </>
-        }
-      </>      
+        <>
+          {selectedID == null ? (
+            <NoConversations></NoConversations>
+          ) : (
+            <>
+              <ConversationBox
+                messageID={selectedID}
+                users={selectedUser}
+              ></ConversationBox>
+            </>
+          )}
+        </>
       }
     </main>
   );

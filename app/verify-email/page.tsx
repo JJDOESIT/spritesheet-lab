@@ -94,12 +94,12 @@ export default function VerifyEmail() {
               if (canSendData && canSendData["status"] === 200) {
                 const data = await sendEmailAuth(null);
                 if (data) {
-                  /* sendVerificationEmail(
+                  sendVerificationEmail(
                     data.email,
                     data.username,
                     data.token,
                     emailCallback
-                  ); */
+                  );
                 } else {
                   setAlertData(
                     createAlert({

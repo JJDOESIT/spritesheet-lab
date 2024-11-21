@@ -60,12 +60,14 @@ export default function SideNav() {
 
   // get notification count
   useEffect(() => {
-    getNotifications().then((data) => {
-      if (data) {
-        setNotificationCount(data.length);
-      }
-    });
-  }, []);
+    if (profileData) {
+      getNotifications().then((data) => {
+        if (data) {
+          setNotificationCount(data.length);
+        }
+      });
+    }
+  }, [profileData]);
 
   /* // set up event listener for clicking outside of the sidenav
   useEffect(() => {
@@ -137,7 +139,9 @@ export default function SideNav() {
 
       <Link
         href={"/gallery"}
-        //onClick={handleClick}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <BuildingStorefrontIcon className={styles.sideNavButtonIcon} />
@@ -145,6 +149,9 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/upload"}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <ArrowUpCircleIcon className={styles.sideNavButtonIcon} />
@@ -154,6 +161,9 @@ export default function SideNav() {
       <div className={styles.sideNavBar}>Social</div>
       <Link
         href={"/notifications"}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <div className="flex items-center">
@@ -165,32 +175,23 @@ export default function SideNav() {
             {notificationCount}
           </div>
         )}
-      </Link> */}
-      <Link
+      </Link>
+      {/* <Link
         href={"/messages"}
         onClick={handleClick}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
         Messages
-      </Link> 
-      </Link>
-      {
-        <Link
-          href={"/messages"}
-          onClick={handleClick}
-          className={`neonBlackButton text-sm ${styles.sideNavButton}`}
-        >
-          <ChatBubbleLeftRightIcon className={styles.sideNavButtonIcon} />
-          Messages
-        </Link>
-      }
+      </Link> */}
 
       <div className={styles.sideNavBar}>Info</div>
 
       <Link
         href={"/licensing-tos"}
-        //onClick={handleClick}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <DocumentTextIcon className={styles.sideNavButtonIcon} />
@@ -198,7 +199,9 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/about"}
-        //onClick={handleClick}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <QuestionMarkCircleIcon className={styles.sideNavButtonIcon} />
@@ -206,7 +209,9 @@ export default function SideNav() {
       </Link>
       <Link
         href={"/contact"}
-        //onClick={handleClick}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <EnvelopeIcon className={styles.sideNavButtonIcon} />
@@ -217,7 +222,9 @@ export default function SideNav() {
 
       <Link
         href={"/liked-sheets"}
-        //onClick={handleClick}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <HandThumbUpIcon className={styles.sideNavButtonIcon} />
@@ -226,7 +233,9 @@ export default function SideNav() {
 
       <Link
         href={"/settings"}
-        //onClick={handleClick}
+        onClick={() => {
+          profileData.refetchProfileCallback();
+        }}
         className={`neonBlackButton text-sm ${styles.sideNavButton}`}
       >
         <Cog6ToothIcon className={styles.sideNavButtonIcon} />

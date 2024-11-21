@@ -22,6 +22,9 @@ export default function Upload() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [disableUpload, setDisableUpload] = useState(false);
+  const titleRef = useRef(null);
+  const speedRef = useRef(null);
 
   // Function to shift images left or right in the array
   function shiftImage(direction: string) {
@@ -120,13 +123,28 @@ export default function Upload() {
         })
       );
     }
+    // Clear the file cache
+    const inputElement = document.getElementById(
+      "externalUpload"
+    ) as HTMLInputElement;
+    inputElement.value = "";
+    setImages([]);
+    setUploadedImages([]);
+
+    // Allow for another image to be uploaded
+    setDisableUpload(true);
   }
-  const titleRef = useRef(null);
-  const speedRef = useRef(null);
 
   useEffect(() => {
     setPageLoaded(true);
   }, []);
+
+  // Hacky solution to force a disabled refresh
+  useEffect(() => {
+    if (disableUpload) {
+      setDisableUpload(false);
+    }
+  }, [disableUpload]);
 
   return (
     <>
@@ -289,6 +307,7 @@ export default function Upload() {
                 onUpload={fetchImages}
                 externalImages={uploadedImages}
                 uploadExternally={true}
+                disabled={disableUpload}
               ></UploadImage>
               <div className="mb-[5px]">
                 <Alert

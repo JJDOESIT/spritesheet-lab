@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import ProfilePictureBubble from "../profilePictureBubble/profilePictureBubble";
 import getProfileData from "@/app/functions/getProfileData";
@@ -49,7 +50,7 @@ export default function Notification({
     <>
       {loading ? (
         <div
-          className={`w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md justify-between`}
+          className={`flex w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md justify-between md:flex-col`}
         >
           <div className="w-[69px] h-[69px] border border-black overflow-hidden bg-white rounded-full"></div>
           <div>
@@ -58,7 +59,7 @@ export default function Notification({
         </div>
       ) : (
         <div
-          className={`w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md`}
+          className={`w-[60vw] h-fit flex flex-row items-center my-3 border-t border border-black p-2 rounded-md flex max-md:flex-col`}
         >
           <ProfilePictureBubble
             className="w-[70px] h-[70px]"
@@ -72,7 +73,7 @@ export default function Notification({
               removeCallback(true);
             }}
           >
-            <p>{time}</p>
+            <p className="font-bold">{time}</p>
             <p>{text}</p>
           </Link>
           <button

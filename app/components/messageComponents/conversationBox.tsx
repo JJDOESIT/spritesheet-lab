@@ -11,11 +11,9 @@ import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { IDstringTodate, timeDifference } from "@/app/functions/timeFunctions";
 import deleteMessage from "@/app/functions/deleteMessage";
 
-
-interface ConversationBoxProps
-{
-  messageID : string
-  users: Array<String>
+interface ConversationBoxProps {
+  messageID: string;
+  users: Array<String>;
 }
 
 export default function ConversationBox(props: ConversationBoxProps) {
@@ -42,8 +40,8 @@ export default function ConversationBox(props: ConversationBoxProps) {
 
   const profileContext = useContext(ProfileDataContext);
 
-   // Update the refs whenever state changes
-   useEffect(() => {
+  // Update the refs whenever state changes
+  useEffect(() => {
     messagesRef.current = messagesArray;
   }, [messagesArray]);
 
@@ -54,6 +52,7 @@ export default function ConversationBox(props: ConversationBoxProps) {
   function getMessagesArray() {
     getMessages(props.messageID).then((data) => {
       setMessagesArray((prev) => {
+        console.log(prevUser, props.users);
         if (prev === null) {
           return data;
         } else {
@@ -63,7 +62,7 @@ export default function ConversationBox(props: ConversationBoxProps) {
           if (props.users !== prevUserRef.current) {
             return data;
           } else {
-            console.log(typeof messagesRef.current, typeof data);
+            console.log(Object.keys(messagesRef.current).length, data.length);
             if (
               messagesRef.current &&
               Object.keys(messagesRef.current).length > data.length
@@ -81,13 +80,14 @@ export default function ConversationBox(props: ConversationBoxProps) {
   }
 
   useEffect(() => {
+    console.log(props.messageID);
     const interval = setInterval(() => {
       getMessagesArray();
     }, 1000);
 
     // Cleanup the interval on unmount
     return () => clearInterval(interval);
-  }, [props.messageID, props.users]);
+  }, [props.messageID]);
 
   async function onSubmit() {
     const inputText = inputRef.current!.value as string | null;
@@ -99,11 +99,10 @@ export default function ConversationBox(props: ConversationBoxProps) {
         // If prev is null, initialize it as an array with the new message object.
         return [{ user: profileContext.username, message: inputText }];
       }
-    
+
       // Return a new array with the previous messages and the new message appended.
       return [{ user: profileContext.username, message: inputText }, ...prev];
     });
-    
 
     inputRef.current!.value = "";
     if (!inputText) {

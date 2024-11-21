@@ -34,7 +34,7 @@ export default function Gallery(props: GalleryProps) {
   const [numberedPages, setNumberedPages] = useState([] as Array<number>);
   const [allowPaginationConstruct, setAllowPaginationConstruct] =
     useState(false);
-  const postsPerPage = 8;
+  const postsPerPage = 6;
   const paginationRadius = 2;
 
   // Fetch the gallery posts

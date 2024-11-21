@@ -336,6 +336,7 @@ export default function Settings() {
                 onUpload={null}
                 externalImages={null}
                 uploadExternally={false}
+                disabled={null}
               ></UploadImage>
               <Alert
                 hidden={imageAlertData["hidden"]}

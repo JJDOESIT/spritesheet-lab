@@ -67,11 +67,12 @@ async function cookieAuth(
 }
 
 export async function middleware(request: NextRequest) {
-  if (
+  if (request.nextUrl.pathname.startsWith("/messages")) {
+    return NextResponse.redirect(new URL("/gallery", request.url));
+  } else if (
     request.nextUrl.pathname.startsWith("/settings") ||
     request.nextUrl.pathname.startsWith("/upload") ||
     request.nextUrl.pathname.startsWith("/liked-sheets") ||
-    request.nextUrl.pathname.startsWith("/messages") ||
     request.nextUrl.pathname.startsWith("/notifications")
   ) {
     return await cookieAuth(

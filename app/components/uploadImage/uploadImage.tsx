@@ -14,10 +14,19 @@ interface UploadImageProps {
   onUpload: Function | null;
   externalImages: File[] | null;
   uploadExternally: boolean;
+  disabled: boolean | null;
 }
 
 export default function UploadImage(props: UploadImageProps) {
   const fileUpload = useRef<HTMLInputElement>(null!);
+  const [disabled, setDisabled] = useState(props.disabled);
+
+  // Set the disabled status to be that of the parent
+  useEffect(() => {
+    if (props.disabled != null) {
+      setDisabled(props.disabled);
+    }
+  }, [props.disabled]);
 
   // Function to convert images to base64 format
   async function convertImagesInternal() {
@@ -94,6 +103,10 @@ export default function UploadImage(props: UploadImageProps) {
 
   // Upload the image
   async function handleSubmit() {
+    // If the prop is not null, we assume we want to disable until the parent allows us again
+    if (props.disabled != null) {
+      setDisabled(true);
+    }
     // If the input field is mounted
     if (fileUpload.current) {
       var base64Images;
@@ -162,6 +175,7 @@ export default function UploadImage(props: UploadImageProps) {
         style={props.uploadExternally ? { display: "none" } : {}}
       ></input>
       <input
+        disabled={disabled}
         className="neonBlackButton w-fit !pt-[1px] !pb-[1px] !pl-[30px] !pr-[30px] mt-[10px] mb-[10px]"
         type="button"
         value="Upload"

@@ -225,12 +225,15 @@ export default function CreateAccount() {
             maxWidth: 225,
           })
         );
+
         const data = await sendEmailAuth(username);
-        console.log(data);
+
+        // Send an email verification
         if (data) {
-          //sendVerificationEmail(data.email, data.username, data.token, null);
+          sendVerificationEmail(data.email, data.username, data.token, null);
         }
       }
+      // Reset the fields
       setPasswordValidation("");
       setUsernameValidation("");
       setLoadingPage(false);

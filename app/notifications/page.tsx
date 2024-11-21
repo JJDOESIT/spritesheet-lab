@@ -1,11 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import ProfileDataContext from "@/app/functions/profileDataContext";
+import { useEffect, useState, useContext } from "react";
 import Notification from "../components/notification/notification";
 import { deleteNotification, getNotifications } from "../functions/notify";
 import { timeDifference } from "../functions/timeFunctions";
 import LoadingIcon from "../components/loadingIcon/loadingIcon";
 
 export default function Page() {
+  const profileContext = useContext(ProfileDataContext);
   const [notifications, setNotifications] = useState<string[] | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,16 +25,17 @@ export default function Page() {
     });
   }
 
-  function removeNotification(
-    notification: string,
-    frontendClear: boolean = true
-  ) {
+  // Function to remove a notification based on the id
+  async function removeNotification(notification: string) {
     if (notifications) {
-      setLoading(true);
+      setNotifications((prev) => {
+        return prev.filter((n) => {
+          return n["id"] != notification["id"];
+        });
+      });
     }
-    deleteNotification(notification).then(() => {
-      queryNotifications();
-    });
+    await deleteNotification(notification);
+    profileContext.refetchProfileCallback();
   }
 
   function convertNotificationData(notification: any) {
@@ -69,7 +73,7 @@ export default function Page() {
         type={notification.type}
         id={notification.id}
         removeCallback={(clear: boolean = true) => {
-          removeNotification(notification, clear);
+          removeNotification(notification);
         }}
       ></Notification>
     );
@@ -87,7 +91,7 @@ export default function Page() {
                   return convertNotificationData(notification);
                 })
               ) : (
-                <div className="flex flex-col items-center justify-center w-[60vw] h-[70vh]">
+                <div className="flex flex-col items-center justify-center w-[60vw]">
                   <p>You don't have any notifications yet.</p>
                   <p>
                     Come back later to see any likes, comments, or messages you
