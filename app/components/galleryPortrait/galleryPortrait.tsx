@@ -135,8 +135,9 @@ export default function GalleryPortrait(props: galleryPortraitPropTypes) {
                   ? props.profile_image
                   : "/blank-profile-picture.png"
               }
-              className="w-full h-full rounded-[3em]"
-            ></img>
+              className="w-full h-auto rounded-[3em] object-cover"
+              style={{ aspectRatio: 1 }} // Explicit aspect ratio if needed
+            />
           </Link>
         </div>
       </div>
