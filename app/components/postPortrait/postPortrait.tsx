@@ -165,7 +165,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
                 profileData.liked_posts.includes(props.id)) ||
                 tempLike) &&
               !overideTempLike ? (
-                <div className="flex items-center">
+                <div className="flex items-center w-[50%] justify-start">
                   <HandThumbUpIconSolid
                     className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
                     onClick={() => {
@@ -178,7 +178,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
                   </p>
                 </div>
               ) : (
-                <div className="flex items-center">
+                <div className="flex items-center w-[50%] justify-start">
                   <HandThumbUpIconOutline
                     className={`h-full pl-[5px] ${styles.thumbsUpIcon}`}
                     onClick={() => {
@@ -194,7 +194,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
             ) : (
               <div></div>
             )}
-            <div className={`flex h-full`}>
+            <div className={`flex h-full w-[50%] justify-end`}>
               {props.modifiable ? (
                 isHoveringOverDelete ? (
                   <TrashIconSolid
