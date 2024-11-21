@@ -223,7 +223,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
                 {getTimestampFromObjectId(props.id)}
               </p>
               <Link
-                className="flex pr-[5px] pl-[5px]"
+                className="flex pr-[5px] pl-[5px] h-full"
                 href={
                   props.username ? "/profiles/" + props.username : "/gallery/"
                 }
@@ -234,7 +234,7 @@ export default function PostPortrait(props: postPortraitPropTypes) {
                       ? props.profile_image
                       : "/blank-profile-picture.png"
                   }
-                  className="w-full h-full rounded-[3em]"
+                  className="w-auto h-full rounded-[3em]"
                 ></img>
               </Link>
             </div>
