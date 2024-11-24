@@ -1,6 +1,6 @@
 # Spritesheet Lab
-<b>A website created for students, designers, developers, and others to access royalty-free sprites</b>\
-<b><a href="https://spritesheetlab.com/home">https://spritesheetlab.com/home</a></b>
+<b>A website created for students, designers, developers, and others to access royalty-free sprites</b>
+- <a href="https://spritesheetlab.com/home">https://spritesheetlab.com/home</a>
 
 # Registration and Login
 | Register | Login |
