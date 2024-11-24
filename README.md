@@ -25,6 +25,6 @@
 # Notifications
 | Notifications |
 |------------------|
-| <img src="https://github.com/user-attachments/assets/9e7eb9c4-abac-4e30-a46d-e9290923dbce" width="475"></img> |
+| <img src="https://github.com/user-attachments/assets/9e7eb9c4-abac-4e30-a46d-e9290923dbce" width="270"></img> |
 
 
